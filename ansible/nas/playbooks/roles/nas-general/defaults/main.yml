@@ -1,0 +1,18 @@
+---
+# Sets the hostname of your NAS
+nas_hostname: nas
+
+# Update all apt packages when playbook is run
+keep_packages_updated: false
+
+# Extra packages to install
+nas_extra_packages:
+  - bonnie++
+  - htop
+  - lm-sensors
+  - smartmontools
+  - unzip
+
+# Sets the timezone for your NAS
+# You can find a list here https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+nas_timezone: Etc/UTC

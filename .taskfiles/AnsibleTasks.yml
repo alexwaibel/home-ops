@@ -5,8 +5,8 @@ env:
   ANSIBLE_CONFIG: "{{.PROJECT_DIR}}/ansible.cfg"
 
 vars:
-  ANSIBLE_PLAYBOOK_DIR: "{{.ANSIBLE_DIR}}/playbooks"
-  ANSIBLE_INVENTORY_DIR: "{{.ANSIBLE_DIR}}/inventory"
+  ANSIBLE_PLAYBOOK_DIR: "{{.ANSIBLE_DIR}}/nas/playbooks"
+  ANSIBLE_INVENTORY_DIR: "{{.ANSIBLE_DIR}}/nas/inventory"
 
 tasks:
 
@@ -35,14 +35,20 @@ tasks:
     cmds:
       - ansible all -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml --one-line -a 'uptime'
 
-  reboot:
-    desc: Reboot all the k8s nodes
+  install:
+    desc: Install the NAS
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
-      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/cluster-reboot.yml
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/nas-install.yml
+
+  reboot:
+    desc: Reboot all the hosts
+    dir: "{{.ANSIBLE_DIR}}"
+    cmds:
+      - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml {{.ANSIBLE_PLAYBOOK_DIR}}/nas-reboot.yml
 
   poweroff:
-    desc: Shutdown all the k8s nodes
+    desc: Shutdown all the hosts
     dir: "{{.ANSIBLE_DIR}}"
     cmds:
       - ansible kubernetes -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yml -a '/usr/bin/systemctl poweroff' --become

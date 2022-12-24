@@ -1,0 +1,15 @@
+---
+- name: Create nas group
+  group:
+    name: nas
+    state: present
+
+- name: Create nas user
+  user:
+    name: "{{ nas_user }}"
+    state: present
+    system: yes
+    update_password: on_create
+    create_home: no
+    group: nas
+    shell: /usr/sbin/nologin
