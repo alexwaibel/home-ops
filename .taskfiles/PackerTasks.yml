@@ -1,0 +1,18 @@
+---
+version: "3"
+
+vars:
+  PACKER_IMAGE_DIR: "{{.PACKER_DIR}}/images"
+
+tasks:
+  all:
+    desc: Build all images
+    cmds:
+      - "packer build {{.PACKER_IMAGE_DIR}}"
+    silent: true
+
+  debian:
+    desc: Build debian image
+    cmds:
+      - "packer build --only=proxmox.debian_cloudinit {{.PACKER_IMAGE_DIR}}"
+    silent: true

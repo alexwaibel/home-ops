@@ -1,0 +1,48 @@
+---
+version: "3"
+
+vars:
+  PROJECT_DIR:
+    sh: "git rev-parse --show-toplevel"
+  KUBERNETES_DIR: "{{.PROJECT_DIR}}/kubernetes"
+  ANSIBLE_DIR: "{{.PROJECT_DIR}}/ansible"
+  TERRAFORM_DIR: "{{.PROJECT_DIR}}/terraform"
+  PACKER_DIR: "{{.PROJECT_DIR}}/packer"
+
+dotenv: [".config.env"]
+
+includes:
+  ansible: .taskfiles/AnsibleTasks.yml
+  precommit: .taskfiles/PrecommitTasks.yml
+  packer: .taskfiles/PackerTasks.yml
+  terraform: .taskfiles/TerraformTasks.yml
+  sops: .taskfiles/SopsTasks.yml
+
+tasks:
+
+  init:
+    desc: Initialize workstation dependencies with Brew
+    cmds:
+      - brew install {{.DEPS}} {{.CLI_ARGS}}
+    preconditions:
+      - sh: command -v brew
+        msg: |
+          Homebrew is not installed. Using MacOS, Linux or WSL?
+          Head over to https://brew.sh to get up and running.
+    vars:
+      DEPS: >-
+        age
+        ansible
+        direnv
+        go-task/tap/go-task
+        ipcalc
+        jq
+        packer
+        pre-commit
+        prettier
+        sops
+        stern
+        terraform
+        tflint
+        yamllint
+        yq

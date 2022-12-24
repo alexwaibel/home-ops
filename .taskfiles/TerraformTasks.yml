@@ -1,0 +1,28 @@
+---
+version: "3"
+
+tasks:
+
+  init:
+    desc: Initialize terraform dependencies
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmds:
+      - terraform init {{.CLI_ARGS}}
+
+  plan:
+    desc: Show the changes terraform will make
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmds:
+      - terraform plan {{.CLI_ARGS}}
+
+  apply:
+    desc: Apply the changes to Proxmox
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmds:
+      - terraform apply {{.CLI_ARGS}}
+
+  destroy:
+    desc: Destroy the changes to Proxmox
+    dir: "{{.TERRAFORM_DIR}}/proxmox"
+    cmds:
+      - terraform destroy {{.CLI_ARGS}}

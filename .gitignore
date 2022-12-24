@@ -1,0 +1,18 @@
+# Trash
+.DS_Store
+Thumbs.db
+# vscode-sops
+.decrypted~*.yaml
+.config.env
+*.agekey
+*.pub
+*.key
+# Terraform
+.terraform
+.terraform.tfstate*
+terraform.tfstate*
+# ignore packer cache
+packer_cache/
+# Secrets files
+**/secrets.*
+.secrets
