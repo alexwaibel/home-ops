@@ -1,4 +1,4 @@
-# Template for deploying k3s backed by Flux
+# Home Infrastructure
 
 Highly opinionated repository for deploying my home infrastructure.
 

@@ -1,0 +1,20 @@
+---
+unifi_controller_enabled: false
+unifi_controller_available_externally: false
+
+# uid / gid
+unifi_controller_user_id: "1000"
+unifi_controller_group_id: "1000"
+
+# directories
+unifi_controller_data_directory: "{{ docker_home }}/unifi_controller"
+
+# network
+unifi_controller_admin_port: "8443"
+unifi_controller_stun_port: "3478"
+unifi_controller_discovery_port: "10001"
+unifi_controller_device_port: "8080"
+unifi_controller_hostname: "unifi-controller"
+
+# specs
+unifi_controller_memory: 1g

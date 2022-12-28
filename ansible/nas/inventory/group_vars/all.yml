@@ -1,3 +1,4 @@
+---
 ###
 ### General
 ###
@@ -205,3 +206,5 @@ samba_netbios_name: "{{ nas_hostname }}"
 ###
 
 homeassistant_enabled: true
+portainer_enabled: true
+unifi_controller_enabled: true

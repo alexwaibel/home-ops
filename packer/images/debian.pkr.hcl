@@ -17,8 +17,9 @@ source "proxmox" "debian_cloudinit" {
   }
   memory = 2048
   network_adapters {
-    model  = "virtio"
-    bridge = "vmbr0"
+    model    = "virtio"
+    bridge   = "vmbr0"
+    vlan_tag = "20"
   }
   onboot           = true
   qemu_agent       = true

@@ -1,9 +1,6 @@
 ---
 - hosts: all
 
-  collections:
-    - vladgh.samba
-
   roles:
     ###
     ### Requirements
@@ -21,6 +18,11 @@
     - role: geerlingguy.docker
       tags:
         - docker
+        - skip_ansible_lint
+
+    - role: vladgh.samba.server
+      tags:
+        - samba
         - skip_ansible_lint
 
     ###
@@ -43,3 +45,13 @@
       tags:
         - homeassistant
       when: (homeassistant_enabled | default(False))
+
+    - role: portainer
+      tags:
+        - portainer
+      when: (portainer_enabled | default(False))
+
+    - role: unifi-controller
+      tags:
+        - unifi-controller
+      when: (unifi_controller_enabled | default(False))

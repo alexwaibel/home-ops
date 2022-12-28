@@ -9,7 +9,7 @@ resource "proxmox_vm_qemu" "nas" {
   boot    = "c"
 
   agent     = 1
-  ipconfig0 = "ip=${var.nas_ip_address}/24,gw=192.168.1.1"
+  ipconfig0 = "ip=${var.nas_ip_address}/24,gw=192.168.20.1"
   sshkeys   = file(var.ssh_public_key)
 
   disk {
@@ -26,5 +26,6 @@ resource "proxmox_vm_qemu" "nas" {
     link_down = false
     macaddr   = "C6:3D:90:63:41:A6"
     model     = "virtio"
+    tag       = 20
   }
 }

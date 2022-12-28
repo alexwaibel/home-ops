@@ -1,0 +1,33 @@
+---
+- name: Create Unifi Controller Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ unifi_controller_data_directory }}/config"
+
+- name: Unifi Controller Docker Container
+  docker_container:
+    name: unifi-controller
+    image: linuxserver/unifi-controller
+    pull: true
+    volumes:
+      - "{{ unifi_controller_data_directory }}/config:/config:rw"
+    ports:
+      - "{{ unifi_controller_admin_port }}:8443"
+      - "{{ unifi_controller_stun_port }}:3478/udp"
+      - "{{ unifi_controller_discovery_port }}:10001/udp"
+      - "{{ unifi_controller_device_port }}:8080"
+    env:
+      TZ: "{{ nas_timezone }}"
+      PUID: "{{ unifi_controller_user_id }}"
+      PGID: "{{ unifi_controller_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ unifi_controller_memory }}"
+    labels:
+      traefik.enable: "{{ unifi_controller_available_externally | string }}"
+      traefik.http.routers.unifi_controller.rule: "Host(`{{ unifi_controller_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.unifi_controller.tls.certresolver: "letsencrypt"
+      traefik.http.routers.unifi_controller.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.unifi_controller.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.unifi_controller.loadbalancer.server.port: "8443"
