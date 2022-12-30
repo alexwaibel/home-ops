@@ -1,0 +1,14 @@
+---
+emqx_enabled: false
+emqx_available_externally: false
+
+# directories
+emqx_data_directory: "{{ docker_home }}/emqx"
+
+# network
+emqx_mqtt_port: "1883"
+emqx_dashboard_port: "18083"
+emqx_hostname: "emqx"
+
+# specs
+emqx_memory: 1g

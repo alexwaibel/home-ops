@@ -10,7 +10,7 @@ nas_user: nas
 nas_email: email@example.com
 
 # Applications will have subdomain SSL certificates created if Traefik is enabled, e.g. ansible-nas.<your-domain>, nextcloud.<your-domain>
-nas_domain: example.com
+nas_domain: "{{ lookup('ansible.builtin.env', 'DOMAIN') }}"
 
 # What version of python ansible should use on target system (path to spesific binary)
 ansible_python_interpreter: /usr/bin/python3
@@ -179,7 +179,7 @@ samba_shares:
 nfs_shares_root: /mnt/Volume3
 
 nfs_exports:
-  - "{{ nfs_shares_root }}/public *(rw,sync,no_root_squash)"
+  - "{{ nfs_shares_root }}/public *(rw,sync)"
 
 ###
 ### Samba
@@ -208,3 +208,13 @@ samba_netbios_name: "{{ nas_hostname }}"
 homeassistant_enabled: true
 portainer_enabled: true
 unifi_controller_enabled: true
+traefik_enabled: true
+
+emqx_enabled: true
+emqx_admin_password: "{{ lookup('ansible.builtin.env', 'EMQX_ADMIN_PASSWORD') }}"
+emqx_user1_username: "{{ lookup('ansible.builtin.env', 'EMQX_USER1_USERNAME') }}"
+emqx_user1_password: "{{ lookup('ansible.builtin.env', 'EMQX_USER1_PASSWORD') }}"
+
+zigbee2mqtt_enabled: true
+mqtt_user: "{{ lookup('ansible.builtin.env', 'MQTT_USERNAME') }}"
+mqtt_password: "{{ lookup('ansible.builtin.env', 'MQTT_PASSWORD') }}"

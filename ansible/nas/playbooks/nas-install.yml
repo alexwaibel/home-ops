@@ -41,6 +41,11 @@
     ###
     ### Applications
     ###
+    - role: emqx
+      tags:
+        - emqx
+      when: (emqx_enabled | default(False))
+
     - role: homeassistant
       tags:
         - homeassistant
@@ -51,7 +56,17 @@
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: traefik
+      tags:
+        - traefik
+      when: (traefik_enabled | default(False))
+
     - role: unifi-controller
       tags:
         - unifi-controller
       when: (unifi_controller_enabled | default(False))
+
+    - role: zigbee2mqtt
+      tags:
+        - zigbee2mqtt
+      when: (zigbee2mqtt_enabled | default(False))

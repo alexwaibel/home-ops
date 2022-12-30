@@ -1,0 +1,31 @@
+---
+- name: Create EMQX Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ emqx_data_directory }}/data"
+
+- name: EMQX Docker Container
+  docker_container:
+    name: emqx
+    image: emqx/emqx
+    pull: true
+    volumes:
+      - "{{ emqx_data_directory }}/data:/app/data:rw"
+      - "/run/udev:/run/udev:ro"
+    ports:
+      - "{{ emqx_mqtt_port }}:1883"
+      - "{{ emqx_dashboard_port }}:18083"
+    restart_policy: unless-stopped
+    env:
+      EMQX_AUTH__USER__1__USERNAME: "{{ emqx_user1_username }}"
+      EMQX_AUTH__USER__1__PASSWORD: "{{ emqx_user1_password }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.emqx.rule: "Host(`{{ emqx_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.emqx.tls.certresolver: "letsencrypt"
+      traefik.http.routers.emqx.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.emqx.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.emqx.loadbalancer.server.port: "18083"
+    memory: "{{ emqx_memory }}"

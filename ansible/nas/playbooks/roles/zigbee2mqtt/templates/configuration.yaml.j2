@@ -1,0 +1,20 @@
+homeassistant: true
+device_options:
+  retain: true
+permit_join: false
+mqtt:
+  base_topic: zigbee2mqtt
+  server: "mqtt://172.17.0.1"
+  user: "{{ mqtt_user }}"
+  password: "{{ mqtt_password }}"
+serial:
+  port: "/dev/ttyACM0"
+  adapter: ezsp
+advanced:
+  log_level: debug
+  log_output:
+    - console
+  network_key: GENERATE
+  baudrate: 57600
+frontend:
+  port: 8080

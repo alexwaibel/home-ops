@@ -1,0 +1,39 @@
+---
+- name: Create Traefik Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ traefik_data_directory }}"
+    - "{{ traefik_data_directory }}/letsencrypt"
+
+- name: Template Traefik config.toml
+  template:
+    src: traefik.toml
+    dest: "{{ traefik_data_directory }}/traefik.toml"
+  register: traefik_config
+
+- name: Traefik Docker Container
+  docker_container:
+    name: traefik
+    image: "{{ traefik_docker_image }}"
+    pull: true
+    ports:
+      - "{{ traefik_port_http }}:80"
+      - "{{ traefik_port_https }}:443"
+      - "{{ traefik_port_ui }}:8083"
+    volumes:
+      - "{{ traefik_data_directory }}/traefik.toml:/etc/traefik/traefik.toml:ro"
+      - "{{ traefik_data_directory }}/letsencrypt:/letsencrypt:rw"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    env: "{{ traefik_environment_variables }}"
+    restart_policy: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.rule: "Host(`{{ traefik_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.traefik.tls.certresolver: "letsencrypt"
+      traefik.http.routers.traefik.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.traefik.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.traefik.loadbalancer.server.port: "8083"
+    memory: "{{ traefik_memory }}"
+    recreate: "{{ traefik_config is changed }}"

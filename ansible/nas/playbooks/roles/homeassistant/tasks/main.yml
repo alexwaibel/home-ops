@@ -18,7 +18,7 @@
     env:
       TZ: "{{ nas_timezone }}"
     labels:
-      traefik.enable: "{{ homeassistant_available_externally | string }}"
+      traefik.enable: "true"
       traefik.http.routers.homeassistant.rule: "Host(`{{ homeassistant_hostname }}.{{ nas_domain }}`)"
       traefik.http.routers.homeassistant.tls.certresolver: "letsencrypt"
       traefik.http.routers.homeassistant.tls.domains[0].main: "{{ nas_domain }}"

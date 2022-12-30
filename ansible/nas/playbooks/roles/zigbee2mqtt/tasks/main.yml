@@ -1,0 +1,38 @@
+---
+- name: Create Zigbee2MQTT Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ zigbee2mqtt_data_directory }}/data"
+
+- name: Template Zigbee2MQTT configuration.yaml
+  template:
+    src: configuration.yaml.j2
+    dest: "{{ zigbee2mqtt_data_directory }}/data/configuration.yaml"
+  register: zigbee2mqtt_config
+
+- name: Zigbee2MQTT Docker Container
+  docker_container:
+    name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    pull: true
+    volumes:
+      - "{{ zigbee2mqtt_data_directory }}/data:/app/data:rw"
+      - "/run/udev:/run/udev:ro"
+    ports:
+      - "{{ zigbee2mqtt_port }}:8080"
+    devices:
+      - "/dev/serial/by-id/usb-Silicon_Labs_HubZ_Smart_Home_Controller_C1300B40-if01-port0:/dev/ttyACM0"
+    restart_policy: unless-stopped
+    env:
+      TZ: "{{ nas_timezone }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.zigbee2mqtt.rule: "Host(`{{ zigbee2mqtt_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.zigbee2mqtt.tls.certresolver: "letsencrypt"
+      traefik.http.routers.zigbee2mqtt.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.zigbee2mqtt.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.zigbee2mqtt.loadbalancer.server.port: "8080"
+    memory: "{{ zigbee2mqtt_memory }}"
+    recreate: "{{ zigbee2mqtt_config is changed }}"

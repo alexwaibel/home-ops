@@ -1,0 +1,13 @@
+---
+zigbee2mqtt_enabled: false
+zigbee2mqtt_available_externally: false
+
+# directories
+zigbee2mqtt_data_directory: "{{ docker_home }}/zigbee2mqtt"
+
+# network
+zigbee2mqtt_port: "8000"
+zigbee2mqtt_hostname: "zigbee2mqtt"
+
+# specs
+zigbee2mqtt_memory: 1g
