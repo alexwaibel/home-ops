@@ -10,6 +10,7 @@
         "BriteSnow.vscode-toggle-quotes",
         "EditorConfig.editorconfig",
         "HashiCorp.terraform",
-        "PKief.material-icon-theme"
+        "PKief.material-icon-theme",
+        "ms-azuretools.vscode-docker"
     ]
 }

@@ -3,8 +3,21 @@
   file:
     path: "{{ item }}"
     state: directory
+    owner: 1000
+    group: 1000
   with_items:
     - "{{ emqx_data_directory }}/data"
+    - "{{ emqx_data_directory }}/log"
+
+- name: Create EMQX Directories with special permissions
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: 1000
+    group: 1000
+    mode: '0775'
+  with_items:
+    - "{{ emqx_data_directory }}/etc"
 
 - name: EMQX Docker Container
   docker_container:
@@ -12,15 +25,19 @@
     image: emqx/emqx
     pull: true
     volumes:
-      - "{{ emqx_data_directory }}/data:/app/data:rw"
-      - "/run/udev:/run/udev:ro"
+      - "{{ emqx_data_directory }}/data:/opt/emqx/data:rw"
+      - "{{ emqx_data_directory }}/etc:/opt/emqx/etc:rw"
+      - "{{ emqx_data_directory }}/log:/opt/emqx/log:rw"
     ports:
       - "{{ emqx_mqtt_port }}:1883"
       - "{{ emqx_dashboard_port }}:18083"
     restart_policy: unless-stopped
     env:
+      EMQX_DASHBOARD__DEFAULT_PASSWORD: "{{ emqx_admin_password }}"
       EMQX_AUTH__USER__1__USERNAME: "{{ emqx_user1_username }}"
       EMQX_AUTH__USER__1__PASSWORD: "{{ emqx_user1_password }}"
+      EMQX_NAME: emqx
+      EMQX_HOST: 127.0.0.1
     labels:
       traefik.enable: "true"
       traefik.http.routers.emqx.rule: "Host(`{{ emqx_hostname }}.{{ nas_domain }}`)"

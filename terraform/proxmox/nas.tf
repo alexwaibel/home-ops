@@ -12,6 +12,9 @@ resource "proxmox_vm_qemu" "nas" {
   ipconfig0 = "ip=${var.nas_ip_address}/24,gw=192.168.20.1"
   sshkeys   = file(var.ssh_public_key)
 
+  cores  = 2
+  memory = 8192
+
   disk {
     cache   = "none"
     format  = "raw"
