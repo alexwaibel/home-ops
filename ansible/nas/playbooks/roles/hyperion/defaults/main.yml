@@ -6,7 +6,9 @@ hyperion_available_externally: false
 hyperion_data_directory: "{{ docker_home }}/hyperion"
 
 # network
-hyperion_port: "8090"
+hyperion_ui_port: "8090"
+hyperion_api_port: "19444"
+hyperion_server_port: "19445"
 hyperion_hostname: "hyperion"
 
 # specs

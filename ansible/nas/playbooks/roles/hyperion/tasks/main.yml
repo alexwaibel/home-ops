@@ -14,9 +14,11 @@
     volumes:
       - "{{ hyperion_data_directory }}:/root/.hyperion:rw"
     ports:
-      - "19445:19445"
       - "19444:19444"
-      - "{{ hyperion_port }}:8090"
+      - "19445:19445"
+      - "{{ hyperion_api_port }}:19444"
+      - "{{ hyperion_server_port }}:19445"
+      - "{{ hyperion_ui_port }}:8090"
     devices:
       - "/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0:/dev/ttyUSB0"
       - "/dev/v4l/by-id/usb-MACROSILICON_MiraBox_Capture-video-index0:/dev/video0"
