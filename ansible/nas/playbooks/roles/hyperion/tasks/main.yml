@@ -1,0 +1,32 @@
+---
+- name: Create Hyperion Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ hyperion_data_directory }}"
+
+- name: Hyperion Docker Container
+  docker_container:
+    name: hyperion
+    image: sirfragalot/hyperion.ng
+    pull: true
+    volumes:
+      - "{{ hyperion_data_directory }}:/root/.hyperion:rw"
+    ports:
+      - "19445:19445"
+      - "19444:19444"
+      - "{{ hyperion_port }}:8090"
+    devices:
+      - "/dev/serial/by-id/usb-1a86_USB_Serial-if00-port0:/dev/ttyUSB0"
+      - "/dev/v4l/by-id/usb-MACROSILICON_MiraBox_Capture-video-index0:/dev/video0"
+      - "/dev/v4l/by-id/usb-MACROSILICON_MiraBox_Capture-video-index1:/dev/video1"
+    restart_policy: unless-stopped
+    memory: "{{ hyperion_memory }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.hyperion.rule: "Host(`{{ hyperion_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.hyperion.tls.certresolver: "letsencrypt"
+      traefik.http.routers.hyperion.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.hyperion.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.hyperion.loadbalancer.server.port: "8090"

@@ -1,0 +1,13 @@
+---
+hyperion_enabled: false
+hyperion_available_externally: false
+
+# directories
+hyperion_data_directory: "{{ docker_home }}/hyperion"
+
+# network
+hyperion_port: "8090"
+hyperion_hostname: "hyperion"
+
+# specs
+hyperion_memory: 1g

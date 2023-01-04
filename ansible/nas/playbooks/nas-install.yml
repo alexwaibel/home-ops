@@ -51,6 +51,11 @@
         - homeassistant
       when: (homeassistant_enabled | default(False))
 
+    - role: hyperion
+      tags:
+        - hyperion
+      when: (hyperion_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
