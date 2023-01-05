@@ -6,11 +6,28 @@
   with_items:
     - "{{ zigbee2mqtt_data_directory }}/data"
 
+- name: Check if Zigbee2MQTT config exists
+  stat:
+    path: "{{ zigbee2mqtt_data_directory }}/data/configuration.yaml"
+  register: config_exists
+
+- name: Guard against changes to existing config
+  template:
+    src: config.j2
+    dest: /etc/config
+  check_mode: true
+  when: protect_config|d(False) and config_exists.stat.exists
+  register: protected_config
+  failed_when: protected_config is changed
+
 - name: Template Zigbee2MQTT configuration.yaml
   template:
     src: configuration.yaml.j2
     dest: "{{ zigbee2mqtt_data_directory }}/data/configuration.yaml"
+  check_mode: true
+  when: zigbee2mqtt_config|d(False) and config_exists.stat.exists
   register: zigbee2mqtt_config
+  failed_when: zigbee2mqtt_config is changed
 
 - name: Zigbee2MQTT Docker Container
   docker_container:
