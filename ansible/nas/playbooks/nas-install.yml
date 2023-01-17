@@ -75,3 +75,8 @@
       tags:
         - zigbee2mqtt
       when: (zigbee2mqtt_enabled | default(False))
+
+    - role: zwave-js-ui
+      tags:
+        - zwave-js-ui
+      when: (zwave_js_ui_enabled | default(False))

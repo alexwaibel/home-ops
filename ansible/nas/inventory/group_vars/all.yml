@@ -216,6 +216,7 @@ emqx_admin_password: "{{ lookup('ansible.builtin.env', 'EMQX_ADMIN_PASSWORD') }}
 emqx_user1_username: "{{ lookup('ansible.builtin.env', 'EMQX_USER1_USERNAME') }}"
 emqx_user1_password: "{{ lookup('ansible.builtin.env', 'EMQX_USER1_PASSWORD') }}"
 
+zwave_js_ui_enabled: true
 zigbee2mqtt_enabled: true
 mqtt_user: "{{ lookup('ansible.builtin.env', 'MQTT_USERNAME') }}"
 mqtt_password: "{{ lookup('ansible.builtin.env', 'MQTT_PASSWORD') }}"

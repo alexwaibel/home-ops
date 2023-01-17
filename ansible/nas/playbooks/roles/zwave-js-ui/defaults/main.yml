@@ -1,0 +1,14 @@
+---
+zwave_js_ui_enabled: false
+zwave_js_ui_available_externally: false
+
+# directories
+zwave_js_ui_data_directory: "{{ docker_home }}/zwave_js_ui"
+
+# network
+zwave_js_ui_web_port: "8091"
+zwave_js_ui_zwave_websocket_port: "3000"
+zwave_js_ui_hostname: "zwavejs"
+
+# specs
+zwave_js_ui_memory: 1g

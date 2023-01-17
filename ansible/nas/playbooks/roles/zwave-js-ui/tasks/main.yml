@@ -1,0 +1,33 @@
+---
+- name: Create Z-Wave JS UI Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ zwave_js_ui_data_directory }}/data"
+
+- name: Z-Wave JS UI Docker Container
+  docker_container:
+    name: zwave-js-ui
+    image: zwavejs/zwave-js-ui
+    pull: true
+    volumes:
+      - "{{ zwave_js_ui_data_directory }}:/usr/src/app/store:rw"
+    ports:
+      - "{{ zwave_js_ui_web_port }}:8091"
+      - "{{ zwave_js_ui_zwave_websocket_port }}:3000"
+    devices:
+      - "/dev/serial/by-id/usb-Silicon_Labs_Zooz_ZST10_700_Z-Wave_Stick_0001-if00-port0:/dev/zwave"
+    restart_policy: unless-stopped
+    env:
+      TZ: "{{ nas_timezone }}"
+      ZWAVEJS_EXTERNAL_CONFIG: "/usr/src/app/store/.config-db"
+      SESSION_SECRET: mysupersecretkey
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.zwave_js_ui.rule: "Host(`{{ zwave_js_ui_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.zwave_js_ui.tls.certresolver: "letsencrypt"
+      traefik.http.routers.zwave_js_ui.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.zwave_js_ui.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.zwave_js_ui.loadbalancer.server.port: "8091"
+    memory: "{{ zwave_js_ui_memory }}"
