@@ -88,6 +88,12 @@ d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
+# Force UEFI booting ('BIOS compatibility' will be lost). Default: false.
+d-i partman-efi/non_efi_system boolean true
+# Ensure the partition table is GPT - this is required for EFI
+d-i partman-partitioning/choose_label select gpt
+d-i partman-partitioning/default_label string gpt
+
 ### Apt setup
 # You can choose to install non-free and contrib software.
 #d-i apt-setup/non-free boolean true

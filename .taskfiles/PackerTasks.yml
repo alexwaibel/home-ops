@@ -5,6 +5,12 @@ vars:
   PACKER_IMAGE_DIR: "{{.PACKER_DIR}}/images"
 
 tasks:
+  init:
+    desc: Initialize packer
+    cmds:
+      - "packer init {{.PACKER_DIR}}"
+    silent: true
+
   all:
     desc: Build all images
     cmds:
@@ -14,5 +20,5 @@ tasks:
   debian:
     desc: Build debian image
     cmds:
-      - "packer build --only=proxmox.debian_cloudinit {{.PACKER_IMAGE_DIR}}"
+      - "packer build --only=proxmox-iso.debian_cloudinit {{.PACKER_IMAGE_DIR}}"
     silent: true

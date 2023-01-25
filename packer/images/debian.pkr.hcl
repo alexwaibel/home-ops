@@ -1,4 +1,4 @@
-source "proxmox" "debian_cloudinit" {
+source "proxmox-iso" "debian_cloudinit" {
   proxmox_url              = "https://${var.proxmox_ip}:${var.proxmox_port}/api2/json"
   username                 = var.proxmox_username
   password                 = var.proxmox_password
@@ -6,12 +6,16 @@ source "proxmox" "debian_cloudinit" {
   iso_url                  = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
   iso_storage_pool         = var.proxmox_iso_storage_pool
   iso_checksum             = "sha512:224cd98011b9184e49f858a46096c6ff4894adff8945ce89b194541afdfd93b73b4666b0705234bd4dff42c0a914fdb6037dd0982efb5813e8a553d8e92e6f51"
-  insecure_skip_tls_verify = true
 
+  insecure_skip_tls_verify = true
   cloud_init              = true
   cloud_init_storage_pool = "local-zfs"
+  bios                    = "ovmf"
+  efi_config {
+    efi_storage_pool  = "local-zfs"
+  }
   disks {
-    disk_size         = "200G"
+    disk_size         = "4000G"
     storage_pool      = "local-zfs"
     storage_pool_type = "zfspool"
   }
@@ -49,5 +53,5 @@ source "proxmox" "debian_cloudinit" {
 }
 
 build {
-  sources = ["source.proxmox.debian_cloudinit"]
+  sources = ["source.proxmox-iso.debian_cloudinit"]
 }

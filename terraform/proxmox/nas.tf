@@ -15,14 +15,6 @@ resource "proxmox_vm_qemu" "nas" {
   cores  = 2
   memory = 8192
 
-  disk {
-    cache   = "none"
-    format  = "raw"
-    size    = "200G"
-    storage = "local-zfs"
-    type    = "scsi"
-  }
-
   network {
     bridge    = "vmbr0"
     firewall  = false
@@ -30,5 +22,21 @@ resource "proxmox_vm_qemu" "nas" {
     macaddr   = "C6:3D:90:63:41:A6"
     model     = "virtio"
     tag       = 20
+  }
+
+  usb {
+    host = "10c4:8a2a"
+  }
+
+  usb {
+    host = "1a86:7523"
+  }
+
+  usb {
+    host = "534d:2109"
+  }
+
+  usb {
+    host = "10c4:ea60"
   }
 }
