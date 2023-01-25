@@ -36,6 +36,9 @@ tv_root: "{{ samba_shares_root }}/tv"
 # Where torrent files are stored (picked up by Transmission for downloading)
 torrents_root: "{{ samba_shares_root }}/torrents"
 
+# Where usenet files are stored
+usenet_root: "{{ samba_shares_root }}/usenet"
+
 # Where music is stored
 music_root: "{{ samba_shares_root }}/music"
 
@@ -220,3 +223,23 @@ zwave_js_ui_enabled: true
 zigbee2mqtt_enabled: true
 mqtt_user: "{{ lookup('ansible.builtin.env', 'MQTT_USERNAME') }}"
 mqtt_password: "{{ lookup('ansible.builtin.env', 'MQTT_PASSWORD') }}"
+
+prowlarr_enabled: true
+radarr_enabled: true
+sonarr_enabled: true
+bazarr_enabled: true
+
+transmission_with_openvpn_enabled: true
+openvpn_username: "{{ lookup('ansible.builtin.env', 'OPENVPN_USERNAME') }}"
+openvpn_password: "{{ lookup('ansible.builtin.env', 'OPENVPN_PASSWORD') }}"
+openvpn_provider: "{{ lookup('ansible.builtin.env', 'OPENVPN_PROVIDER') }}"
+openvpn_config: "{{ lookup('ansible.builtin.env', 'OPENVPN_CONFIG') }}"
+
+plex_enabled: true
+plex_movies_permissions: "ro"
+plex_tv_permissions: "ro"
+plex_photos_permissions: "ro"
+plex_podcasts_permissions: "ro"
+plex_music_permissions: "ro"
+plex_audiobooks_permissions: "ro"
+plex_claim_token: "{{ lookup('ansible.builtin.env', 'PLEX_CLAIM_TOKEN') }}"

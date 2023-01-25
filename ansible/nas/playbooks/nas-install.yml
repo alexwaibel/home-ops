@@ -41,6 +41,11 @@
     ###
     ### Applications
     ###
+    - role: bazarr
+      tags:
+        - bazarr
+      when: (bazarr_enabled | default(False))
+
     - role: emqx
       tags:
         - emqx
@@ -56,15 +61,40 @@
         - hyperion
       when: (hyperion_enabled | default(False))
 
+    - role: plex
+      tags:
+        - plex
+      when: (plex_enabled | default(False))
+
     - role: portainer
       tags:
         - portainer
       when: (portainer_enabled | default(False))
 
+    - role: prowlarr
+      tags:
+        - prowlarr
+      when: (prowlarr_enabled | default(False))
+
+    - role: radarr
+      tags:
+        - radarr
+      when: (radarr_enabled | default(False))
+
+    - role: sonarr
+      tags:
+        - sonarr
+      when: (sonarr_enabled | default(False))
+
     - role: traefik
       tags:
         - traefik
       when: (traefik_enabled | default(False))
+
+    - role: transmission-with-openvpn
+      tags:
+        - transmission-with-openvpn
+      when: (transmission_with_openvpn_enabled | default(False))
 
     - role: unifi-controller
       tags:
