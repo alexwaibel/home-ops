@@ -3,7 +3,9 @@ source "proxmox-iso" "debian_cloudinit" {
   username                 = var.proxmox_username
   password                 = var.proxmox_password
   node                     = var.proxmox_node
-  iso_url                  = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
+  # Temporarily use iso_file instead to work around this bug https://github.com/hashicorp/packer-plugin-proxmox/issues/146
+  # iso_url                  = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
+  iso_file                 = "local:iso/debian-11.6.0-amd64-netinst.iso"
   iso_storage_pool         = var.proxmox_iso_storage_pool
   iso_checksum             = "sha512:224cd98011b9184e49f858a46096c6ff4894adff8945ce89b194541afdfd93b73b4666b0705234bd4dff42c0a914fdb6037dd0982efb5813e8a553d8e92e6f51"
 
