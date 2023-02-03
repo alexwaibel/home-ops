@@ -51,6 +51,11 @@
         - emqx
       when: (emqx_enabled | default(False))
 
+    - role: heimdall
+      tags:
+        - heimdall
+      when: (heimdall_enabled | default(False))
+
     - role: homeassistant
       tags:
         - homeassistant

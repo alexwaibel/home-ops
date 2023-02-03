@@ -208,11 +208,12 @@ samba_netbios_name: "{{ nas_hostname }}"
 ### Applications
 ###
 
+heimdall_enabled: true
 homeassistant_enabled: true
+hyperion_enabled: true
 portainer_enabled: true
 unifi_controller_enabled: true
 traefik_enabled: true
-hyperion_enabled: true
 
 emqx_enabled: true
 emqx_admin_password: "{{ lookup('ansible.builtin.env', 'EMQX_ADMIN_PASSWORD') }}"

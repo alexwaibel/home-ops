@@ -25,18 +25,18 @@ resource "proxmox_vm_qemu" "nas" {
   }
 
   usb {
-    host = "10c4:8a2a"
+    host = "10c4:8a2a" # Zigbee Hub
   }
 
   usb {
-    host = "1a86:7523"
+    host = "1a86:7523" # Adalight
   }
 
   usb {
-    host = "534d:2109"
+    host = "534d:2109" # Capture Card
   }
 
   usb {
-    host = "10c4:ea60"
+    host = "10c4:ea60" # Z-wave hub
   }
 }

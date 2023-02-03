@@ -40,10 +40,10 @@ source "proxmox-iso" "debian_cloudinit" {
 
   boot_command = [
     "<esc><wait>",
-    "auto",
-    "<spacebar>",
-    "url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
-    "<enter>"
+    "e<wait>",
+    "<down><down><down><end>",
+    "auto url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg",
+    "<f10><wait>"
   ]
   boot_wait = "10s"
   # Needed for WSL
