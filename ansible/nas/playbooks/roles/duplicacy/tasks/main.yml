@@ -21,6 +21,7 @@
       - "{{ duplicacy_logs_directory }}:/logs:rw"
       - "{{ duplicacy_cache_directory }}:/cache:rw"
       - "{{ samba_shares_root }}:/backuproot:{{ duplicacy_data_permissions }}"
+      - "{{ docker_home }}:/backupdockerroot:{{ duplicacy_data_permissions }}"
     env:
       DUPLICACY_WEB_VERSION: "{{ duplicacy_web_version }}"
       TZ: "{{ nas_timezone }}"
