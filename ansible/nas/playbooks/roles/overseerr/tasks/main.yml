@@ -1,0 +1,31 @@
+---
+- name: Create overseerr Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ overseerr_data_directory }}"
+    - "{{ overseerr_data_directory }}/config"
+
+- name: Overseerr
+  docker_container:
+    name: overseerr
+    image: sctx/overseerr:latest
+    pull: true
+    volumes:
+      - "{{ overseerr_data_directory }}/config:/app/config:rw"
+    ports:
+      - "{{ overseerr_webui_port }}:5055"
+    env:
+      TZ: "{{ nas_timezone }}"
+      PUID: "{{ overseerr_user_id }}"
+      PGID: "{{ overseerr_group_id }}"
+    restart_policy: unless-stopped
+    memory: "{{ overseerr_memory }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.overseerr.rule: "Host(`{{ overseerr_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.overseerr.tls.certresolver: "letsencrypt"
+      traefik.http.routers.overseerr.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.overseerr.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.overseerr.loadbalancer.server.port: "5055"

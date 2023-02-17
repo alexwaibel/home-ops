@@ -71,6 +71,11 @@
         - hyperion
       when: (hyperion_enabled | default(False))
 
+    - role: overseerr
+      tags:
+        - overseerr
+      when: (overseerr_enabled | default(False))
+
     - role: plex
       tags:
         - plex
@@ -110,6 +115,11 @@
       tags:
         - unifi-controller
       when: (unifi_controller_enabled | default(False))
+
+    - role: watchtower
+      tags:
+        - watchtower
+      when: (watchtower_enabled | default(False))
 
     - role: zigbee2mqtt
       tags:
