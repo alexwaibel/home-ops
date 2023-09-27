@@ -217,6 +217,8 @@ portainer_enabled: true
 unifi_controller_enabled: true
 traefik_enabled: true
 watchtower_enabled: true
+wg_easy_enabled: true
+wg_easy_password: "{{ lookup('ansible.builtin.env', 'WG_EASY_PASSWORD') }}"
 
 emqx_enabled: true
 emqx_admin_password: "{{ lookup('ansible.builtin.env', 'EMQX_ADMIN_PASSWORD') }}"

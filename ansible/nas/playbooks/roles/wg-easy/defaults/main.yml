@@ -1,0 +1,13 @@
+---
+wg_easy_enabled: false
+wg_easy_available_externally: false
+
+# directories
+wg_easy_data_directory: "{{ docker_home }}/wg_easy"
+
+# network
+wg_easy_port: "51820"
+wg_easy_hostname: "wg_easy"
+
+# specs
+wg_easy_memory: 1g

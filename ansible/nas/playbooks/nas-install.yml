@@ -121,6 +121,11 @@
         - watchtower
       when: (watchtower_enabled | default(False))
 
+    - role: wg-easy
+      tags:
+        - wg-easy
+      when: (wg_easy_enabled | default(False))
+
     - role: zigbee2mqtt
       tags:
         - zigbee2mqtt

@@ -1,0 +1,36 @@
+---
+- name: Create Wireguard Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ wg_easy_data_directory }}/config"
+
+- name: Wireguard Docker Container
+  docker_container:
+    name: wg-easy
+    image: weejewel/wg-easy
+    pull: true
+    volumes:
+      - "{{ wg_easy_data_directory }}/config:/etc/wireguard"
+    ports:
+      - "{{ wg_easy_port }}:51820/udp"
+    env:
+      WG_HOST: "wg_easy.{{ nas_domain }}"
+      PASSWORD: "{{ wg_easy_password }}"
+      TZ: "{{ nas_timezone }}"
+    restart_policy: unless-stopped
+    capabilities:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      net.ipv4.ip_forward: 1
+      net.ipv4.conf.all.src_valid_mark: 1
+    memory: "{{ wg_easy_memory }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.wg_easy.rule: "Host(`{{ wg_easy_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.wg_easy.tls.certresolver: "letsencrypt"
+      traefik.http.routers.wg_easy.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.wg_easy.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.wg_easy.loadbalancer.server.port: "51821"
