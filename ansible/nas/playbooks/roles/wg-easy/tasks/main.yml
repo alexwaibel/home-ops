@@ -17,6 +17,7 @@
       - "{{ wg_easy_port }}:51820/udp"
     env:
       WG_HOST: "wg_easy.{{ nas_domain }}"
+      WG_ALLOWED_IPS: "{{ wg_easy_allowed_ips }}"
       PASSWORD: "{{ wg_easy_password }}"
       TZ: "{{ nas_timezone }}"
     restart_policy: unless-stopped

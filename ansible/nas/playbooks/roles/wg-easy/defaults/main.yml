@@ -8,6 +8,7 @@ wg_easy_data_directory: "{{ docker_home }}/wg_easy"
 # network
 wg_easy_port: "51820"
 wg_easy_hostname: "wg_easy"
+wg_easy_allowed_ips: "192.168.20.0/24,10.8.0.0/24"
 
 # specs
 wg_easy_memory: 1g
