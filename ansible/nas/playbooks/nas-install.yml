@@ -41,6 +41,11 @@
     ###
     ### Applications
     ###
+    - role: adguard-home
+      tags:
+        - adguard-home
+      when: (adgueard_home_enabled | default(False))
+
     - role: bazarr
       tags:
         - bazarr

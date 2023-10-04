@@ -208,6 +208,7 @@ samba_netbios_name: "{{ nas_hostname }}"
 ### Applications
 ###
 
+adgueard_home_enabled: true
 duplicacy_enabled: true
 heimdall_enabled: true
 homeassistant_enabled: true

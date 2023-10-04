@@ -18,6 +18,7 @@
     env:
       WG_HOST: "wg_easy.{{ nas_domain }}"
       WG_ALLOWED_IPS: "{{ wg_easy_allowed_ips }}"
+      WG_DEFAULT_DNS: "{{ wg_easy_dns }}"
       PASSWORD: "{{ wg_easy_password }}"
       TZ: "{{ nas_timezone }}"
     restart_policy: unless-stopped

@@ -1,0 +1,33 @@
+---
+- name: Create AdguardHome Directories
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ adguard_home_data_directory }}/config"
+    - "{{ adguard_home_data_directory }}/work"
+
+- name: AdguardHome Docker Container
+  docker_container:
+    name: adguardhome
+    image: adguard/adguardhome
+    pull: true
+    volumes:
+      - "{{ adguard_home_data_directory }}/config:/opt/adguardhome/conf"
+      - "{{ adguard_home_data_directory }}/work:/opt/adguardhome/work"
+    ports:
+      - "{{ adguard_home_dns_port }}:53/tcp"
+      - "{{ adguard_home_dns_port }}:53/udp"
+      - "{{ adguard_home_tls_dns_port }}:853/tcp"
+      - "{{ adguard_home_ui_port }}:3000/tcp"
+    env:
+      TZ: "{{ nas_timezone }}"
+    restart_policy: unless-stopped
+    memory: "{{ adguard_home_memory }}"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.adguard_home.rule: "Host(`{{ adguard_home_hostname }}.{{ nas_domain }}`)"
+      traefik.http.routers.adguard_home.tls.certresolver: "letsencrypt"
+      traefik.http.routers.adguard_home.tls.domains[0].main: "{{ nas_domain }}"
+      traefik.http.routers.adguard_home.tls.domains[0].sans: "*.{{ nas_domain }}"
+      traefik.http.services.adguard_home.loadbalancer.server.port: "3500"

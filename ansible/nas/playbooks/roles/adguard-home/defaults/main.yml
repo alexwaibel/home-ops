@@ -1,0 +1,15 @@
+---
+adguard_home_enabled: false
+adguard_home_available_externally: false
+
+# directories
+adguard_home_data_directory: "{{ docker_home }}/adguard_home"
+
+# network
+adguard_home_dns_port: "53"
+adguard_home_tls_dns_port: "853"
+adguard_home_ui_port: "3500"
+adguard_home_hostname: "adguard_home"
+
+# specs
+adguard_home_memory: 1g
