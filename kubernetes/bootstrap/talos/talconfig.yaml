@@ -1,0 +1,208 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+---
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.6.7
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.29.4
+
+clusterName: &cluster home-kubernetes
+endpoint: https://192.168.20.90:6443
+clusterPodNets:
+  - "10.69.0.0/16"
+clusterSvcNets:
+  - "10.96.0.0/16"
+additionalApiServerCertSans: &sans
+  - "192.168.20.90"
+  - 127.0.0.1 # KubePrism
+additionalMachineCertSans: *sans
+cniConfig:
+  name: none
+
+nodes:
+  - hostname: "nuc1"
+    ipAddress: "192.168.20.21"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "88:ae:dd:0d:b7:97"
+        dhcp: false
+        addresses:
+          - "192.168.20.21/24"
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "192.168.20.1"
+        vip:
+          ip: "192.168.20.90"
+  - hostname: "nuc2"
+    ipAddress: "192.168.20.22"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "88:ae:dd:0c:fb:79"
+        dhcp: false
+        addresses:
+          - "192.168.20.22/24"
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "192.168.20.1"
+        vip:
+          ip: "192.168.20.90"
+  - hostname: "nuc3"
+    ipAddress: "192.168.20.23"
+    installDisk: "/dev/sda"
+    machineSpec:
+      secureboot: true
+    talosImageURL: factory.talos.dev/installer-secureboot/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba
+    controlPlane: true
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "88:ae:dd:0d:b6:ce"
+        dhcp: false
+        addresses:
+          - "192.168.20.23/24"
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: "192.168.20.1"
+        vip:
+          ip: "192.168.20.90"
+
+patches:
+  # Configure containerd
+  - |-
+    machine:
+      files:
+        - op: create
+          path: /etc/cri/conf.d/20-customization.part
+          content: |-
+            [plugins."io.containerd.grpc.v1.cri"]
+              enable_unprivileged_ports = true
+              enable_unprivileged_icmp = true
+            [plugins."io.containerd.grpc.v1.cri".containerd]
+              discard_unpacked_layers = false
+            [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+              discard_unpacked_layers = false
+
+  # Disable search domain everywhere
+  - |-
+    machine:
+      network:
+        disableSearchDomain: true
+
+  # Enable cluster discovery
+  - |-
+    cluster:
+      discovery:
+        registries:
+          kubernetes:
+            disabled: false
+          service:
+            disabled: false
+
+  # Configure kubelet
+  - |-
+    machine:
+      kubelet:
+        extraArgs:
+          rotate-server-certificates: true
+        nodeIP:
+          validSubnets: ["192.168.20.0/24"]
+
+  # Force nameserver
+  - |-
+    machine:
+      network:
+        nameservers:
+
+  # Configure NTP
+  - |-
+    machine:
+      time:
+        disabled: false
+        servers: ["time.cloudflare.com"]
+
+  # Custom sysctl settings
+  - |-
+    machine:
+      sysctls:
+        fs.inotify.max_queued_events: "65536"
+        fs.inotify.max_user_watches: "524288"
+        fs.inotify.max_user_instances: "8192"
+        net.core.rmem_max: "2500000"
+        net.core.wmem_max: "2500000"
+
+  # Mount openebs-hostpath in kubelet
+  - |-
+    machine:
+      kubelet:
+        extraMounts:
+          - destination: /var/openebs/local
+            type: bind
+            source: /var/openebs/local
+            options: ["bind", "rshared", "rw"]
+
+  # Encrypt system disk with TPM
+  - |-
+    machine:
+      systemDiskEncryption:
+        ephemeral:
+          provider: luks2
+          keys:
+            - slot: 0
+              tpm: {}
+        state:
+          provider: luks2
+          keys:
+            - slot: 0
+              tpm: {}
+
+
+controlPlane:
+  patches:
+    # Cluster configuration
+    - |-
+      cluster:
+        allowSchedulingOnControlPlanes: true
+        controllerManager:
+          extraArgs:
+            bind-address: 0.0.0.0
+        proxy:
+          disabled: true
+        scheduler:
+          extraArgs:
+            bind-address: 0.0.0.0
+
+    # ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
+          advertisedSubnets:
+            - "192.168.20.0/24"
+
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
+    # Enable K8s Talos API Access
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles: ["os:admin"]
+            allowedKubernetesNamespaces: ["system-upgrade"]
+
+
