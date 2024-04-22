@@ -48,7 +48,7 @@ spec:
       auth.basic:
         enabled: true
       auth.anonymous:
-        enabled: false
+        enabled: true
       news:
         news_feed_enabled: false
     dashboardProviders:
