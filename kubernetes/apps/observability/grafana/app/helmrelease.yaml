@@ -35,6 +35,7 @@ spec:
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
       GF_SECURITY_COOKIE_SECURE: true
+      GF_LOG_LEVEL: debug
     admin:
       existingSecret: grafana
       userKey: admin-user
