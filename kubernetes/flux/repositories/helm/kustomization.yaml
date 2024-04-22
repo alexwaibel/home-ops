@@ -5,12 +5,15 @@ resources:
   - ./bjw-s.yaml
   - ./cilium.yaml
   - ./external-dns.yaml
+  - ./grafana.yaml
   - ./ingress-nginx.yaml
   - ./k8s-gateway.yaml
   - ./jetstack.yaml
   - ./metrics-server.yaml
   - ./openebs.yaml
   - ./postfinance.yaml
+  - ./prometheus-community.yaml
   - ./rook-ceph.yaml
   - ./spegel.yaml
   - ./stakater.yaml
+  - ./stevehipwell.yaml
