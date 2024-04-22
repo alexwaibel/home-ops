@@ -34,19 +34,19 @@ spec:
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
-      GF_SERVER_ROOT_URL: "https://grafana.${SECRET_DOMAIN}"
     admin:
       existingSecret: grafana
       userKey: admin-user
       passwordKey: admin-password
     grafana.ini:
+      server:
+        root_url: "https://grafana.${SECRET_DOMAIN}"
       analytics:
         check_for_updates: false
         check_for_plugin_updates: false
         reporting_enabled: false
       auth.basic:
         enabled: true
-        disable_login_form: false
       auth.anonymous:
         enabled: false
       news:
