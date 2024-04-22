@@ -254,6 +254,16 @@
       "addLabels": ["renovate/grafana-dashboard"]
     }
   ],
+  // custom datasources
+  "customDatasources": {
+    "grafana-dashboards": {
+      "defaultRegistryUrlTemplate": "https://grafana.com/api/dashboards/{{packageName}}",
+      "format": "json",
+      "transformTemplates": [
+        "{\"releases\":[{\"version\": $string(revision)}]}"
+      ]
+    }
+  },
   // custom managers
   "customManagers": [
     {
