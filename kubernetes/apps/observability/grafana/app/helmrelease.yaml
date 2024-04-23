@@ -23,7 +23,7 @@ spec:
       retries: 3
   dependsOn:
     - name: authelia
-      namespace: default
+      namespace: auth
     - name: kube-prometheus-stack
       namespace: observability
     - name: loki

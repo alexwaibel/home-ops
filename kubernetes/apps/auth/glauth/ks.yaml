@@ -5,7 +5,7 @@ metadata:
   name: &app glauth
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: auth
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app

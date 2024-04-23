@@ -23,7 +23,7 @@ spec:
       retries: 3
   dependsOn:
     - name: glauth
-      namespace: default
+      namespace: auth
   values:
     controllers:
       authelia:
