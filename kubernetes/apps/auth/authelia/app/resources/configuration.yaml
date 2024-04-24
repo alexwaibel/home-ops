@@ -36,6 +36,13 @@ session:
     database_index: 2
     host: dragonfly.database.svc.cluster.local
 
+notifier:
+  disable_startup_check: true
+  filesystem:
+    enabled: true
+  smtp:
+    enabled: false
+
 totp:
   disable: false
   issuer: authelia.com
