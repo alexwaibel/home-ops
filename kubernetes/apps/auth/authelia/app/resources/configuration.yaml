@@ -38,7 +38,8 @@ session:
 
 notifier:
   disable_startup_check: true
-  filesystem: {}
+  filesystem:
+    filename: "/config/notification.txt"
 
 totp:
   disable: false
