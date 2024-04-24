@@ -4,3 +4,9 @@ kind: Kustomization
 resources:
   - ./helmrelease.yaml
   - ./secret.sops.yaml
+configMapGenerator:
+  - name: authelia-configmap
+    files:
+      - configuration.yaml=./resources/configuration.yaml
+generatorOptions:
+  disableNameSuffixHash: true
