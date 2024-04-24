@@ -38,8 +38,10 @@ session:
 
 notifier:
   disable_startup_check: true
-  filesystem:
-    filename: "/config/notification.txt"
+  smtp:
+    address: smtp-relay.default.svc.cluster.local:25
+    sender: "No-Reply <no-reply@${SECRET_DOMAIN}>"
+    disable_require_tls: true
 
 totp:
   disable: false
