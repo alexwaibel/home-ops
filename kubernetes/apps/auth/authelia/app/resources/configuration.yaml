@@ -38,10 +38,7 @@ session:
 
 notifier:
   disable_startup_check: true
-  filesystem:
-    enabled: true
-  smtp:
-    enabled: false
+  filesystem: {}
 
 totp:
   disable: false
