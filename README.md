@@ -269,4 +269,4 @@ Resolving problems that you have could take some tweaking of your YAML manifests
 
 ## 🤝 Thanks
 
-A huge thank you for all the maintainers of the dependencies used by this project as well as one-dr0p for the awesome [cluster template](https://github.com/onedr0p/cluster-template) which was used to initially create this repo. If you'd like to get started with your own cluster be sure to check it out.
+A huge thank you for all the maintainers of the dependencies used by this project as well as onedr0p for the awesome [cluster template](https://github.com/onedr0p/cluster-template) which was used to initially create this repo. If you'd like to get started with your own cluster be sure to check it out.
