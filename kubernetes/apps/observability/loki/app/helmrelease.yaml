@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: 6.3.3
+      version: 6.3.4
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -116,6 +116,11 @@ spec:
       replicas: 3
       image:
         registry: ghcr.io
+      deploymentStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 1
+          maxSurge: 1
       ingress:
         enabled: true
         ingressClassName: internal
