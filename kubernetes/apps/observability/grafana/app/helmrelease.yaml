@@ -194,11 +194,6 @@ spec:
           gnetId: 1860
           revision: 36
           datasource: Prometheus
-        opnsense:
-          # renovate: depName="OPNSense Metrics"
-          gnetId: 19366
-          revision: 2
-          datasource: Prometheus
         spegel:
           # renovate: depName="Spegel"
           gnetId: 18089
