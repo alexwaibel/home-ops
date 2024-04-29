@@ -30,7 +30,7 @@ sources:
     mode: tcp
 
   tplink_sg2016p_source:
-    type: socket
+    type: syslog
     address: 0.0.0.0:514
     mode: udp
 
