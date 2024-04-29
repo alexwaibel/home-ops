@@ -77,6 +77,8 @@ spec:
             port: 6010
           opnsense:
             port: 6020
+          tplink_sg2016p:
+            port: 514
     persistence:
       config:
         type: configMap
