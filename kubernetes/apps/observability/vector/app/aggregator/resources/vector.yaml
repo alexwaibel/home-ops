@@ -219,4 +219,4 @@ sinks:
     remove_label_fields: true
     remove_timestamp: true
     labels:
-      hostname: "{{ host }}"
+      hostname: "tplink_sg2016p"
