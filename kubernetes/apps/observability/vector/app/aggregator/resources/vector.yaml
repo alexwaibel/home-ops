@@ -49,7 +49,7 @@ transforms:
       del(.pod_labels)
 
   opnsense_filterlog:
-    type: "remap"
+    type: remap
     inputs: ["opnsense_source"]
     source: |-
       if .appname == "filterlog" {
@@ -142,7 +142,7 @@ transforms:
       }
 
   opnsense_split:
-    type: "route"
+    type: route
     inputs: ["opnsense_filterlog"]
     route:
       pass: '.action == "pass"'
