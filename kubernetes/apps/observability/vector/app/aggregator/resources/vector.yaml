@@ -210,13 +210,13 @@ sinks:
       dir: "{{ dir }}"
       ipversion: "{{ ipversion }}"
 
-    tplink_sg2016p:
-      inputs: ["tplink_sg2016p_source"]
-      type: loki
-      endpoint: http://loki-gateway.observability.svc.cluster.local
-      encoding: { codec: json }
-      out_of_order_action: accept
-      remove_label_fields: true
-      remove_timestamp: true
-      labels:
-        hostname: "{{ host }}"
+  tplink_sg2016p:
+    inputs: ["tplink_sg2016p_source"]
+    type: loki
+    endpoint: http://loki-gateway.observability.svc.cluster.local
+    encoding: { codec: json }
+    out_of_order_action: accept
+    remove_label_fields: true
+    remove_timestamp: true
+    labels:
+      hostname: "{{ host }}"
