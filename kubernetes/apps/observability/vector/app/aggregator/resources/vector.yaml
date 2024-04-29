@@ -45,8 +45,7 @@ transforms:
 
   opnsense_filterlog:
     type: "remap"
-    inputs:
-      - "opnsense"
+    inputs: ["opnsense_source"]
     source: |-
       if .appname == "filterlog" {
         message_array = parse_csv!(string!(.message))
@@ -139,16 +138,14 @@ transforms:
 
   opnsense_split:
     type: "route"
-    inputs:
-      - "opnsense_filterlog"
+    inputs: ["opnsense_filterlog"]
     route:
       pass: '.action == "pass"'
       therest: '.action != "pass"'
 
   opnsense_geotag:
     type: "remap"
-    inputs:
-      - "opnsense_split.pass"
+    inputs: ["opnsense_split.pass"]
     source: |-
       .src_geoip, err = get_enrichment_table_record("geoip_table",
         {
