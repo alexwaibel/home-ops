@@ -25,9 +25,14 @@ spec:
       localpv:
         image:
           registry: quay.io/
-          repository: openebs/provisioner-localpv
+      helperPod:
+        image:
+          registry: quay.io/
       hostpathClass:
+        enabled: true
         name: openebs-hostpath
+        isDefaultClass: false
+        basePath: /var/openebs/local
     openebs-crds:
       csi:
         volumeSnapshots:
