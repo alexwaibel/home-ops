@@ -269,6 +269,24 @@ Below is a general guide on trying to debug an issue with an resource or applica
 
 Resolving problems that you have could take some tweaking of your YAML manifests in order to get things working, other times it could be a external factor like permissions on NFS. If you are unable to figure out your problem see the help section below.
 
+## ⬆️ Upgrading Talos and Kubernetes
+
+### Manual
+
+```sh
+# Upgrade Talos to a newer version
+task talos:upgrade node=? image=?
+# e.g.
+# task talos:upgrade node=192.168.42.10 image=factory.talos.dev/installer/${schematic_id}:v1.7.4
+```
+
+```sh
+# Upgrade Kubernetes to a newer version
+task talos:upgrade-k8s node=? to=?
+# e.g.
+# task talos:upgrade-k8s node=192.168.42.10 to=1.30.1
+```
+
 ## 🤝 Thanks
 
 A huge thank you for all the maintainers of the dependencies used by this project as well as onedr0p for the awesome [cluster template](https://github.com/onedr0p/cluster-template) which was used to initially create this repo. If you'd like to get started with your own cluster be sure to check it out.

@@ -57,22 +57,28 @@ tasks:
       - msg: Missing helmfile
         sh: test -f {{.HELMFILE_FILE}}
 
-  upgrade-talos:
+  upgrade:
     desc: Upgrade talos on a node
-    cmd: talosctl --nodes {{.node}} upgrade --image {{.image}} --preserve=true --reboot-mode=default
+    cmd: talosctl --nodes {{.node}} upgrade --image {{.image}} --preserve=true --reboot-mode={{.mode}}
+    vars:
+      mode: '{{.mode | default "default"}}'
     requires:
       vars: ["node", "image"]
     preconditions:
+      - msg: Unable to retrieve Talos config
+        sh: talosctl config info >/dev/null 2>&1
       - msg: Node not found
-        sh: talosctl --nodes {{.node}} get machineconfig
+        sh: talosctl --nodes {{.node}} get machineconfig >/dev/null 2>&1
   upgrade-k8s:
     desc: Upgrade k8s on a node
     cmd: talosctl --nodes {{.node}} upgrade-k8s --to {{.to}}
     requires:
       vars: ["node", "to"]
     preconditions:
+      - msg: Unable to retrieve Talos config
+        sh: talosctl config info >/dev/null 2>&1
       - msg: Node not found
-        sh: talosctl --nodes {{.node}} get machineconfig
+        sh: talosctl --nodes {{.node}} get machineconfig >/dev/null 2>&1
 
   nuke:
     desc: Resets nodes back to maintenance mode
