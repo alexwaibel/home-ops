@@ -132,7 +132,14 @@ You have two different options for setting up your local workstation.
     # k8s-1          Ready    worker                      1h      v1.29.1
     ```
 
-3. Continue on to 🔹 [**Stage 3**](#-stage-3-install-flux-in-your-cluster)
+3. Prepare the disks for rook
+
+    ```
+    task bootstrap:rook nodes=nuc1,nuc2,nuc3 disk=/dev/nvme0n1
+    ```
+    - You can find the disk name with `talosctl disks`
+
+4. Continue on to 🔹 [**Stage 3**](#-stage-3-install-flux-in-your-cluster)
 
 ### 🔹 Stage 3: Install Flux in your cluster
 
@@ -148,9 +155,8 @@ You have two different options for setting up your local workstation.
 
 2. Install Flux and sync the cluster to the Git repository
 
-    📍 _Run `task flux:github-deploy-key` first if using a private repository._
-
     ```sh
+    task flux:github-deploy-key
     task flux:bootstrap
     # namespace/flux-system configured
     # customresourcedefinition.apiextensions.k8s.io/alerts.notification.toolkit.fluxcd.io created

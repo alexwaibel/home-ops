@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  BOOTSTRAP_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/Bootstrap/resources"
+
+tasks:
+  rook:
+    desc: Reset rook disks
+    prompt: This will erase the disks you pass to it! ... continue?
+    summary: |
+      nodes: Nodes in the cluster to reset Rook on (required, comma delimited, e.g. k8s-0,k8s-1)
+      disk: Disk to reset Rook on (required, e.g. /dev/nvme0n1)
+    vars: &vars
+      nodes: "{{.nodes}}"
+      disk: "{{.disk}}"
+      node: "{{.ITEM}}"
+    cmds:
+      - for: { var: nodes, split: "," }
+        task: rook-data
+        vars: *vars
+      - for: { var: nodes, split: "," }
+        task: rook-disk
+        vars: *vars
+    requires:
+      vars: ["nodes", "disk"]
+
+  rook-disk:
+    internal: true
+    cmds:
+      - /usr/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-disk-job.tmpl.yaml) | kubectl apply -f -
+      - bash {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh {{.job}} default
+      - kubectl --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl --namespace default logs job/{{.job}}
+      - kubectl --namespace default delete job {{.job}}
+    env:
+      disk: "{{.disk}}"
+      job: "{{.job}}"
+      node: "{{.node}}"
+    vars:
+      job: wipe-disk-{{.node}}
+    preconditions:
+      - test -f /usr/bin/envsubst
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/rook-disk-job.tmpl.yaml
+
+  rook-data:
+    internal: true
+    cmds:
+      - /usr/bin/envsubst < <(cat {{.BOOTSTRAP_RESOURCES_DIR}}/rook-data-job.tmpl.yaml) | kubectl apply -f -
+      - bash {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh {{.job}} default
+      - kubectl --namespace default wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl --namespace default logs job/{{.job}}
+      - kubectl --namespace default delete job {{.job}}
+    env:
+      disk: "{{.disk}}"
+      job: "{{.job}}"
+      node: "{{.node}}"
+    vars:
+      job: wipe-data-{{.node}}
+    preconditions:
+      - test -f /usr/bin/envsubst
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/wait-for-job.sh
+      - test -f {{.BOOTSTRAP_RESOURCES_DIR}}/rook-data-job.tmpl.yaml
