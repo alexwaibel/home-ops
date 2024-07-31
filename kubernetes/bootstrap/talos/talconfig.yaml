@@ -120,6 +120,15 @@ patches:
         nodeIP:
           validSubnets: ["192.168.20.0/24"]
 
+  # Enable host dns
+  - |-
+    machine:
+      features:
+        hostDNS:
+          enabled: true
+          resolveMemberNames: true
+          forwardKubeDNSToHost: false
+
   # Force nameserver
   - |-
     machine:
