@@ -4,7 +4,6 @@ version: "3"
 
 vars:
   # Directories
-  ANSIBLE_DIR: "{{.ROOT_DIR}}/ansible"
   BOOTSTRAP_DIR: "{{.ROOT_DIR}}/bootstrap"
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
   PRIVATE_DIR: "{{.ROOT_DIR}}/.private"
@@ -25,7 +24,6 @@ env:
   VIRTUAL_ENV: "{{.ROOT_DIR}}/.venv"
 
 includes:
-  ansible: .taskfiles/Ansible/Taskfile.yaml
   bootstrap: .taskfiles/Bootstrap/Taskfile.yaml
   kubernetes:
     aliases: ["k8s"]
@@ -57,7 +55,7 @@ tasks:
 
   configure:
     desc: Configure repository from bootstrap vars
-    prompt: Any conflicting config in the root kubernetes and ansible directories will be overwritten... continue?
+    prompt: Any conflicting config in the root kubernetes directory will be overwritten... continue?
     deps: ["workstation:direnv", "workstation:venv", "sops:age-keygen", "init"]
     cmds:
       - task: .template
