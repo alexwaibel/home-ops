@@ -24,7 +24,6 @@ spec:
   values:
     fullnameOverride: ingress-nginx-internal
     controller:
-      replicaCount: 1
       service:
         annotations:
           io.cilium/lb-ipam-ips: "192.168.20.80"
@@ -66,19 +65,8 @@ spec:
             any: true
       extraArgs:
         default-ssl-certificate: "network/${SECRET_DOMAIN/./-}-production-tls"
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: ingress-nginx
-              app.kubernetes.io/instance: ingress-nginx-internal
-              app.kubernetes.io/component: controller
       resources:
         requests:
           cpu: 100m
         limits:
           memory: 500Mi
-    defaultBackend:
-      enabled: false
