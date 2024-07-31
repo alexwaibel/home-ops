@@ -15,6 +15,8 @@ additionalApiServerCertSans: &sans
   - "192.168.20.90"
   - 127.0.0.1 # KubePrism
 additionalMachineCertSans: *sans
+
+# Disable bulit-in Flannel to use Cilium
 cniConfig:
   name: none
 
@@ -149,7 +151,10 @@ patches:
           - destination: /var/openebs/local
             type: bind
             source: /var/openebs/local
-            options: ["bind", "rshared", "rw"]
+            options:
+              - bind
+              - rshared
+              - rw
 
   # Encrypt system disk with TPM
   - |-
@@ -204,7 +209,7 @@ controlPlane:
         features:
           kubernetesTalosAPIAccess:
             enabled: true
-            allowedRoles: ["os:admin"]
-            allowedKubernetesNamespaces: ["system-upgrade"]
-
-
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
