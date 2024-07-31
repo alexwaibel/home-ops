@@ -220,9 +220,7 @@ There might be a situation where you want to destroy your Kubernetes cluster. Th
 
 ```sh
 # Talos: Reset your nodes back to maintenance mode and reboot
-task talos:soft-nuke
-# Talos: Comletely format your the Talos installation and reboot
-task talos:hard-nuke
+task talos:nuke
 ```
 
 ## 🐛 Debugging

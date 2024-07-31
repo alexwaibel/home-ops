@@ -2,9 +2,6 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
-vars:
-  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
-
 tasks:
 
   age-keygen:
@@ -14,7 +11,7 @@ tasks:
       - test -f "{{.AGE_FILE}}"
 
   encrypt:
-    desc: Encrypt all Kubernetes SOPS secrets that are not already encrypted
+    desc: Encrypt all Kubernetes SOPS secrets
     cmds:
       - for: { var: file }
         task: .encrypt-file
@@ -22,10 +19,7 @@ tasks:
           file: "{{.ITEM}}"
     vars:
       file:
-        sh: |
-          if [ -d "{{.KUBERNETES_DIR}}" ]; then
-              find "{{.KUBERNETES_DIR}}" -type f -name "*.sops.*" -exec grep -L "ENC\[AES256_GCM" {} \;
-          fi
+        sh: find "{{.KUBERNETES_DIR}}" -type f -name "*.sops.*" -exec grep -L "ENC\[AES256_GCM" {} \;
 
   .encrypt-file:
     internal: true
