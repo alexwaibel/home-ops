@@ -1,4 +1,11 @@
 ---
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+  recreatePods: true
+  force: true
+
 repositories:
   - name: cilium
     url: https://helm.cilium.io
@@ -6,13 +13,6 @@ repositories:
     url: https://coredns.github.io/helm
   - name: postfinance
     url: https://postfinance.github.io/kubelet-csr-approver
-
-helmDefaults:
-  wait: true
-  waitForJobs: true
-  timeout: 600
-  recreatePods: true
-  force: true
 
 releases:
   - name: prometheus-operator-crds
@@ -23,14 +23,16 @@ releases:
     namespace: kube-system
     chart: cilium/cilium
     version: 1.16.0
-    values: ["./cilium-values.yaml"]
+    values:
+      - ../apps/kube-system/cilium/app/helm-values.yaml
     needs:
       - observability/prometheus-operator-crds
   - name: coredns
     namespace: kube-system
     chart: coredns/coredns
     version: 1.31.0
-    values: ["./coredns-values.yaml"]
+    values:
+      - ../apps/kube-system/coredns/app/helm-values.yaml
     needs:
       - observability/prometheus-operator-crds
       - kube-system/cilium
@@ -38,7 +40,8 @@ releases:
     namespace: kube-system
     chart: postfinance/kubelet-csr-approver
     version: 1.2.2
-    values: ["./kubelet-csr-approver-values.yaml"]
+    values:
+      - ../apps/kube-system/kubelet-csr-approver/app/helm-values.yaml
     needs:
       - observability/prometheus-operator-crds
       - kube-system/cilium
@@ -47,7 +50,8 @@ releases:
     namespace: kube-system
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
     version: v0.0.23
-    values: ["./spegel-values.yaml"]
+    values:
+      - ../apps/kube-system/spegel/app/helm-values.yaml
     needs:
       - observability/prometheus-operator-crds
       - kube-system/cilium

@@ -20,9 +20,10 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  valuesFrom:
+    - kind: ConfigMap
+      name: kubelet-csr-approver-helm-values
   values:
-    providerRegex: ^(nuc1|nuc2|nuc3)$
-    bypassDnsResolution: true
     metrics:
       enable: true
       serviceMonitor:
