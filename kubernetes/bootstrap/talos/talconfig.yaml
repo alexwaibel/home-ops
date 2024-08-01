@@ -107,7 +107,7 @@ patches:
   - "@./patches/global/disable-search-domain.yaml"
   - "@./patches/global/hostdns.yaml"
   - "@./patches/global/kubelet.yaml"
-  - "@./patches/global/openeb-local.yaml"
+  - "@./patches/global/openebs-local.yaml"
   - "@./patches/global/sysctl.yaml"
 
 controlPlane:
