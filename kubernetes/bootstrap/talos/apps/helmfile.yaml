@@ -46,7 +46,7 @@ releases:
   - name: spegel
     namespace: kube-system
     chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    version: v0.0.22
+    version: v0.0.23
     values: ["./spegel-values.yaml"]
     needs:
       - observability/prometheus-operator-crds
