@@ -115,6 +115,6 @@ spec:
       config:
         type: nfs
         server: 192.168.20.10
-        path: /mnt/Volume3/public
+        path: /mnt/Volume3/volsync
         globalMounts:
           - path: /data
