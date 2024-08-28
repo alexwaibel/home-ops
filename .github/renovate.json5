@@ -11,7 +11,6 @@
     ":timezone(America/Los_Angeles",
     "github>alexwaibel/home-ops//.github/renovate/allowedVersions.json5",
     "github>alexwaibel/home-ops//.github/renovate/autoMerge.json5",
-    "github>alexwaibel/home-ops//.github/renovate/clusters.json5",
     "github>alexwaibel/home-ops//.github/renovate/commitMessage.json5",
     "github>alexwaibel/home-ops//.github/renovate/customManagers.json5",
     "github>alexwaibel/home-ops//.github/renovate/grafanaDashboards.json5",
