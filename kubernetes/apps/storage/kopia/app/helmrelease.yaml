@@ -134,7 +134,7 @@ spec:
           - path: /app/logs
       nas:
         type: nfs
-        server: expanse.internal
+        server: 192.168.20.10
         path: /mnt/Volume3
         globalMounts:
           - path: /data
