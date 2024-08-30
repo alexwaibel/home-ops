@@ -8,7 +8,7 @@
     ":semanticCommits",
     ":skipStatusChecks",
     ":automergeBranch",
-    ":timezone(America/Los_Angeles",
+    ":timezone(America/Los_Angeles)",
     "github>alexwaibel/home-ops//.github/renovate/allowedVersions.json5",
     "github>alexwaibel/home-ops//.github/renovate/autoMerge.json5",
     "github>alexwaibel/home-ops//.github/renovate/commitMessage.json5",
@@ -26,6 +26,8 @@
     "prIgnoreNotification"
   ],
   "rebaseWhen": "conflicted",
+  "onboarding": false,
+  "requireConfig": "ignored",
   "ignorePaths": [
     "**/*.sops.*"
   ],
