@@ -26,8 +26,6 @@
     "prIgnoreNotification"
   ],
   "rebaseWhen": "conflicted",
-  "onboarding": false,
-  "requireConfig": "ignored",
   "ignorePaths": [
     "**/*.sops.*"
   ],
