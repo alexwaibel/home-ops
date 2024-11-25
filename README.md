@@ -117,6 +117,10 @@ You have two different options for setting up your local workstation.
     task talos:bootstrap
     ```
 
+> [!NOTE]  
+> If you already have a running cluster and are only setting up a new development machine you can grab the config files from your password database, place them in the appropriate locations, and Continue on to 🎤 [**Verification Steps**](#-verification-steps)
+> Place `kubectl` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/kubernetes/bootstrap/talos/clusterconfig/talosconfig`
+
 #### Cluster validation
 
 1. The `kubeconfig` for interacting with your cluster should have been created in the root of your repository.
