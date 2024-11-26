@@ -44,4 +44,4 @@ spec:
     bitwarden-sdk-server:
       enabled: true
       podAnnotations:
-        reloader.stakater.com/auto: "true"
+        secret.reloader.stakater.com/reload: "bitwarden-css-certs,bitwarden-secrets-manager,bitwarden-secrets-manager-secrets,bitwarden-tls-certs"
