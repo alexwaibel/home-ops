@@ -25,6 +25,8 @@ spec:
   dependsOn:
     - name: rook-ceph-operator
       namespace: rook-ceph
+    - name: snapshot-controller
+      namespace: volsync-system
   values:
     monitoring:
       enabled: true
@@ -39,12 +41,13 @@ spec:
       enabled: true
     configOverride: |
       [global]
-      bdev_enable_discard = true
-      bdev_async_discard = true
       osd_class_update_on_start = false
     cephClusterSpec:
       crashCollector:
         disable: false
+      csi:
+        readAffinity:
+          enabled: true
       dashboard:
         enabled: true
         urlPrefix: /
@@ -75,31 +78,6 @@ spec:
                     - key: node-role.kubernetes.io/control-plane
                       operator: Exists
         mon: *placement
-      resources:
-        mgr:
-          requests:
-            cpu: 100m
-            memory: 512Mi
-          limits:
-            memory: 2Gi
-        mon:
-          requests:
-            cpu: 50m
-            memory: 512Mi
-          limits:
-            memory: 1Gi
-        osd:
-          requests:
-            cpu: 500m
-            memory: 2Gi
-          limits:
-            memory: 6Gi
-        mgr-sidecar:
-          requests:
-            cpu: 50m
-            memory: 128Mi
-          limits:
-            memory: 256Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
@@ -124,7 +102,7 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
     cephBlockPoolsVolumeSnapshotClass:
-      enabled: false
+      enabled: true
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
