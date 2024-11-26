@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kopia
+  name: zwave
 spec:
   interval: 30m
   chart:
@@ -22,48 +22,34 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   values:
     controllers:
-      kopia:
+      zwave:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: docker.io/kopia/kopia
-              tag: 0.17.0@sha256:51784ce0961940846f4f47cab2d4f58e2e0cb467de357f9a80279b149a00c06e
+              repository: ghcr.io/zwave-js/zwave-js-ui
+              tag: 9.27.7@sha256:b7327c74e9cb228af9fc2817330319d4e57e041767dc40e550fd6577a436ad7d
             env:
               TZ: America/Los_Angeles
-            envFrom:
-              - secretRef:
-                  name: kopia-secret
-            args:
-              - server
-              - start
-              - --insecure
-              - --address
-              - 0.0.0.0:80
-              - --override-hostname
-              - 192.168.20.10
-              - --override-username
-              - alex
-              - --without-password
-              - --metrics-listen-addr
-              - 0.0.0.0:8080
-              - --config-file
-              - /app/config/repository.config
+              PORT: &port 80
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /
-                    port: 80
-                  initialDelaySeconds: 30
-                  periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 6
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
               readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
@@ -71,9 +57,9 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 100m
+                cpu: 10m
               limits:
-                memory: 2Gi
+                memory: 512Mi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -81,27 +67,17 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [10000]
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: kopia
+        controller: zwave
         ports:
           http:
-            port: 80
-          metrics:
-            port: 8080
-    serviceMonitor:
-      app:
-        serviceName: kopia
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
+            port: *port
+          websocket:
+            port: 3000
     ingress:
-      main:
+      app:
         annotations:
           external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
         className: internal
@@ -114,28 +90,12 @@ spec:
                   port: http
     persistence:
       config:
-        type: emptyDir
+        existingClaim: zwave
         globalMounts:
-          - path: /app/config
-      config-file:
-        type: secret
-        name: kopia-repository-secret
-        globalMounts:
-          - path: /app/config/repository.config
-            subPath: repository.config
-            readOnly: true
+          - path: /usr/src/app/store
       cache:
+        existingClaim: zwave-cache
+        globalMounts:
+          - path: /usr/src/app/store/.config-db
+      tmp:
         type: emptyDir
-        globalMounts:
-          - path: /app/cache
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /app/logs
-      nas:
-        type: nfs
-        server: 192.168.20.10
-        path: /mnt/Volume3
-        globalMounts:
-          - path: /data
-            readOnly: true
