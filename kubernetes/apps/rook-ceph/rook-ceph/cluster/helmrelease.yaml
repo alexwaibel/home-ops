@@ -175,7 +175,7 @@ spec:
             csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
             csi.storage.k8s.io/fstype: ext4
     cephFileSystemVolumeSnapshotClass:
-      enabled: false
+      enabled: true
       name: csi-ceph-filesystem
       isDefault: false
       deletionPolicy: Delete
