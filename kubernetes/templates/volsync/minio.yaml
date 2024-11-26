@@ -1,4 +1,29 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/external-secrets.io/externalsecret_v1beta1.json
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: "${APP}-volsync-minio"
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: bitwarden-secrets-manager
+  target:
+    name: "${APP}-volsync-minio-secret"
+  data:
+    - secretKey: RESTIC_REPOSITORY
+      remoteRef:
+        key: volsync-minio-restic-repository-template
+    - secretKey: RESTIC_PASSWORD
+      remoteRef:
+        key: volsync-restic-password
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: volsync-minio-aws-access-key-id
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: volsync-mino-aws-secret-access-key
+---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
