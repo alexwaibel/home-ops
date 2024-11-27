@@ -30,7 +30,7 @@ This is the repo for my home infrastructure including a small kubernetes cluster
 
 1. Download the latest stable release of Talos from their [GitHub releases](https://github.com/siderolabs/talos/releases). You will want to grab the `metal-amd64-secureboot.iso` image [linked here](https://www.talos.dev/v1.6/talos-guides/install/bare-metal-platforms/secureboot/#secureboot-with-sidero-labs-images).
 
-2. Take note of the OS drive serial numbers you will need them later on.
+2. Take  of the OS drive serial numbers you will need them later on.
 
 3. Go to your BOIS and enable secure boot setup mode
 
@@ -194,6 +194,9 @@ _Mic check, 1, 2_ - In a few moments applications should be lighting up like Chr
 
 3. 🏆 **Congratulations** if all goes smooth you will have a Kubernetes cluster managed by Flux and your Git repository is driving the state of your cluster.
 
+> [!WARNING]
+> Once the cluster has stabilized, you must restore the postgres database from backup. See [this commit](https://github.com/alexwaibel/home-ops/commit/ff8c06ed4da086f1da538f922ddf9cf1448dd934) for an example.
+
 ## 📣 Cloudflare post installation
 
 #### 🌐 Public DNS
@@ -279,7 +282,7 @@ Resolving problems that you have could take some tweaking of your YAML manifests
 
 ```sh
 # Upgrade Talos to a newer version
-# NOTE: This needs to be run once on every node
+# : This needs to be run once on every node
 task talos:upgrade node=? image=?
 # e.g.
 # task talos:upgrade node=192.168.42.10 image=factory.talos.dev/installer/${schematic_id}:v1.7.4
@@ -287,7 +290,7 @@ task talos:upgrade node=? image=?
 
 ```sh
 # Upgrade Kubernetes to a newer version
-# NOTE: This only needs to be run once against a controller node
+# : This only needs to be run once against a controller node
 task talos:upgrade-k8s node=? to=?
 # e.g.
 # task talos:upgrade-k8s controller=192.168.42.10 to=1.30.1
