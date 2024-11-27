@@ -14,17 +14,20 @@ spec:
       engineVersion: v2
       data:
         RESTIC_REPOSITORY: "{{ .repositoryTemplate }}/${APP}"
+        RESTIC_PASSWORD: "{{ .password }}"
+        AWS_ACCESS_KEY_ID: "{{ .awsAccessKey }}"
+        AWS_SECRET_ACCESS_KEY: "{{ .awsSecretKey }}"
   data:
     - secretKey: repositoryTemplate
       remoteRef:
         key: volsync-b2-restic-repository-template
-    - secretKey: RESTIC_PASSWORD
+    - secretKey: password
       remoteRef:
         key: volsync-restic-password
-    - secretKey: AWS_ACCESS_KEY_ID
+    - secretKey: awsAccessKey
       remoteRef:
         key: volsync-b2-aws-access-key-id
-    - secretKey: AWS_SECRET_ACCESS_KEY
+    - secretKey: awsSecretKey
       remoteRef:
         key: volsync-b2-aws-secret-access-key
 ---
