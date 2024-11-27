@@ -21,6 +21,7 @@ spec:
     - name: snapshot-controller
       namespace: volsync-system
     - name: external-secrets-stores
+      namespace: external-secrets
   upgrade:
     cleanupOnFail: true
     remediation:
