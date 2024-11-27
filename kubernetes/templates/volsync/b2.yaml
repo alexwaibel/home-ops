@@ -13,9 +13,9 @@ spec:
     template:
       engineVersion: v2
       data:
-        RESTIC_REPOSITORY: "{{ .repository-template }}/${APP}"
+        RESTIC_REPOSITORY: "{{ .repositoryTemplate }}/${APP}"
   data:
-    - secretKey: repository-template
+    - secretKey: repositoryTemplate
       remoteRef:
         key: volsync-b2-restic-repository-template
     - secretKey: RESTIC_PASSWORD
