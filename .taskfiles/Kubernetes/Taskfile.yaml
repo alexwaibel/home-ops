@@ -30,6 +30,17 @@ tasks:
       - msg: Missing kubeconform script
         sh: test -f {{.KUBECONFORM_SCRIPT}}
 
+  sync-secrets:
+    desc: Sync all ExternalSecrets
+    cmds:
+      - for: { var: SECRETS, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
+    vars:
+      SECRETS:
+        sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    preconditions:
+      - which kubectl
+
   .reset:
     internal: true
     cmd: rm -rf {{.KUBERNETES_DIR}}

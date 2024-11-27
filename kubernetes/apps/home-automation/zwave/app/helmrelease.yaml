@@ -25,6 +25,7 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+    - name: external-secrets-stores
   values:
     controllers:
       zwave:

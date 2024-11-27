@@ -17,6 +17,10 @@ spec:
   install:
     remediation:
       retries: 3
+  dependsOn:
+    - name: snapshot-controller
+      namespace: volsync-system
+    - name: external-secrets-stores
   upgrade:
     cleanupOnFail: true
     remediation:
