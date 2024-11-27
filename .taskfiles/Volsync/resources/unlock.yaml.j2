@@ -1,0 +1,35 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: volsync-unlock-{{ ENV.APP }}
+  namespace: {{ ENV.NS }}
+spec:
+  ttlSecondsAfterFinished: 3600
+  template:
+    spec:
+      automountServiceAccountToken: false
+      restartPolicy: OnFailure
+      containers:
+        - name: minio
+          image: docker.io/restic/restic:latest
+          args: ["unlock", "--remove-all"]
+          envFrom:
+            - secretRef:
+                name: {{ ENV.APP }}-volsync-minio-secret
+          volumeMounts:
+            - name: repository
+              mountPath: /repository
+          resources: {}
+        - name: b2
+          image: docker.io/restic/restic:latest
+          args: ["unlock", "--remove-all"]
+          envFrom:
+            - secretRef:
+                name: {{ ENV.APP }}-volsync-b2-secret
+          resources: {}
+      volumes:
+        - name: repository
+          nfs:
+            server: 192.168.20.10
+            path: /mnt/Volume3/minio/Volsync

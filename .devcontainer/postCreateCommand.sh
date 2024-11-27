@@ -12,6 +12,9 @@ fisher install nickeb96/puffer-fish
 fisher install PatrickF1/fzf.fish
 "
 
+# Setup minijinja-cli
+sudo apk add minijinja-cli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+
 # Create/update virtual environment
 if ! grep -q "venv /workspaces/" .venv/pyvenv.cfg; then
     rm -rf .venv
