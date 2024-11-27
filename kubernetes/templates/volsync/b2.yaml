@@ -10,8 +10,12 @@ spec:
     name: bitwarden-secrets-manager
   target:
     name: "${APP}-volsync-b2-secret"
+    template:
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: "{{ .repository-template }}/${APP}"
   data:
-    - secretKey: RESTIC_REPOSITORY
+    - secretKey: repository-template
       remoteRef:
         key: volsync-b2-restic-repository-template
     - secretKey: RESTIC_PASSWORD
@@ -28,7 +32,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: "${APP}-r2"
+  name: "${APP}-b2"
 spec:
   sourcePVC: "${APP}"
   trigger:

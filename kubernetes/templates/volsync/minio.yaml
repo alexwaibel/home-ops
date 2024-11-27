@@ -10,8 +10,12 @@ spec:
     name: bitwarden-secrets-manager
   target:
     name: "${APP}-volsync-minio-secret"
+    template:
+      engineVersion: v2
+      data:
+        RESTIC_REPOSITORY: "{{ .repository-template }}/${APP}"
   data:
-    - secretKey: RESTIC_REPOSITORY
+    - secretKey: repository-template
       remoteRef:
         key: volsync-minio-restic-repository-template
     - secretKey: RESTIC_PASSWORD
