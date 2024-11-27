@@ -2,6 +2,9 @@
 set -e
 set -o noglob
 
+# Setup minijinja-cli
+sudo apk add minijinja-cli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
+
 # Setup fisher plugin manager for fish and install plugins
 /usr/bin/fish -c "
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
@@ -11,9 +14,6 @@ fisher install jorgebucaran/autopair.fish
 fisher install nickeb96/puffer-fish
 fisher install PatrickF1/fzf.fish
 "
-
-# Setup minijinja-cli
-sudo apk add minijinja-cli --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 
 # Create/update virtual environment
 if ! grep -q "venv /workspaces/" .venv/pyvenv.cfg; then
