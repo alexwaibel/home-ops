@@ -112,3 +112,4 @@ spec:
         path: /mnt/Volume3/downloads
         globalMounts:
           - path: /media/Downloads/qbittorrent
+          - subPath: qbittorrent
