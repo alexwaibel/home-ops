@@ -140,12 +140,12 @@ spec:
         globalMounts:
           - path: /media/Downloads/qbittorrent
           - subPath: qbittorrent
-      gluetun-data:
-        type: emptyDir
-        advancedMounts:
-          qbittorrent:
-            gluetun:
-              - path: /tmp/gluetun
-            port-forward:
-              - path: /tmp/gluetun
-                readOnly: true
+      # gluetun-data:
+      #   type: emptyDir
+      #   advancedMounts:
+      #     qbittorrent:
+      #       gluetun:
+      #         - path: /tmp/gluetun
+      #       port-forward:
+      #         - path: /tmp/gluetun
+      #           readOnly: true
