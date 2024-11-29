@@ -139,7 +139,7 @@ spec:
         path: /mnt/Volume3/downloads
         globalMounts:
           - path: /media/Downloads/qbittorrent
-          - subPath: qbittorrent
+            subPath: qbittorrent
       # gluetun-data:
       #   type: emptyDir
       #   advancedMounts:

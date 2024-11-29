@@ -140,3 +140,4 @@ spec:
           orphaned:
             app:
               - path: /media/Downloads/qbittorrent
+                subPath: qbittorrent
