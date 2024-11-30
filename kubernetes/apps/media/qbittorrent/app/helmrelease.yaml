@@ -36,8 +36,11 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.39.1
             env:
+              VPN_SERVICE_PROVIDER: protonvpn
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
+              VPN_PORT_FORWARDING: on
+              VPN_PORT_FORWARDING_PROVIDER: protonvpn
             envFrom:
               - secretRef:
                   name: gluetun-secret
@@ -88,15 +91,15 @@ spec:
                 memory: 2Gi
           port-forward:
             image:
-              repository: docker.io/snoringdragon/gluetun-qbittorrent-port-manager
-              tag: "1.3"
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.2@sha256:2d89e112fb4e2118ea392e23e0f1391395ce6d523ebfd380b8a421054ad7123a
             env:
-              - name: QBITTORRENT_SERVER
-                value: localhost
-              - name: QBITTORRENT_PORT
-                value: *port
-              - name: PORT_FORWARDED
-                value: "/tmp/gluetun/forwarded_port"
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: 8000
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: *port
+              CRON_ENABLED: true
+              CRON_SCHEDULE: "*/5 * * * *"
             securityContext:
               runAsNonRoot: true
               runAsUser: 568
@@ -153,12 +156,3 @@ spec:
         globalMounts:
           - path: /media/Downloads/qbittorrent
             subPath: qbittorrent
-      gluetun-data:
-        type: emptyDir
-        advancedMounts:
-          qbittorrent:
-            gluetun:
-              - path: /tmp/gluetun
-            port-forward:
-              - path: /tmp/gluetun
-                readOnly: true
