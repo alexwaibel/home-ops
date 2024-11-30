@@ -46,7 +46,7 @@ spec:
             env:
               DOT: "off"
               DNS_ADDRESS: "127.0.0.2"
-              VPN_SERVICE_PROVIDER: protonvpn
+              VPN_SERVICE_PROVIDER: custom
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
               VPN_PORT_FORWARDING: on
