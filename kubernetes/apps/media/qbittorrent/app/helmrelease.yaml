@@ -66,7 +66,7 @@ spec:
             dependsOn: app
             image:
               repository: ghcr.io/qdm12/gluetun
-              tag: v3.38.0@sha256:5522794f5cce6d84bc7f06b1e3a3b836ede9100c64aec94543cb503bb2ecb72f
+              tag: v3.39.1
             env:
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
@@ -74,6 +74,8 @@ spec:
               - secretRef:
                   name: gluetun-secret
             securityContext:
+              runAsGroup: 2000
+              runAsUser: 2000
               capabilities:
                 add:
                   - NET_ADMIN
