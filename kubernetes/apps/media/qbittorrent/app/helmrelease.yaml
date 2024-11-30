@@ -30,6 +30,26 @@ spec:
       qbittorrent:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.39.1
+            env:
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+            envFrom:
+              - secretRef:
+                  name: gluetun-secret
+            resources:
+              limits:
+                squat.ai/tun: "1"
+            restartPolicy: Always
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                add:
+                  - NET_ADMIN
         containers:
           app:
             image:
@@ -66,25 +86,6 @@ spec:
                 cpu: 100m
               limits:
                 memory: 2Gi
-          gluetun:
-            dependsOn: app
-            image:
-              repository: ghcr.io/qdm12/gluetun
-              tag: v3.39.1
-            env:
-              VPN_TYPE: wireguard
-              VPN_INTERFACE: wg0
-            envFrom:
-              - secretRef:
-                  name: gluetun-secret
-            resources:
-              limits:
-                squat.ai/tun: "1"
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                add:
-                  - NET_ADMIN
           port-forward:
             dependsOn: gluetun
             image:
