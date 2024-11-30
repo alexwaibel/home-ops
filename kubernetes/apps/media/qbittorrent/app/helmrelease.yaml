@@ -87,7 +87,6 @@ spec:
               limits:
                 memory: 2Gi
           port-forward:
-            dependsOn: gluetun
             image:
               repository: docker.io/snoringdragon/gluetun-qbittorrent-port-manager
               tag: "1.3"
