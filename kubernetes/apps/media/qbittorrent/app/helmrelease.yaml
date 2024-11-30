@@ -76,6 +76,8 @@ spec:
             securityContext:
               runAsGroup: 2000
               runAsUser: 2000
+              runAsNonRoot: false
+              allowPrivilegeEscalation: true
               capabilities:
                 add:
                   - NET_ADMIN
