@@ -77,10 +77,9 @@ spec:
               limits:
                 squat.ai/tun: "1"
             securityContext:
-              runAsGroup: 2000
-              runAsUser: 2000
+              runAsGroup: 0
+              runAsUser: 0
               runAsNonRoot: false
-              allowPrivilegeEscalation: true
               capabilities:
                 add:
                   - NET_ADMIN
