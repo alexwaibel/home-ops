@@ -63,7 +63,6 @@ spec:
             env:
               TZ: America/Los_Angeles
               QBT_WEBUI_PORT: &port 8080
-              QBT_TORRENTING_PORT: &torrentPort 50413
               PUSHOVER_ENABLED: true
             envFrom:
               - secretRef:
@@ -125,10 +124,6 @@ spec:
         ports:
           http:
             port: *port
-          bittorrent:
-            enabled: true
-            port: *torrentPort
-            protocol: TCP
     ingress:
       app:
         annotations:
