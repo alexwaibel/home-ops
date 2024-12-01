@@ -31,15 +31,15 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          dnsdist:
-            image:
-              repository: docker.io/powerdns/dnsdist-19
-              tag: 1.9.7
-            restartPolicy: Always
+          # dnsdist:
+          #   image:
+          #     repository: docker.io/powerdns/dnsdist-19
+          #     tag: 1.9.7
+          #   restartPolicy: Always
 
           gluetun:
-            dependsOn:
-              - dnsdist
+            # dependsOn:
+            #   - dnsdist
             image:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.39.1
@@ -169,12 +169,12 @@ spec:
         globalMounts:
           - path: /media/Downloads/qbittorrent
             subPath: qbittorrent
-      dnsdist:
-        type: configMap
-        name: qbittorrent-dnsdist
-        advancedMounts:
-          qbittorrent:
-            dnsdist:
-              - path: /etc/dnsdist/dnsdist.conf
-                subPath: dnsdist.conf
-                readOnly: true
+      # dnsdist:
+      #   type: configMap
+      #   name: qbittorrent-dnsdist
+      #   advancedMounts:
+      #     qbittorrent:
+      #       dnsdist:
+      #         - path: /etc/dnsdist/dnsdist.conf
+      #           subPath: dnsdist.conf
+      #           readOnly: true
