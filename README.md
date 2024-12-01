@@ -1,4 +1,5 @@
 # ⛵ Home Ops
+![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Ff884a193-fc8d-4da8-ace9-4cf1265c5c25.shields)
 
 This is the repo for my home infrastructure including a small kubernetes cluster.
 
