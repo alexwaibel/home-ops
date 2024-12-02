@@ -75,7 +75,7 @@ spec:
               startup:
                 enabled: true
                 spec:
-                  failureThreshold: 60
+                  failureThreshold: 30
                   periodSeconds: 10
             securityContext:
               runAsNonRoot: true
