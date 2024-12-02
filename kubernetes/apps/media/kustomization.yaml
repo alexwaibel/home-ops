@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   # - ./overseerr/ks.yaml TODO: reenable after plex is set up
+  - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
