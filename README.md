@@ -1,9 +1,11 @@
 # ⛵ Home Ops
+
 ![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Ff884a193-fc8d-4da8-ace9-4cf1265c5c25.shields)
 
 This is the repo for my home infrastructure including a kubernetes cluster. My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Flux](https://github.com/fluxcd/flux2).
 
 ## ✨ Components
+
 - [cert-manager](https://github.com/cert-manager/cert-manager): Automated SSL certificates for services
 - [cilium](https://github.com/cilium/cilium): Internal networking for Kubernetes
 - [cloudflared](https://github.com/cloudflare/cloudflared): Secure access to certain ingresses using [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
@@ -17,6 +19,18 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 - [sops](https://github.com/getsops/sops): Managed Kubernetes secrets which are encrypted and committed to Git
 - [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror
 - [volsync](https://github.com/backube/volsync): Backup and recovery of persistant volume claims to NAS and cloud storage
+
+## Directories
+
+My cluster config can be found in the [kubernetes](./kubernetes/) directory.
+
+```sh
+📁 kubernetes
+├── 📁 apps           # applications
+├── 📁 bootstrap      # bootstrap procedures
+├── 📁 flux           # core flux configuration
+└── 📁 templates      # re-useable components
+```
 
 ## 🔧 Hardware
 
