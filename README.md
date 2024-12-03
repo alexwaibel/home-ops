@@ -159,6 +159,8 @@ You have two different options for setting up your local workstation.
     ```
 
 2. Install Flux and sync the cluster to the Git repository
+> [!WARNING]
+> Make sure to increment the cnpg backup name first. See [this commit](https://github.com/alexwaibel/home-ops/commit/ff8c06ed4da086f1da538f922ddf9cf1448dd934) for an example.
 
     ```sh
     task flux:github-deploy-key
@@ -194,9 +196,6 @@ _Mic check, 1, 2_ - In a few moments applications should be lighting up like Chr
 2. ⚠️ It might take `cert-manager` awhile to generate certificates, this is normal so be patient.
 
 3. 🏆 **Congratulations** if all goes smooth you will have a Kubernetes cluster managed by Flux and your Git repository is driving the state of your cluster.
-
-> [!WARNING]
-> Once the cluster has stabilized, you must restore the postgres database from backup. See [this commit](https://github.com/alexwaibel/home-ops/commit/ff8c06ed4da086f1da538f922ddf9cf1448dd934) for an example.
 
 ## 📣 Cloudflare post installation
 
