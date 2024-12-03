@@ -1,18 +1,22 @@
 # ⛵ Home Ops
 ![Alertmanager](https://img.shields.io/endpoint?url=https%3A%2F%2Fhealthchecks.io%2Fb%2F2%2Ff884a193-fc8d-4da8-ace9-4cf1265c5c25.shields)
 
-This is the repo for my home infrastructure including a small kubernetes cluster.
+This is the repo for my home infrastructure including a kubernetes cluster. My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Flux](https://github.com/fluxcd/flux2).
 
-## ✨ Features
-
-1. **"Flux cluster with Cloudflare"** - a Kubernetes cluster running on [Talos](https://github.com/siderolabs/talos) using [Cloudflare](https://www.cloudflare.com/) for DNS and SSL and [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/) to provide external access to certain applications deployed in the cluster. Deploys an opinionated implementation of [Flux](https://github.com/fluxcd/flux2) using [GitHub](https://github.com/) as the Git provider and [sops](https://github.com/getsops/sops) to manage secrets.
-
-    - **Components:** [Cilium](https://github.com/cilium/cilium), [flux](https://github.com/fluxcd/flux2), [cert-manager](https://github.com/cert-manager/cert-manager), [spegel](https://github.com/spegel-org/spegel), [reloader](https://github.com/stakater/Reloader), [openebs](https://github.com/openebs/openebs), [ingress-nginx](https://github.com/kubernetes/ingress-nginx/), [external-dns](https://github.com/kubernetes-sigs/external-dns) and [cloudflared](https://github.com/cloudflare/cloudflared).
-
-**Other features include:**
-
-- [Renovate](https://www.mend.io/renovate) for dependency upgrades with pull request diffs provided by [flux-local](https://github.com/allenporter/flux-local)
-- [GitHub Actions](https://github.com/features/actions) for repo maintenance workflows.
+## ✨ Components
+- [cert-manager](https://github.com/cert-manager/cert-manager): Automated SSL certificates for services
+- [cilium](https://github.com/cilium/cilium): Internal networking for Kubernetes
+- [cloudflared](https://github.com/cloudflare/cloudflared): Secure access to certain ingresses using [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
+- [external-dns](https://github.com/kubernetes-sigs/external-dns): DNS record sync between ingress and DNS provider
+- [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets with [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/)
+- [nginx-ingress](https://github.com/kubernetes/ingress-nginx): Kubernetes ingress controller using NGINX as a reverse proxy and load balancer
+- [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistant storage
+- [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
+- [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)
+- [rook](https://www.cloudflare.com/products/tunnel/): Distributed block storage using Ceph for persistant storage
+- [sops](https://github.com/getsops/sops): Managed Kubernetes secrets which are encrypted and committed to Git
+- [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror
+- [volsync](https://github.com/backube/volsync): Backup and recovery of persistant volume claims to NAS and cloud storage
 
 ## 🔧 Hardware
 
