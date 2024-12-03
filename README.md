@@ -35,7 +35,7 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 
 1. Download the latest stable release of Talos from their [GitHub releases](https://github.com/siderolabs/talos/releases). You will want to grab the `metal-amd64-secureboot.iso` image [linked here](https://www.talos.dev/v1.6/talos-guides/install/bare-metal-platforms/secureboot/#secureboot-with-sidero-labs-images).
 
-2. Take  of the OS drive serial numbers you will need them later on.
+2. Take note of the OS drive serial numbers you will need them later on.
 
 3. Go to your BOIS and enable secure boot setup mode
 
