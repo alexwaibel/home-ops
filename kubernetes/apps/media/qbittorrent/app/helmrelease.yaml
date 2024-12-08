@@ -152,5 +152,5 @@ spec:
         server: 192.168.20.10
         path: /mnt/Volume3/media/downloads
         globalMounts:
-          - path: /media/Downloads/qbittorrent
+          - path: /media/downloads/qbittorrent
             subPath: qbittorrent
