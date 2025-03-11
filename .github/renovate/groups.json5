@@ -38,6 +38,22 @@
     },
     {
       "description": [
+        "Intel Device Plugins Group"
+      ],
+      "groupName": "Intel-Device-Plugins",
+      "matchDatasources": [
+        "helm"
+      ],
+      "matchPackageNames": [
+        "/intel-device-plugins-operator/",
+        "/intel-device-plugins-gpu/"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      }
+    },
+    {
+      "description": [
         "Rook-Ceph Group"
       ],
       "groupName": "Rook-Ceph",
