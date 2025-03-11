@@ -102,6 +102,12 @@ patches:
             - slot: 0
               tpm: {}
 
+  - # Tag nodes as having Intel integrated GPU
+    |-
+    machine:
+      nodeLabels:
+        intel.feature.node.kubernetes.io/gpu: "true"
+
   - "@./patches/global/cluster-discovery.yaml"
   - "@./patches/global/containerd.yaml"
   - "@./patches/global/disable-search-domain.yaml"
