@@ -10,7 +10,7 @@
 
 ## Setup
 On the new target machine
-1. Boot into nixos minimal iso
+1. Boot into nixos minimal using the latest [`nixos-installer-x86_64-linux.iso`](https://github.com/nix-community/nixos-images)
 1. Set a password with `passwd`
 1. Determine machine's IP with `ip addr`
 1. Confirm you can ssh into the machine with `ssh -v nixos@{TARGET_IP}`
@@ -18,4 +18,4 @@ On the new target machine
 On your local workstation
 1. `git clone https://github.com/alexwaibel/home-ops.git`
 1. `cd home-ops`
-1. `nix run github:nix-community/nixos-anywhere -- --flake './nix#nix-nas' --generate-hardware-config nixos-facter facter.json --target-host nixos@{TARGET_IP}`
+1. `nix run github:nix-community/nixos-anywhere -- --flake '.#nix-nas' --generate-hardware-config nixos-facter facter.json --target-host root@{TARGET_IP}`
