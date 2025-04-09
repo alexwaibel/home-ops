@@ -19,3 +19,4 @@ On your local workstation
 1. `git clone https://github.com/alexwaibel/home-ops.git`
 1. `cd home-ops/nix`
 1. `nix run github:nix-community/nixos-anywhere -- --flake '.#nix-nas' --generate-hardware-config nixos-facter facter.json --target-host root@{TARGET_IP}`
+  - When asked, enter the boot encryption password
