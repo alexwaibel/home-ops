@@ -16,7 +16,6 @@
   boot.loader.grub = {
     # no need to set devices, disko will add these
     # devices: [ ];
-    enable = true;
     zfsSupport = true;
     efiSupport = true;
     efiInstallAsRemovable = true;
