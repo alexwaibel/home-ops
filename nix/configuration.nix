@@ -14,8 +14,8 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   boot.loader.grub = {
-    # no need to set devices, disko will add these
-    # devices: [ ];
+    # no need to set device, disko will add these
+    device = "nodev";
     zfsSupport = true;
     efiSupport = true;
     efiInstallAsRemovable = true;
