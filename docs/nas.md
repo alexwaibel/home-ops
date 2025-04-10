@@ -11,12 +11,9 @@
 ## Setup
 On the new target machine
 1. Boot into nixos minimal using the latest [`nixos-installer-x86_64-linux.iso`](https://github.com/nix-community/nixos-images)
-1. Set a password with `passwd`
-1. Determine machine's IP with `ip addr`
-1. Confirm you can ssh into the machine with `ssh -v nixos@{TARGET_IP}`
+    - Note the IP and root password shown on the screen
 
-On your local workstation
-1. `git clone https://github.com/alexwaibel/home-ops.git`
-1. `cd home-ops/nix`
-1. `nix run github:nix-community/nixos-anywhere -- --flake '.#nix-nas' --generate-hardware-config nixos-facter facter.json --target-host root@{TARGET_IP}`
-  - When asked, enter the boot encryption password
+On your local workstation (must be running Nix)
+1. `nix-shell -p bitwarden-cli go-task`
+1. `bw login`
+1. `task nix:nas-install ip={TARGET_IP}`

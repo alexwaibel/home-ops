@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  NIX_DIR: "{{.ROOT_DIR}}/nix"
+  NIX_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/Nix/resources"
+
+tasks:
+  nas-install:
+    desc: Install Nix on NAS
+    prompt: This will destroy any production machine you point it to. Use only on freshly provisioned machines ... continue?
+    summary: |
+      ip: IP address of the new NAS machine
+    dir: "{{.NIX_DIR}}"
+    requires:
+      vars: ["ip"]
+    vars:
+      ip: "{{.ip}}"
+    cmds:
+      - bash {{.NIX_RESOURCES_DIR}}/nas-install.sh {{.ip}}

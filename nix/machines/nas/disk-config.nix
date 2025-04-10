@@ -109,8 +109,11 @@
             options = {
               encryption = "aes-256-gcm";
               keyformat = "passphrase";
-              keylocation = "prompt";
+              keylocation = "file:///tmp/secret.key";
             };
+            postCreateHook = ''
+              zfs set keylocation="prompt" "zroot/$name";
+            '';
             mountpoint = "/";
           };
           "root/nix" = {
@@ -176,9 +179,11 @@
             options = {
               encryption = "aes-256-gcm";
               keyformat = "passphrase";
-              # keylocation = "file:///tmp/secret.key";
-              keylocation = "prompt";
+              keylocation = "file:///tmp/secret.key";
             };
+            postCreateHook = ''
+              zfs set keylocation="file:///root/secret.key" "data/$name";
+            '';
             mountpoint = "/data";
           };
         };
