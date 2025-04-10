@@ -27,6 +27,70 @@
           };
         };
       };
+      data1 = {
+        type = "disk";
+        device = "/dev/sdb";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "data";
+              };
+            };
+          };
+        };
+      };
+      data2 = {
+        type = "disk";
+        device = "/dev/sdc";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "data";
+              };
+            };
+          };
+        };
+      };
+      data3 = {
+        type = "disk";
+        device = "/dev/sdd";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "data";
+              };
+            };
+          };
+        };
+      };
+      data4 = {
+        type = "disk";
+        device = "/dev/sde";
+        content = {
+          type = "gpt";
+          partitions = {
+            zfs = {
+              size = "100%";
+              content = {
+                type = "zfs";
+                pool = "data";
+              };
+            };
+          };
+        };
+      };
     };
     zpool = {
       zroot = {
@@ -45,11 +109,9 @@
             options = {
               encryption = "aes-256-gcm";
               keyformat = "passphrase";
-              #keylocation = "file:///tmp/secret.key";
               keylocation = "prompt";
             };
             mountpoint = "/";
-
           };
           "root/nix" = {
             type = "zfs_fs";
@@ -73,6 +135,51 @@
               secondarycache = "none";
               "com.sun:auto-snapshot" = "false";
             };
+          };
+        };
+      };
+      data = {
+        type = "zpool";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [
+              {
+                mode = "mirror";
+                members = [
+                  "data1"
+                  "data2"
+                ];
+              }
+              {
+                mode = "mirror";
+                members = [
+                  "data3"
+                  "data4"
+                ];
+              }
+            ];
+          };
+        };
+
+        rootFsOptions = {
+          mountpoint = "none";
+          compression = "zstd";
+          acltype = "posixacl";
+          xattr = "sa";
+          "com.sun:auto-snapshot" = "false";
+        };
+        datasets = {
+          # See examples/zfs.nix for more comprehensive usage.
+          "data" = {
+            type = "zfs_fs";
+            options = {
+              encryption = "aes-256-gcm";
+              keyformat = "passphrase";
+              # keylocation = "file:///tmp/secret.key";
+              keylocation = "prompt";
+            };
+            mountpoint = "/data";
           };
         };
       };
