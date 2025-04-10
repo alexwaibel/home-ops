@@ -45,10 +45,6 @@ spec:
                 cpu: 50m
               limits:
                 memory: 1250Mi
-    defaultPodOptions:
-      securityContext:
-        runAsNonRoot: true
-        seccompProfile: { type: RuntimeDefault }
     service:
       app:
         controller: unifi
