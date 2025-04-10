@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: volsync
-  path: ./kubernetes/apps/media/unifi/app
+  path: ./kubernetes/apps/network/unifi/app
   prune: true
   sourceRef:
     kind: GitRepository
