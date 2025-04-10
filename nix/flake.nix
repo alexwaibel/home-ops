@@ -15,7 +15,7 @@
       system = "x86_64-linux";
       modules = [
         disko.nixosModules.disko
-        ./configuration.nix
+        ./machines/nas/configuration.nix
         nixos-facter-modules.nixosModules.facter
         {
           config.facter.reportPath =
