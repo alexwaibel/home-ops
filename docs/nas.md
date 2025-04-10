@@ -17,3 +17,7 @@ On your local workstation (must be running Nix)
 1. `nix-shell -p bitwarden-cli go-task`
 1. `bw login`
 1. `task nix:nas-install ip={TARGET_IP}`
+1. Enter your bitwarden master password when prompted
+1. Enter the Nix installer root password when prompted
+1. Wait for the install to complete.
+1. On reboot, enter the encryption password. You must manually enter this every time the NAS reboots
