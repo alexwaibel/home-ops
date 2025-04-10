@@ -29,14 +29,14 @@
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
-    root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ./id_rsa.pub);
+    root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
     alex = {
       isNormalUser = true;
       extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       packages = with pkgs; [
         tree
       ];
-      openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ./id_rsa.pub);
+      openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
     };
   };
   # List packages installed in system profile. To search, run:
