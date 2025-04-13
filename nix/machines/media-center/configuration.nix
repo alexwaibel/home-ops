@@ -36,7 +36,7 @@
   };
 
   networking.hostName = "media-center"; # Define your hostname.
-  networking.hostId = "70277c71";
+  networking.hostId = "36ce7dcd";
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
   time.timeZone = "America/Los_Angeles";
