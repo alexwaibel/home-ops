@@ -9,21 +9,11 @@ fi
 
 IP="$1"
 
-temp=$(mktemp -d)
-
-cleanup() {
-    rm -rf "$temp"
-}
-trap cleanup EXIT
-
-install -d -m700 "$temp/root"
-
 export BW_SESSION=$(bw unlock --raw)
-bw get item "nix-nas" | jq -r '.fields[] | select(.name=="Encryption Password") | .value' > "$temp/root/secret.key"
 
 nix run github:nix-community/nixos-anywhere -- \
-  --disk-encryption-keys /tmp/secret.key "$temp/root/secret.key" \
+  --disk-encryption-keys /tmp/secret.key <(bw get item "Media Center Mini PC" | jq -r '.fields[] | select(.name=="Encryption Password") | .value') \
   --extra-files "$temp" \
-  --flake '.#nix-nas' \
+  --flake '.#media-center' \
   --generate-hardware-config nixos-facter facter.json \
   --target-host root@"$IP"
