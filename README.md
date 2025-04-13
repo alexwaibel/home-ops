@@ -23,6 +23,23 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 | ADJ PC-100A             | -     | -         | -          | -    | -        | PDU                    |
 | CyberPower OR500LCDRM1U | -     | -         | -          | -    | -        | UPS                    |
 
+## ☁️ Cloud Dependencies
+
+I try to self-host as much of my infrastructure as possible, but there are some instances where I opt to rely on cloud services. I do this primarily for scenarios such as secrets management and uptime alerting that need to be available whether or not the cluster is online. All backups to public cloud storage are encrypted.
+
+| Service                                    | Use                                                               | Cost           |
+|--------------------------------------------|-------------------------------------------------------------------|----------------|
+| [Backblaze B2](https://www.backblaze.com/) | Backups                                                           | ~$100/yr       |
+| [Bitwarden](https://bitwarden.com/)        | Secrets with [External Secrets](https://external-secrets.io/)     | $10/yr         |
+| [Cloudflare](https://www.cloudflare.com/)  | Domain and tunnel                                                 | ~$30/yr        |
+| [GCP](https://cloud.google.com/)           | Voice interactions with Home Assistant over Google Assistant      | Free           |
+| [GitHub](https://github.com/)              | Hosting this repository and continuous integration/deployments    | Free           |
+| [Google Drive](https://drive.google.com/)  | OPNsense backups                                                  | Free           |
+| [Healthchecks](https://healthchecks.io/)   | Monitoring internet connectivity and external facing applications | Free           |
+| [Migadu](https://migadu.com/)              | Email hosting                                                     | ~$20/yr        |
+| [Pushover](https://pushover.net/)          | Kubernetes Alerts and application notifications                   | $5 OTP         |
+|                                            |                                                                   | Total: ~$15/mo |
+
 ## 🤝 Thanks
 
 A huge thank you for all the maintainers of the dependencies used by this project as well as onedr0p for the awesome [cluster template](https://github.com/onedr0p/cluster-template) which was used to initially create this repo. If you'd like to get started with your own cluster be sure to check it out.

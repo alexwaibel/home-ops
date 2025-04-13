@@ -21,6 +21,20 @@
     efiInstallAsRemovable = true;
   };
 
+  boot.initrd.network = {
+    enable = true;
+    ssh = {
+      enable = true;
+      port = 2222;
+      hostKeys = [/root/ssh_host_ed25519.key];
+      authorizedKeys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+    };
+    postCommands = ''
+      zpool import -a
+      echo "zfs load-key -a; killall zfs" >> /root/.profile
+    '';
+  };
+
   networking.hostName = "media-center"; # Define your hostname.
   networking.hostId = "70277c71";
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
