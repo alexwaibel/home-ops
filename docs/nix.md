@@ -42,6 +42,9 @@ On your local workstation (must be running Nix)
 1. Wait for the install to complete.
 1. On reboot, enter the encryption password. You must manually enter this (via PiKVM on NAS and SSH on media center) every time the machine reboots
 
+> [!IMPORTANT]  
+> Something is wrong with copying hostKeys to initrd. To resolve this, after first install you must do `ssh root@{TARGET_IP} "ssh-keygen -t ed25519 -N \"\" -f /etc/secrets/initrd/ssh_host_ed25519_key"` to create a new key, uncomment `boot.initrd.secrets`, then `nix-rebuild switch --flake .#media-center --target-host root@{TARGET_IP}`.
+
 ## Deploying Changes
 
 Whenever changes are made to the nix config for a machine, you can apply the new config remotely
