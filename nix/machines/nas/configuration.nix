@@ -13,12 +13,9 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  boot.loader.grub = {
-    # no need to set device, disko will add these
-    device = "nodev";
-    zfsSupport = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
   networking.hostName = "nix-nas"; # Define your hostname.

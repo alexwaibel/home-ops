@@ -13,14 +13,9 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  boot.kernelParams = [ "ip=dhcp" ];
-
-  boot.loader.grub = {
-    # no need to set device, disko will add these
-    device = "nodev";
-    zfsSupport = true;
-    efiSupport = true;
-    efiInstallAsRemovable = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
   };
 
   boot.initrd = {
@@ -30,19 +25,15 @@
       ssh = {
         enable = true;
         port = 2222;
-        hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+        hostKeys = [ /etc/secrets/initrd/ssh_host_ed25519_key ];
         authorizedKeys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
       };
-      postCommands = ''
-        zpool import -a
-        echo "zfs load-key -a; killall zfs" >> /root/.profile
-      '';
     };
   };
 
   networking.hostName = "media-center"; # Define your hostname.
   networking.hostId = "36ce7dcd";
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.useDHCP = true;
 
   time.timeZone = "America/Los_Angeles";
 
