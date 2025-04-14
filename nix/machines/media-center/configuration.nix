@@ -33,6 +33,9 @@
         echo "zfs load-key -a; killall zfs" >> /root/.profile
       '';
     };
+    secrets = {
+      "/etc/secrets/initrd/ssh_host_ed25519_key" = "/etc/secrets/initrd/ssh_host_ed25519_key";
+    };
   };
 
   networking.hostName = "media-center"; # Define your hostname.
