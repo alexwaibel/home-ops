@@ -28,6 +28,10 @@
         hostKeys = [ /etc/secrets/initrd/ssh_host_ed25519_key ];
         authorizedKeys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
       };
+      postCommands = ''
+        zpool import -a
+        echo "zfs load-key -a; killall zfs" >> /root/.profile
+      '';
     };
   };
 
