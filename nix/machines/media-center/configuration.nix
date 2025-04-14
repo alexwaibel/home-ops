@@ -13,6 +13,8 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  boot.kernelParams = [ "ip=dhcp" ];
+
   boot.loader.grub = {
     # no need to set device, disko will add these
     device = "nodev";
@@ -21,18 +23,21 @@
     efiInstallAsRemovable = true;
   };
 
-  boot.initrd.network = {
-    enable = true;
-    ssh = {
+  boot.initrd = {
+    availableKernelModules = [ "virtio-pci" ];
+    network = {
       enable = true;
-      port = 2222;
-      hostKeys = [/root/ssh_host_ed25519.key];
-      authorizedKeys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+      ssh = {
+        enable = true;
+        port = 2222;
+        hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+        authorizedKeys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+      };
+      postCommands = ''
+        zpool import -a
+        echo "zfs load-key -a; killall zfs" >> /root/.profile
+      '';
     };
-    postCommands = ''
-      zpool import -a
-      echo "zfs load-key -a; killall zfs" >> /root/.profile
-    '';
   };
 
   networking.hostName = "media-center"; # Define your hostname.
