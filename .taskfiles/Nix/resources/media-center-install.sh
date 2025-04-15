@@ -25,5 +25,5 @@ nix run github:nix-community/nixos-anywhere -- \
   --disk-encryption-keys /tmp/secret.key <(bw get item "Media Center Mini PC" | jq -r '.fields[] | select(.name=="Encryption Password") | .value') \
   --extra-files "$temp" \
   --flake '.#media-center' \
-  --generate-hardware-config nixos-facter facter.json \
+  --generate-hardware-config nixos-facter ./machines/media-center/facter.json \
   --target-host root@"$IP"

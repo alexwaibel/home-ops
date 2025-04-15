@@ -43,4 +43,4 @@ tasks:
       ip: "{{.ip}}"
       hostname: "{{.hostname}}"
     cmds:
-      - nixos-rebuild switch --flake .#{{.hostname}} --target-host root@{{.ip}} --build-host localhost --verbose
+      - nixos-rebuild switch --flake .#{{.hostname}} --target-host root@{{.ip}} --verbose

@@ -27,4 +27,3 @@ wiki
 .nx
 # Nix
 !nix/id_rsa.pub
-**/facter.json

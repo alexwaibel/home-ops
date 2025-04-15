@@ -19,10 +19,10 @@
         nixos-facter-modules.nixosModules.facter
         {
           config.facter.reportPath =
-            if builtins.pathExists ./facter.json then
-              ./facter.json
+            if builtins.pathExists ./machines/nas/facter.json then
+              ./machines/nas/facter.json
             else
-              throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./facter.json`?";
+              throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./machines/nas/facter.json`?";
         }
       ];
     };
@@ -34,10 +34,10 @@
         nixos-facter-modules.nixosModules.facter
         {
           config.facter.reportPath =
-            if builtins.pathExists ./facter.json then
-              ./facter.json
+            if builtins.pathExists ./machines/media-center/facter.json then
+              ./machines/media-center/facter.json
             else
-              throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./facter.json`?";
+              throw "Have you forgotten to run nixos-anywhere with `--generate-hardware-config nixos-facter ./machines/media-center/facter.json`?";
         }
       ];
     };

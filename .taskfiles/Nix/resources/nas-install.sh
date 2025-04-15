@@ -25,5 +25,5 @@ nix run github:nix-community/nixos-anywhere -- \
   --disk-encryption-keys /tmp/secret.key "$temp/root/secret.key" \
   --extra-files "$temp" \
   --flake '.#nix-nas' \
-  --generate-hardware-config nixos-facter facter.json \
+  --generate-hardware-config nixos-facter ./machines/nas/facter.json \
   --target-host root@"$IP"

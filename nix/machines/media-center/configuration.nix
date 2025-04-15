@@ -33,9 +33,9 @@
         echo "zfs load-key -a; killall zfs" >> /root/.profile
       '';
     };
-    # secrets = {
-    #   "/etc/secrets/initrd/ssh_host_ed25519_key" = /etc/secrets/initrd/ssh_host_ed25519_key;
-    # };
+    secrets = {
+      "/etc/secrets/initrd/ssh_host_ed25519_key" = /etc/secrets/initrd/ssh_host_ed25519_key;
+    };
   };
 
   networking.hostName = "media-center"; # Define your hostname.
@@ -44,13 +44,55 @@
 
   time.timeZone = "America/Los_Angeles";
 
+  services.xserver = {
+    enable = true;
+    desktopManager = {
+      xterm.enable = false;
+      xfce.enable = true;
+    };
+  };
+  services.displayManager.defaultSession = "xfce";
+
+  programs.virt-manager.enable = true;
+  virtualisation.libvirtd.enable = true;
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.docker.enable = true;
+
+  # virtualisation.oci-containers.containers = {
+  #   docker-osx = {
+  #     devices = [
+  #       "/dev/kvm"
+  #     ];
+  #     ports = [
+  #       "50922:10022"
+  #     ];
+  #     volumes = [
+  #       "/tmp/.X11-unix:/tmp/.X11-unix"
+  #     ];
+  #     environment = {
+  #       DISPLAY = "${DISPLAY:-:0.0}";
+  #       GENERATE_UNIQUE = "true";
+  #       CPU = "Haswell-noTSX";
+  #       CPUID_FLAGS = "kvm=on,vendor=GenuineIntel,+invtsc,vmware-cpuid-freq=on";
+  #       MASTER_PLIST_URL = "https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom-sonoma.plist";
+  #       SHORTNAME = "sequoia";
+  #     };
+  #     image = "sickcodes/docker-osx:latest";
+  #   };
+  # };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users = {
     root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
     alex = {
       isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+      extraGroups = [
+        "wheel" # Enable 'sudo' for the user.
+        "docker"
+        "libvirtd" ];
       packages = with pkgs; [
+        firefox
+        hyperion-ng
         tree
       ];
       openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
@@ -69,11 +111,29 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  systemd.services.hyperion = {
+    description = "Hyperion ambient light systemd service";
+    documentation = [ "https://docs.hyperion-project.org" ];
+    requisite = [ "network.target" ];
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" "systemd-resolved.service" ];
+    serviceConfig = {
+      ExecStart = ''${pkgs.hyperion-ng}/bin/hyperiond'';
+      WorkingDirectory = ''${pkgs.hyperion-ng}/share/hyperion/bin'';
+      # WorkingDirectory = "/run/current-system/sw/share/hyperion/bin";
+      User = "alex";
+      TimeoutStopSec = 5;
+      KillMode = "mixed";
+      Restart = "on-failure";
+      RestartSec = 2;
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.allowedTCPPorts = [
+    8090 # hyperion-ng
+  ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
