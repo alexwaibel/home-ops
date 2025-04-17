@@ -54,48 +54,88 @@
   services.displayManager.defaultSession = "xfce";
 
   programs.virt-manager.enable = true;
-  virtualisation.libvirtd.enable = true;
-  virtualisation.spiceUSBRedirection.enable = true;
-  virtualisation.docker.enable = true;
 
-  # virtualisation.oci-containers.containers = {
-  #   docker-osx = {
-  #     devices = [
-  #       "/dev/kvm"
-  #     ];
-  #     ports = [
-  #       "50922:10022"
-  #     ];
-  #     volumes = [
-  #       "/tmp/.X11-unix:/tmp/.X11-unix"
-  #     ];
-  #     environment = {
-  #       DISPLAY = "${DISPLAY:-:0.0}";
-  #       GENERATE_UNIQUE = "true";
-  #       CPU = "Haswell-noTSX";
-  #       CPUID_FLAGS = "kvm=on,vendor=GenuineIntel,+invtsc,vmware-cpuid-freq=on";
-  #       MASTER_PLIST_URL = "https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom-sonoma.plist";
-  #       SHORTNAME = "sequoia";
-  #     };
-  #     image = "sickcodes/docker-osx:latest";
-  #   };
-  # };
+  virtualisation = {
+    libvirtd.enable = true;
+    spiceUSBRedirection.enable = true;
+    containers.enable = true;
+    podman = {
+      enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
+    oci-containers = {
+      backend = "podman";
+      containers = {
+        # Uncomment if you need to do first time setup
+        # First run `qemu-img create -f qcow2 /home/bluebubbles/maindisk.qcow2 128G`
+        # bluebubbles-setup = {
+        #   devices = [
+        #     "/dev/kvm"
+        #   ];
+        #   ports = [
+        #     "5999:5999"
+        #   ];
+        #   volumes = [
+        #     "/tmp/.X11-unix:/tmp/.X11-unix"
+        #     "/home/bluebubbles/maindisk.qcow2:/image"
+        #   ];
+        #   environment = {
+        #     IMAGE_PATH = "/image";
+        #     EXTRA = "-display none -vnc 0.0.0.0:99,password-secret=secvnc0 -object secret,id=secvnc0,data=vncpass";
+        #     DISPLAY = ":99";
+        #     WIDTH = 1920;
+        #     HEIGHT = 1080;
+        #     GENERATE_UNIQUE = true;
+        #   };
+        #   image = "sickcodes/docker-osx:ventura";
+        # };
+      };
+    };
+  };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users = {
-    root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
-    alex = {
-      isNormalUser = true;
-      extraGroups = [
-        "wheel" # Enable 'sudo' for the user.
-        "docker"
-        "libvirtd" ];
-      packages = with pkgs; [
-        firefox
-        hyperion-ng
-        tree
-      ];
-      openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+  users = {
+    users = {
+      root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+
+      hyperion = {
+        description = "User for Hyperion service";
+        isSystemUser = true;
+        group = "hyperion";
+        packages = with pkgs; [
+          hyperion-ng
+        ];
+      };
+
+      bluebubbles = {
+        description = "User for BlueBubbles service";
+        isSystemUser = true;
+        group = "bluebubbles";
+        extraGroups = [ "docker" "libvirtd" ];
+        packages = with pkgs; [
+          podman-compose
+        ];
+      }
+
+      # Define a user account. Don't forget to set a password with ‘passwd’.
+      alex = {
+        isNormalUser = true;
+        extraGroups = [
+          "wheel" # Enable 'sudo' for the user.
+          "docker"
+          "libvirtd" ];
+        packages = with pkgs; [
+          firefox
+          podman-tui
+          tigervnc
+          tree
+        ];
+        openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+      };
+    };
+    groups = {
+      hyperion = {};
+      bluebubbles = {};
     };
   };
   # List packages installed in system profile. To search, run:
@@ -120,8 +160,7 @@
     serviceConfig = {
       ExecStart = ''${pkgs.hyperion-ng}/bin/hyperiond'';
       WorkingDirectory = ''${pkgs.hyperion-ng}/share/hyperion/bin'';
-      # WorkingDirectory = "/run/current-system/sw/share/hyperion/bin";
-      User = "alex";
+      User = "hyperion";
       TimeoutStopSec = 5;
       KillMode = "mixed";
       Restart = "on-failure";
