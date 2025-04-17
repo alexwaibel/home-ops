@@ -33,9 +33,9 @@
         echo "zfs load-key -a; killall zfs" >> /root/.profile
       '';
     };
-    secrets = {
-      "/etc/secrets/initrd/ssh_host_ed25519_key" = /etc/secrets/initrd/ssh_host_ed25519_key;
-    };
+    # secrets = {
+    #   "/etc/secrets/initrd/ssh_host_ed25519_key" = /etc/secrets/initrd/ssh_host_ed25519_key;
+    # };
   };
 
   networking.hostName = "media-center"; # Define your hostname.
@@ -159,7 +159,9 @@
     after = [ "network-online.target" "systemd-resolved.service" ];
     serviceConfig = {
       ExecStart = ''${pkgs.hyperion-ng}/bin/hyperiond'';
-      WorkingDirectory = ''${pkgs.hyperion-ng}/share/hyperion/bin'';
+      StateDirectory = "hyperion";
+      WorkingDirectory = "/var/lib/hyperion";
+      Environment = "HOME=/var/lib/hyperion";
       User = "hyperion";
       TimeoutStopSec = 5;
       KillMode = "mixed";
