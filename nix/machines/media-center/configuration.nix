@@ -13,6 +13,8 @@
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  boot.kernelModules = [ "kvm-intel" ];
+
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -110,8 +112,9 @@
       bluebubbles = {
         description = "User for BlueBubbles service";
         isSystemUser = true;
+        createHome = true;
         group = "bluebubbles";
-        extraGroups = [ "docker" "libvirtd" ];
+        extraGroups = [ "libvirtd" ];
         packages = with pkgs; [
           podman-compose
         ];
@@ -122,7 +125,6 @@
         isNormalUser = true;
         extraGroups = [
           "wheel" # Enable 'sudo' for the user.
-          "docker"
           "libvirtd" ];
         packages = with pkgs; [
           firefox
