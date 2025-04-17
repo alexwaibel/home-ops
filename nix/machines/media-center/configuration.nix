@@ -115,7 +115,7 @@
         packages = with pkgs; [
           podman-compose
         ];
-      }
+      };
 
       # Define a user account. Don't forget to set a password with ‘passwd’.
       alex = {
