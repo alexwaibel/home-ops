@@ -179,6 +179,7 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     8090 # hyperion-ng
+    19444 # hyperion-ng
   ];
 
   # This option defines the first version of NixOS you have installed on this particular machine,
