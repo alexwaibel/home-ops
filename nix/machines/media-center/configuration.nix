@@ -104,6 +104,7 @@
         description = "User for Hyperion service";
         isSystemUser = true;
         group = "hyperion";
+        extraGroups = [ "video" ];
         packages = with pkgs; [
           hyperion-ng
         ];
@@ -138,6 +139,7 @@
     groups = {
       hyperion = {};
       bluebubbles = {};
+      video = {};
     };
   };
   # List packages installed in system profile. To search, run:
