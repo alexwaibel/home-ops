@@ -104,7 +104,7 @@
         description = "User for Hyperion service";
         isSystemUser = true;
         group = "hyperion";
-        extraGroups = [ "video" ];
+        extraGroups = [ "dialout" "video" ];
         packages = with pkgs; [
           hyperion-ng
         ];
@@ -137,8 +137,9 @@
       };
     };
     groups = {
-      hyperion = {};
       bluebubbles = {};
+      dialout = {};
+      hyperion = {};
       video = {};
     };
   };
