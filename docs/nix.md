@@ -27,7 +27,7 @@ Used for a few random services I don't have a good alternative for:
 
 - [Beelink MINI S12 N100](https://www.bee-link.com/products/beelink-mini-s12-pro-n100)
 
-## Setup
+## Install NixOS
 
 On the new target machine
 1. Boot into nixos minimal using the latest [`nixos-installer-x86_64-linux.iso`](https://github.com/nix-community/nixos-images)
@@ -46,12 +46,23 @@ On your local workstation (must be running Nix)
 > Something is wrong with copying hostKeys to initrd. To resolve this:
 > 1. `ssh root@{TARGET_IP} "ssh-keygen -t ed25519 -N \"\" -f /etc/secrets/initrd/ssh_host_ed25519_key"` to create a new key
 > 1. Uncomment `boot.initrd.secrets`
-> 1. `task nix:deploy-config ip={TARGET_IP} hostname={TARGET_HOSTNAME}` to reload the config and copy the new key to initrd
+> 1. `task nix:rebuild ip={TARGET_IP} hostname={TARGET_HOSTNAME}` to reload the config and copy the new key to initrd
 
-## Deploying Changes
+## Post Install
+
+### Deploying Changes
 
 Whenever changes are made to the nix config for a machine, you can apply the new config remotely
 
 ```sh
-task nix:deploy-config ip={TARGET_IP} hostname={TARGET_HOSTNAME}
+task nix:rebuild ip={TARGET_IP} hostname={TARGET_HOSTNAME}
 ```
+
+### Media Center Machine Setup
+
+#### Hyperion
+1. Ensure USB devices for HDMI capture card and LED lights are plugged in
+1. Download Hyperion config from Bitwarden
+1. Navigate to `{MACHINE_IP}:8090`
+1. In the Hyperion interface go to "General" and import the config
+1. Set a password for the UI when prompted

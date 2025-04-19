@@ -31,7 +31,7 @@ tasks:
       ip: "{{.ip}}"
     cmds:
       - bash {{.NIX_RESOURCES_DIR}}/media-center-install.sh {{.ip}}
-  deploy-config:
+  rebuild:
     desc: Apply a nix configuration to a remote machine
     summary: |
       ip: IP address of the target machine
