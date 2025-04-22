@@ -39,8 +39,13 @@ On your local workstation (must be running Nix)
 1. `task nix:nas-install ip={TARGET_IP}` or `task nix:media-center-install ip={TARGET_IP}` depending which machine you're provisioning
 1. Enter your bitwarden master password when prompted
 1. Enter the Nix installer root password when prompted
-1. Wait for the install to complete.
-1. On reboot, enter the encryption password. You must manually enter this (via PiKVM on NAS and SSH on media center) every time the machine reboots
+1. Wait for the install to complete
+1. On reboot, enter the encryption password manually. This must be done whenever the machine is rebooted
+    - Via PiKVM for machines in the rack
+    - SSH for things like `media-center` that are outside the rack
+      ```shell
+      ssh -p 2222 root@{TARGET_IP}
+      ```
 
 > [!IMPORTANT]  
 > Something is wrong with copying hostKeys to initrd. To resolve this:
@@ -66,3 +71,41 @@ task nix:rebuild ip={TARGET_IP} hostname={TARGET_HOSTNAME}
 1. Navigate to `{MACHINE_IP}:8090`
 1. In the Hyperion interface go to "General" and import the config
 1. Set a password for the UI when prompted
+
+#### BlueBubbles
+1. Use `ssh root@{TARGET_IP} "passwd alex"` to set the alex user password then reboot the machine
+1. SSH into the machine
+1. `qemu-img create -f qcow2 maindisk.qcow2 128G`
+1.  Do some first time setup
+    ```
+    docker run \
+    -i \
+    --name bluebubbles-setup \
+    --dns=1.1.1.1 \
+    --device /dev/kvm \
+    -p 50922:10022 \
+    -p 5999:5999 \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -v $PWD/maindisk.qcow2:/image \
+    -e GENERATE_UNIQUE=true \
+    -e MASTER_PLIST_URL='https://raw.githubusercontent.com/sickcodes/osx-serial-generator/master/config-custom.plist' \
+    -e SHORTNAME=ventura \
+    -e IMAGE_PATH="/image" \
+    -e "DISPLAY=${DISPLAY:-:0.0}" \
+    -e EXTRA="-display none -vnc 0.0.0.0:99,password=on" \
+    sickcodes/docker-osx:latest
+    ```
+1. In the terminal type `change vnc password` to set a VNC password
+1. Log in to the machine, go to "Applications" > "Run Program" and type `vncviewer localhost:5999`
+1. Select "Disk Utility"
+1. Pick the larger of the `QEMU HARRDDISK Media` and select "Erase"
+1. Fill in any drive name and click "Erase"
+1. Close out and select "reinstall macOS"
+1. Once booted up, send an iMessage to yourself to ensure everything works
+1. `docker cp bluebubbles-setup:/home/arch/OSX-KVM/OpenCore/OpenCore.qcow2 ./bootdisk.qcow2`
+1. `docker ps` then `docker stop {CONTAINER_ID}` and `docker rm {CONTAINER_ID}`
+1. `sudo mv maindisk.qcow2 /home/bluebubbles/maindisk.qcow2 && sudo mv bootdisk.qcow2 /home/bluebubbles/bootdisk.qcow2`
+1. Create a tunnel for the VNC connection with `ssh -N root@{TARGET_IP} -L  5999:127.0.0.1:5999`
+1. Use a VNC client to connect to `localhost:5999` and download and install BlueBubbles.
+    - Enable auto login in macos
+    - In BlueBubbles settings, enable "Startup with MacOS"

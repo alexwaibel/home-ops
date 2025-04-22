@@ -69,29 +69,36 @@
     oci-containers = {
       backend = "podman";
       containers = {
-        # Uncomment if you need to do first time setup
-        # First run `qemu-img create -f qcow2 /home/bluebubbles/maindisk.qcow2 128G`
-        # bluebubbles-setup = {
-        #   devices = [
-        #     "/dev/kvm"
-        #   ];
-        #   ports = [
-        #     "5999:5999"
-        #   ];
-        #   volumes = [
-        #     "/tmp/.X11-unix:/tmp/.X11-unix"
-        #     "/home/bluebubbles/maindisk.qcow2:/image"
-        #   ];
-        #   environment = {
-        #     IMAGE_PATH = "/image";
-        #     EXTRA = "-display none -vnc 0.0.0.0:99,password-secret=secvnc0 -object secret,id=secvnc0,data=vncpass";
-        #     DISPLAY = ":99";
-        #     WIDTH = 1920;
-        #     HEIGHT = 1080;
-        #     GENERATE_UNIQUE = true;
-        #   };
-        #   image = "sickcodes/docker-osx:ventura";
-        # };
+        # TODO: Convert `extraOptions` to `devices` and set `podman.user` when available, probably in nixos 25.11
+        bluebubbles = {
+          image = "sickcodes/docker-osx:latest";
+          autoStart = true;
+          extraOptions = [
+            "--device=/dev/kvm"
+            "--dns=1.1.1.1"
+          ];
+          ports = [
+            "5999:5999"
+            "1234:1234"
+            "50922:10022"
+          ];
+          volumes = [
+            "/tmp/.X11-unix:/tmp/.X11-unix"
+            "/home/bluebubbles/maindisk.qcow2:/image"
+            "/home/bluebubbles/bootdisk.qcow2:/bootdisk"
+          ];
+          environment = {
+            IMAGE_PATH = "/image";
+            BOOTDISK = "/bootdisk";
+            EXTRA = "-display none -vnc 0.0.0.0:99,password-secret=secvnc0 -object secret,id=secvnc0,data=vncpass";
+            ADDITIONAL_PORTS = "hostfwd=tcp::1234-:1234,";
+            DISPLAY = ":99";
+            WIDTH = "1920";
+            HEIGHT = "1080";
+            NOPICKER = "true";
+            SHORTNAME = "ventura";
+          };
+        };
       };
     };
   };
