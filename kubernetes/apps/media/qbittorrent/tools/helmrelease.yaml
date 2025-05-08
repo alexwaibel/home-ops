@@ -134,8 +134,8 @@ spec:
             readOnly: true
       media:
         type: nfs
-        server: 192.168.20.10
-        path: /mnt/Volume3/media/downloads
+        server: 192.168.20.11
+        path: /data/media/downloads
         advancedMounts:
           orphaned:
             app:
