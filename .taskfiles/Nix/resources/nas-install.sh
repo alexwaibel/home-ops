@@ -22,8 +22,9 @@ export BW_SESSION=$(bw unlock --raw)
 bw get item "nix-nas" | jq -r '.fields[] | select(.name=="Encryption Password") | .value' > "$temp/root/secret.key"
 
 nix run github:nix-community/nixos-anywhere -- \
+  --disko-mode disko \
   --disk-encryption-keys /tmp/secret.key "$temp/root/secret.key" \
   --extra-files "$temp" \
-  --flake '.#nix-nas' \
+  --flake '.#nas' \
   --generate-hardware-config nixos-facter ./machines/nas/facter.json \
   --target-host root@"$IP"

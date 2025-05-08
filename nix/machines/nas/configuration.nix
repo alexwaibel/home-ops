@@ -18,22 +18,30 @@
     efi.canTouchEfiVariables = true;
   };
 
-  networking.hostName = "nix-nas"; # Define your hostname.
+  networking.hostName = "nas"; # Define your hostname.
   networking.hostId = "70277c70";
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true;
 
   time.timeZone = "America/Los_Angeles";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users = {
-    root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
-    alex = {
-      isNormalUser = true;
-      extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-      packages = with pkgs; [
-        tree
-      ];
-      openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+  users = {
+    users = {
+      root.openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+      alex = {
+        uid = 568;
+        group = "users";
+        extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+        packages = with pkgs; [
+          tree
+        ];
+        openssh.authorizedKeys.keys = lib.splitString "\n" (builtins.readFile ../../id_rsa.pub);
+      };
+    };
+    groups = {
+      users = {
+        gid = 100;
+      };
     };
   };
   # List packages installed in system profile. To search, run:
@@ -46,15 +54,25 @@
 
   environment.variables.EDITOR = "vim";
 
+  services.nfs.server = {
+    enable = true;
+    # fixed rpc.statd port; for firewall
+    lockdPort = 4001;
+    mountdPort = 4002;
+    statdPort = 4000;
+    extraNfsdConfig = '''';
+  };
+
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
+  networking.firewall = {
+    enable = true;
+    # for NFSv3; view with `rpcinfo -p`
+    allowedTCPPorts = [ 111  2049 4000 4001 4002 20048 ];
+    allowedUDPPorts = [ 111 2049 4000 4001  4002 20048 ];
+  };
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #

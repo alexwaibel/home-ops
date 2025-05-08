@@ -109,3 +109,10 @@ task nix:rebuild ip={TARGET_IP} hostname={TARGET_HOSTNAME}
 1. Use a VNC client to connect to `localhost:5999` and download and install BlueBubbles.
     - Enable auto login in macos
     - In BlueBubbles settings, enable "Startup with MacOS"
+
+### NAS Machine Setup
+
+#### Data
+1. Restore either a cloud backup with Kopia, or a local backup with rclone. Place data in the `/data` directory
+1. `sudo chmod 770 /data`
+1. `sudo chown -R alex:users /data`
