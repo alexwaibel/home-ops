@@ -25,3 +25,5 @@ wiki
 # Bootstrap
 /config.yaml
 .nx
+# Nix
+!nix/id_rsa.pub

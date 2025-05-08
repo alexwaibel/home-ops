@@ -28,6 +28,7 @@ env:
 includes:
   bootstrap: .taskfiles/Bootstrap
   kubernetes: .taskfiles/Kubernetes
+  nix: .taskfiles/Nix
   flux: .taskfiles/Flux
   repository: .taskfiles/Repository
   talos: .taskfiles/Talos
