@@ -14,14 +14,15 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 
 ## 🔧 Hardware
 
-| Device                  | Count | OS Disk   | Data Disk  | RAM  | OS       | Purpose                |
-|-------------------------|-------|-----------|------------|------|----------|------------------------|
-| Protectli VP2410        | 1     | 1TB SSD   | -          | 16GB | OPNSense | Router                 |
-| TP-Link SG2016P         | 1     | -         | -          | -    | -        | 1Gb PoE Switch         |
-| Intel NUC11PAHi7        | 3     | 500GB SSD | 1TB NVMe   | 32GB | Talos    | Kubernetes Controllers |
-| Custom Tower            | 1     | -         | 4x12TB HDD | 32GB | Debian   | NFS                    |
-| ADJ PC-100A             | -     | -         | -          | -    | -        | PDU                    |
-| CyberPower OR500LCDRM1U | -     | -         | -          | -    | -        | UPS                    |
+| Device                       | Count | OS Disk   | Data Disk  | RAM  | OS       | Purpose                |
+|------------------------------|-------|-----------|------------|------|----------|------------------------|
+| Protectli VP2410             | 1     | 1TB SSD   | -          | 16GB | OPNSense | Router                 |
+| TP-Link SG2016P              | 1     | -         | -          | -    | -        | 1Gb PoE Switch         |
+| PiKVM V4 Plus + PiKVM Switch | 1     | 32GB SD   | -          | 4GB  | PiKVM    | KVM                    |
+| Intel NUC11PAHi7             | 3     | 500GB SSD | 1TB NVMe   | 32GB | Talos    | Kubernetes Controllers |
+| Custom NAS                   | 1     | 1TB NVMe  | 4x12TB HDD | 32GB | NixOS    | NFS                    |
+| ADJ PC-100A                  | -     | -         | -          | -    | -        | PDU                    |
+| CyberPower OR500LCDRM1U      | -     | -         | -          | -    | -        | UPS                    |
 
 ## ☁️ Cloud Dependencies
 
