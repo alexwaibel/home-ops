@@ -90,9 +90,10 @@ patches:
   - # Configure DNS
     |-
     machine:
-      nameservers:
-        - '1.1.1.1'
-        - '1.0.0.1'
+      network:
+        nameservers:
+          - 1.1.1.1
+          - 1.0.0.1
 
   - # Encrypt system disk with TPM
     |-
