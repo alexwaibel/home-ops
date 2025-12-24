@@ -43,6 +43,8 @@ spec:
       [global]
       osd_class_update_on_start = false
     cephClusterSpec:
+      cleanupPolicy:
+        wipeDevicesFromOtherClusters: true
       crashCollector:
         disable: false
       csi:
