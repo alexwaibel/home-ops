@@ -34,7 +34,7 @@ spec:
           init-db:
             image:
               repository: ghcr.io/home-operations/postgres-init
-              tag: 17
+              tag: 18
             envFrom: &envFrom
               - secretRef:
                   name: radarr-secret
@@ -42,7 +42,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 5.25.0.10024@sha256:512dee5af5226f4952413fac01d599e89a24107f21ae451ef44644c779bf4f7d
+              tag: 6.1.0.10309@sha256:10f94c85f605d42e5e78de928f24758b5750a4e99eee8d0ef9ff150f7a2df033
             env:
               RADARR__APP__INSTANCENAME: Radarr
               RADARR__APP__THEME: dark

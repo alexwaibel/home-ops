@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 9.2.1
+      version: 10.4.0
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -31,7 +31,7 @@ spec:
   values:
     extraInitContainers:
       - name: 01-init-db
-        image: ghcr.io/home-operations/postgres-init:17
+        image: ghcr.io/home-operations/postgres-init:18
         envFrom:
           - secretRef:
               name: &secret grafana-secret
@@ -183,7 +183,7 @@ spec:
         node-exporter-full:
           # renovate: depName="Node Exporter Full"
           gnetId: 1860
-          revision: 40
+          revision: 42
           datasource: Prometheus
         spegel:
           # renovate: depName="Spegel"
@@ -229,12 +229,12 @@ spec:
         kubernetes-api-server:
           # renovate: depName="Kubernetes / System / API Server"
           gnetId: 15761
-          revision: 19
+          revision: 20
           datasource: Prometheus
         kubernetes-coredns:
           # renovate: depName="Kubernetes / System / CoreDNS"
           gnetId: 15762
-          revision: 20
+          revision: 22
           datasource: Prometheus
         kubernetes-global:
           # renovate: depName="Kubernetes / Views / Global"
@@ -244,12 +244,12 @@ spec:
         kubernetes-namespaces:
           # renovate: depName="Kubernetes / Views / Namespaces"
           gnetId: 15758
-          revision: 42
+          revision: 44
           datasource: Prometheus
         kubernetes-nodes:
           # renovate: depName="Kubernetes / Views / Nodes"
           gnetId: 15759
-          revision: 35
+          revision: 40
           datasource: Prometheus
         kubernetes-pods:
           # renovate: depName="Kubernetes / Views / Pods"
@@ -272,7 +272,7 @@ spec:
         prometheus:
           # renovate: depName="Prometheus"
           gnetId: 19105
-          revision: 7
+          revision: 8
           datasource: Prometheus
       unifi:
         unifi-insights:
