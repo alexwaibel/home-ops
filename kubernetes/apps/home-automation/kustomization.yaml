@@ -5,6 +5,7 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./esphome/ks.yaml
   - ./home-assistant/ks.yaml
   - ./zigbee2mqtt/ks.yaml
   - ./zwave/ks.yaml
