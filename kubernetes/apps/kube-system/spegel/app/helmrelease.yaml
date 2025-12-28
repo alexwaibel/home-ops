@@ -26,5 +26,9 @@ spec:
   values:
     grafanaDashboard:
       enabled: true
+      mode: GrafanaOperator
+      grafanaOperator:
+        matchLabels:
+          grafana.internal/instance: grafana
     serviceMonitor:
       enabled: true
