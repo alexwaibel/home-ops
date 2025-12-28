@@ -11,8 +11,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    name: home-kubernetes
   targetNamespace: observability
   wait: true
 ---
@@ -32,7 +31,6 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    name: home-kubernetes
   targetNamespace: observability
   wait: false
