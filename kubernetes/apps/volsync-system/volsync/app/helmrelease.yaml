@@ -4,28 +4,15 @@ kind: HelmRelease
 metadata:
   name: volsync
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: volsync
-      version: 0.14.0
-      sourceRef:
-        kind: HelmRepository
-        name: backube
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: volsync
   dependsOn:
     - name: minio
       namespace: storage
     - name: snapshot-controller
       namespace: volsync-system
+  interval: 1h
   values:
     manageCRDs: true
     metrics:

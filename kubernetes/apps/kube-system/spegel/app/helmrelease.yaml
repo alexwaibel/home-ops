@@ -4,27 +4,16 @@ kind: HelmRelease
 metadata:
   name: spegel
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: spegel
-      version: 0.6.0
-      sourceRef:
-        kind: HelmRepository
-        name: spegel
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  valuesFrom:
-    - kind: ConfigMap
-      name: spegel-helm-values
+  chartRef:
+    kind: OCIRepository
+    name: spegel
+  interval: 1h
   values:
-    grafanaDashboard:
-      enabled: true
+    spegel:
+      containerdSock: /run/containerd/containerd.sock
+      containerdRegistryConfigPath: /etc/cri/conf.d/hosts
+    service:
+      registry:
+        hostPort: 29999
     serviceMonitor:
       enabled: true

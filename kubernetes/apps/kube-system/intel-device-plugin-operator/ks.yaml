@@ -1,14 +1,9 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app intel-device-plugin-operator
-  namespace: flux-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: HelmRelease
@@ -17,24 +12,17 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/kube-system/intel-device-plugin-operator/app
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app intel-device-plugin-gpu
-  namespace: flux-system
 spec:
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: intel-device-plugin-operator
   healthChecks:
@@ -50,10 +38,8 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/kube-system/intel-device-plugin-operator/gpu
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
     namespace: flux-system
   targetNamespace: *namespace
-  timeout: 5m

@@ -2,41 +2,39 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app dragonfly
-  namespace: flux-system
+  name: dragonfly
 spec:
-  targetNamespace: database
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
+  interval: 1h
   path: ./kubernetes/apps/database/dragonfly/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  wait: false
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app dragonfly-cluster
-  namespace: flux-system
+  name: dragonfly-cluster
 spec:
-  targetNamespace: database
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
   dependsOn:
     - name: dragonfly
+  interval: 1h
   path: ./kubernetes/apps/database/dragonfly/cluster
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  wait: false
