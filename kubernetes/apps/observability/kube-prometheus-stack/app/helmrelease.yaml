@@ -20,11 +20,13 @@ spec:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
-      ingress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: internal
-        hosts: ["alertmanager.${SECRET_DOMAIN}"]
+      route:
+        app:
+          hostnames:
+            - "alertmanager.${SECRET_DOMAIN}"
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
       alertmanagerSpec:
         replicas: 3
         useExistingSecret: true
@@ -74,11 +76,13 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
-      ingress:
-        enabled: true
-        ingressClassName: internal
-        pathType: Prefix
-        hosts: ["prometheus.${SECRET_DOMAIN}"]
+      route:
+      app:
+        hostnames:
+          - "prometheus.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__

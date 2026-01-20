@@ -37,22 +37,16 @@ spec:
                 memory: 4Gi
     service:
       app:
-        controller: *app
         ports:
           http:
-            port: &port 6052
-    ingress:
+            port: 6052
+    route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
-        className: internal
-        hosts:
-          - host: "esphome.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       config:
         existingClaim: esphome

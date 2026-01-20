@@ -17,12 +17,15 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    ingress:
+    route:
       dashboard:
-        ingressClassName: internal
         host:
           name: "rook.${SECRET_DOMAIN}"
           path: /
+          pathType: PathPrefix
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     toolbox:
       enabled: true
     configOverride: |
@@ -203,9 +206,3 @@ spec:
           volumeBindingMode: Immediate
           parameters:
             region: us-east-1
-        ingress:
-          enabled: true
-          ingressClassName: internal
-          host:
-            name: "rgw.${SECRET_DOMAIN}"
-            path: /
