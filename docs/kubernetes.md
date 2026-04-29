@@ -10,13 +10,13 @@ My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Fl
 - [envoy](https://www.envoyproxy.io/): API gateway
 - [external-dns](https://github.com/kubernetes-sigs/external-dns): DNS record sync between ingress and DNS provider
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets with [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/)
-- [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistant storage
+- [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistent storage
 - [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
 - [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)
-- [rook](https://www.cloudflare.com/products/tunnel/): Distributed block storage using Ceph for persistant storage
+- [rook](https://rook.io/): Distributed block storage using Ceph for persistent storage
 - [sops](https://github.com/getsops/sops): Managed Kubernetes secrets which are encrypted and committed to Git
 - [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror
-- [volsync](https://github.com/backube/volsync): Backup and recovery of persistant volume claims to NAS and cloud storage
+- [volsync](https://github.com/backube/volsync): Backup and recovery of persistent volume claims to NAS and cloud storage
 
 ## Directories
 
@@ -64,7 +64,6 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 
     ```sh
     mise trust
-    pip install pipx
     mise install
     ```
 
@@ -79,7 +78,7 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
     helm registry logout ghcr.io
     ```
 
-6. Continue on to ⛵ [**Stage 2**](#-stage-3-install-kubernetes)
+6. Continue on to ⛵ [**Stage 2**](#-stage-2-install-kubernetes)
 
 ### ⛵ Stage 2: Install Kubernetes
 
@@ -108,7 +107,7 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 
 > [!NOTE]
 > If you already have a running cluster and are only setting up a new development machine you can grab the config files from your password database, place them in the appropriate locations, and Continue on to 🎤 [**Verification Steps**](#-verification-steps)
-> Place `kubeconfig` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/kubernetes/bootstrap/talos/clusterconfig/talosconfig`
+> Place `kubeconfig` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/talos/clusterconfig/talosconfig`
 
 #### Cluster validation
 
@@ -159,17 +158,17 @@ The `external-dns` application created in the `networking` namespace will handle
 
 #### 🏠 Home DNS
 
-`k8s_gateway` will provide DNS resolution to external Kubernetes resources (i.e. points of entry to the cluster) from any device that uses your home DNS server. For this to work, your home DNS server must be configured to forward DNS queries for `${bootstrap_cloudflare.domain}` to `${bootstrap_cloudflare.gateway_vip}` instead of the upstream DNS server(s) it normally uses. This is a form of **split DNS** (aka split-horizon DNS / conditional forwarding).
+`k8s-gateway` will provide DNS resolution to external Kubernetes resources (i.e. points of entry to the cluster) from any device that uses your home DNS server. For this to work, your home DNS server needs to have a conditional forward set up for your domain to the `k8s-gateway` load balancer IP.
 
 > [!TIP]
 > Below is how to configure a Pi-hole for split DNS. Other platforms should be similar.
-> 1. Apply this file on the Pihole server while substituting the variables
+> 1. Apply this file on the Pi-hole server while substituting the variables
 > ```sh
 > # /etc/dnsmasq.d/99-k8s-gateway-forward.conf
-> server=/${bootstrap_cloudflare.domain}/${bootstrap_cloudflare.gateway_vip}
+> server=/<your-domain>/<k8s-gateway-lb-ip>
 > ```
 > 2. Restart dnsmasq on the server.
-> 3. Query an internal-only subdomain from your workstation (any `internal` class ingresses): `dig @${home-dns-server-ip} echo-server-internal.${bootstrap_cloudflare.domain}`. It should resolve to `${bootstrap_cloudflare.ingress_vip}`.
+> 3. Query an internal-only subdomain from your workstation (any `internal` class routes): `dig @<home-dns-server-ip> echo-server-internal.<your-domain>`. It should resolve to your internal gateway IP.
 
 If you're having trouble with DNS be sure to check out these two GitHub discussions: [Internal DNS](https://github.com/onedr0p/cluster-template/discussions/719) and [Pod DNS resolution broken](https://github.com/onedr0p/cluster-template/discussions/635).
 
