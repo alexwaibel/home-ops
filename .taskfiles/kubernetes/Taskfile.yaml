@@ -1,0 +1,39 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  KUBECONFORM_SCRIPT: "{{.SCRIPTS_DIR}}/kubeconform.sh"
+
+tasks:
+  resources:
+    desc: Gather common resources in your cluster, useful when asking for support
+    cmds:
+      - for: { var: resource }
+        cmd: kubectl get {{.ITEM}} {{.CLI_ARGS | default "-A"}}
+    vars:
+      resource: >-
+        nodes
+        gitrepositories
+        kustomizations
+        helmrepositories
+        helmreleases
+        certificates
+        certificaterequests
+        ingresses
+        pods
+
+  sync-secrets:
+    desc: Sync all ExternalSecrets
+    cmds:
+      - for: { var: SECRETS, split: "\n" }
+        cmd: kubectl --namespace {{splitList "," .ITEM | first}} annotate externalsecret {{splitList "," .ITEM | last}} force-sync="{{now | unixEpoch}}" --overwrite
+    vars:
+      SECRETS:
+        sh: kubectl get externalsecret --all-namespaces --no-headers --output=jsonpath='{range .items[*]}{.metadata.namespace},{.metadata.name}{"\n"}{end}'
+    preconditions:
+      - which kubectl
+
+  .reset:
+    internal: true
+    cmd: rm -rf {{.KUBERNETES_DIR}}

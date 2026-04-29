@@ -5,7 +5,8 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ../../../../templates/volsync
+  - ./ocirepository.yaml
+  - ../../../../components/volsync
 configMapGenerator:
   - name: bazarr-scripts
     files:

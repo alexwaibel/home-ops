@@ -4,22 +4,10 @@ kind: HelmRelease
 metadata:
   name: promtail
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: promtail
-      version: 6.17.1
-      sourceRef:
-        kind: HelmRepository
-        name: grafana
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: promtail
+  interval: 1h
   values:
     fullnameOverride: promtail
     config:

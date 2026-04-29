@@ -1,44 +1,38 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app emqx
-  namespace: flux-system
+  name: emqx
 spec:
-  targetNamespace: database
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: external-secrets-stores
+  interval: 1h
   path: ./kubernetes/apps/database/emqx/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: true
-  interval: 30m
-  timeout: 5m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  wait: false
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app emqx-cluster
-  namespace: flux-system
+  name: emqx-cluster
 spec:
-  targetNamespace: database
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  dependsOn:
-    - name: emqx
+  interval: 1h
   path: ./kubernetes/apps/database/emqx/cluster
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: true
-  interval: 30m
-  timeout: 5m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: database
+  wait: false

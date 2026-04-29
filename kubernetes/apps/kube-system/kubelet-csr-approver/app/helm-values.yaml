@@ -1,3 +1,0 @@
----
-providerRegex: ^(nuc1|nuc2|nuc3)$
-bypassDnsResolution: true

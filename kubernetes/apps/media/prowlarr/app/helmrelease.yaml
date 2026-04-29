@@ -5,23 +5,10 @@ kind: HelmRelease
 metadata:
   name: prowlarr
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: prowlarr
+  interval: 1h
   values:
     controllers:
       prowlarr:
@@ -84,22 +71,16 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: prowlarr
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
-        className: internal
-        hosts:
-          - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       config:
         type: emptyDir
