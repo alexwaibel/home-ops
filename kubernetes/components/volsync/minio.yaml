@@ -29,7 +29,7 @@ spec:
         key: volsync-minio-aws-access-key-id
     - secretKey: awsSecretKey
       remoteRef:
-        key: volsync-mino-aws-secret-access-key
+        key: volsync-minio-aws-secret-access-key
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
 apiVersion: volsync.backube/v1alpha1
