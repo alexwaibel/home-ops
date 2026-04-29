@@ -6,10 +6,10 @@ My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Fl
 
 - [cert-manager](https://github.com/cert-manager/cert-manager): Automated SSL certificates for services
 - [cilium](https://github.com/cilium/cilium): Internal networking for Kubernetes
-- [cloudflared](https://github.com/cloudflare/cloudflared): Secure access to certain ingresses using [Cloudflare Tunnel](https://www.cloudflare.com/products/tunnel/)
+- [cloudflare-tunnel](https://www.cloudflare.com/products/tunnel/): Secure access to external gateway
+- [envoy](https://www.envoyproxy.io/): API gateway
 - [external-dns](https://github.com/kubernetes-sigs/external-dns): DNS record sync between ingress and DNS provider
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets with [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/)
-- [nginx-ingress](https://github.com/kubernetes/ingress-nginx): Kubernetes ingress controller using NGINX as a reverse proxy and load balancer
 - [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistant storage
 - [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
 - [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)
@@ -25,9 +25,8 @@ My cluster config can be found in the [kubernetes](../kubernetes/) directory.
 ```sh
 📁 kubernetes
 ├── 📁 apps           # applications
-├── 📁 bootstrap      # bootstrap procedures
-├── 📁 flux           # core flux configuration
-└── 📁 templates      # re-useable components
+├── 📁 components     # re-usable kustomize components
+└── 📁 flux           # flux system configuration
 ```
 
 ## 💻 Machine Preparation
@@ -55,152 +54,102 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 
 ### 🌱 Stage 1: Setup your local workstation
 
-First clone the repo to your local workstation and `cd` into it.
+1. Clone the repo to your local workstation and `cd` into it.
 
-You have two different options for setting up your local workstation.
+2. **Install** the [Mise CLI](https://mise.jdx.dev/getting-started.html#installing-mise-cli) on your workstation.
 
-- First option is using a `devcontainer` which requires you to have Docker and VSCode installed. This method is the fastest to get going because all the required CLI tools are provided for you.
-- The second option is setting up the CLI tools directly on your workstation.
+3. **Activate** Mise in your shell by following the [activation guide](https://mise.jdx.dev/getting-started.html#activate-mise).
 
-#### Devcontainer method
-
-1. Start Docker and open your repository in VSCode. There will be a pop-up asking you to use the `devcontainer`, click the button to start using it.
-
-2. Continue on to 🔧 [**Stage 3**](#-stage-3-bootstrap-configuration)
-
-#### Non-devcontainer method
-
-1. Install the most recent version of [task](https://taskfile.dev/), see the [installation docs](https://taskfile.dev/installation/) for other supported platforms.
+4. Use `mise` to install the **required** CLI tools:
 
     ```sh
-    # Homebrew
-    brew install go-task
-    # or, Arch
-    pacman -S --noconfirm go-task && ln -sf /usr/bin/go-task /usr/local/bin/task
+    mise trust
+    pip install pipx
+    mise install
     ```
 
-2. Install the most recent version of [direnv](https://direnv.net/), see the [installation docs](https://direnv.net/docs/installation.html) for other supported platforms.
+   📍 _**Having trouble installing the tools?** Try unsetting the `GITHUB_TOKEN` env var and then run these commands again_
+
+   📍 _**Having trouble compiling Python?** Try running `mise settings python.compile=0` and then run these commands again_
+
+5. Logout of GitHub Container Registry (GHCR) as this may cause authorization problems when using the public registry:
 
     ```sh
-    # Homebrew
-    brew install direnv
-    # or, Arch
-    pacman -S --noconfirm direnv
+    docker logout ghcr.io
+    helm registry logout ghcr.io
     ```
 
-    📍 _After `direnv` is installed be sure to **[hook it into your preferred shell](https://direnv.net/docs/hook.html)** and then run `task workstation:direnv`_
-
-3. Install the additional **required** CLI tools
-
-   📍 _**Not using Homebrew or ArchLinux?** Try using the generic Linux task below, if that fails check out the [Brewfile](.taskfiles/Workstation/Brewfile)/[Archfile](.taskfiles/Workstation/Archfile) for what CLI tools needed and install them._
-
-    ```sh
-    # Homebrew
-    task workstation:brew
-    # or, Arch with yay/paru
-    task workstation:arch
-    # or, Generic Linux (YMMV, this pulls binaires in to ./bin)
-    task workstation:generic-linux
-    ```
-
-4. Setup a Python virtual environment by running the following task command.
-
-    📍 _This commands requires Python 3.11+ to be installed._
-
-    ```sh
-    task workstation:venv
-    ```
-
-5. Continue on to ⛵ [**Stage 2**](#-stage-3-install-kubernetes)
+6. Continue on to ⛵ [**Stage 2**](#-stage-3-install-kubernetes)
 
 ### ⛵ Stage 2: Install Kubernetes
 
 #### Talos
 
-1. Deploy your cluster and bootstrap it. This generates secrets, generates the config files for your nodes and applies them. It bootstraps the cluster afterwards, fetches the kubeconfig file and installs Cilium and kubelet-csr-approver. It finishes with some health checks.
+> [!WARNING]
+> It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd>, you likely will need to [reset the cluster](#-reset) before trying again
+
+1. Install talos
 
     ```sh
-    task talos:bootstrap
+    task bootstrap:talos
     ```
 
-> [!NOTE]  
+2. Install cilium, coredns, spegel, flux and sync the cluster to the repository state:
+
+    ```sh
+    task bootstrap:apps
+    ```
+
+3. Watch the rollout of your cluster happen:
+
+    ```sh
+    kubectl get pods --all-namespaces --watch
+    ```
+
+> [!NOTE]
 > If you already have a running cluster and are only setting up a new development machine you can grab the config files from your password database, place them in the appropriate locations, and Continue on to 🎤 [**Verification Steps**](#-verification-steps)
-> Place `kubectl` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/kubernetes/bootstrap/talos/clusterconfig/talosconfig`
+> Place `kubeconfig` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/kubernetes/bootstrap/talos/clusterconfig/talosconfig`
 
 #### Cluster validation
 
-1. The `kubeconfig` for interacting with your cluster should have been created in the root of your repository.
-
-2. Verify the nodes are online
-
-    📍 _If this command **fails** you likely haven't configured `direnv` as mentioned previously in the guide._
+1. Check the status of Cilium:
 
     ```sh
-    kubectl get nodes -o wide
-    # NAME           STATUS   ROLES                       AGE     VERSION
-    # k8s-0          Ready    control-plane,etcd,master   1h      v1.29.1
-    # k8s-1          Ready    worker                      1h      v1.29.1
+    cilium status
     ```
 
-3. Prepare the disks for rook
+2. Check the status of Flux and if the Flux resources are up-to-date and in a ready state:
 
-    ```
-    task bootstrap:rook nodes=nuc1,nuc2,nuc3 disk=/dev/nvme0n1
-    ```
-    - You can find the disk name with `talosctl disks`
-
-4. Continue on to 🔹 [**Stage 3**](#-stage-3-install-flux-in-your-cluster)
-
-### 🔹 Stage 3: Install Flux in your cluster
-
-1. Verify Flux can be installed
+   📍 _Run `task reconcile` to force Flux to sync your Git repository state_
 
     ```sh
-    flux check --pre
-    # ► checking prerequisites
-    # ✔ kubectl 1.27.3 >=1.18.0-0
-    # ✔ Kubernetes 1.27.3+k3s1 >=1.16.0-0
-    # ✔ prerequisites checks passed
+    flux check
+    flux get sources git flux-system
+    flux get ks -A
+    flux get hr -A
     ```
 
-2. Install Flux and sync the cluster to the Git repository
-> [!WARNING]
-> Make sure to increment the cnpg backup name first. See [this commit](https://github.com/alexwaibel/home-ops/commit/ff8c06ed4da086f1da538f922ddf9cf1448dd934) for an example.
+3. Check TCP connectivity to both the internal and external gateways:
+
+   📍 _The variables are only placeholders, replace them with your actual values_
 
     ```sh
-    task flux:github-deploy-key
-    task flux:bootstrap
-    # namespace/flux-system configured
-    # customresourcedefinition.apiextensions.k8s.io/alerts.notification.toolkit.fluxcd.io created
-    # ...
+    nmap -Pn -n -p 443 ${cluster_gateway_addr} ${cloudflare_gateway_addr} -vv
     ```
 
-1. Verify Flux components are running in the cluster
+4. Check you can resolve DNS for `echo`, this should resolve to `${cloudflare_gateway_addr}`:
+
+   📍 _The variables are only placeholders, replace them with your actual values_
 
     ```sh
-    kubectl -n flux-system get pods -o wide
-    # NAME                                       READY   STATUS    RESTARTS   AGE
-    # helm-controller-5bbd94c75-89sb4            1/1     Running   0          1h
-    # kustomize-controller-7b67b6b77d-nqc67      1/1     Running   0          1h
-    # notification-controller-7c46575844-k4bvr   1/1     Running   0          1h
-    # source-controller-7d6875bcb4-zqw9f         1/1     Running   0          1h
+    dig @${cluster_dns_gateway_addr} echo.${cloudflare_domain}
     ```
 
-### 🎤 Verification Steps
-
-_Mic check, 1, 2_ - In a few moments applications should be lighting up like Christmas in July 🎄
-
-1. Output all the common resources in your cluster.
-
-    📍 _Feel free to use the provided [kubernetes tasks](.taskfiles/Kubernetes/Taskfile.yaml) for validation of cluster resources or continue to get familiar with the `kubectl` and `flux` CLI tools._
+5. Check the status of your wildcard `Certificate`:
 
     ```sh
-    task kubernetes:resources
+    kubectl -n network describe certificates
     ```
-
-2. ⚠️ It might take `cert-manager` awhile to generate certificates, this is normal so be patient.
-
-3. 🏆 **Congratulations** if all goes smooth you will have a Kubernetes cluster managed by Flux and your Git repository is driving the state of your cluster.
 
 ## 📣 Cloudflare post installation
 
@@ -226,79 +175,76 @@ If you're having trouble with DNS be sure to check out these two GitHub discussi
 
 ... Nothing working? That is expected, this is DNS after all!
 
-## 💥 Nuke
+## 💥 Reset
 
-There might be a situation where you want to destroy your Kubernetes cluster. This will completely clean the OS of all traces of the Kubernetes distribution you chose and then reboot the nodes.
+> [!CAUTION]
+> **Resetting** the cluster **multiple times in a short period of time** could lead to being **rate limited by DockerHub or Let's Encrypt**.
+
+There might be a situation where you want to destroy your Kubernetes cluster. The following command will reset your nodes back to maintenance mode.
 
 ```sh
-# Talos: Reset your nodes back to maintenance mode and reboot
-task talos:nuke
+task talos:reset
 ```
 
 ## 🐛 Debugging
 
-Below is a general guide on trying to debug an issue with an resource or application. For example, if a workload/resource is not showing up or a pod has started but in a `CrashLoopBackOff` or `Pending` state.
+Below is a general guide on trying to debug an issue with an resource or application. For example, if a workload/resource is not showing up or a pod has started but in a `CrashLoopBackOff` or `Pending` state. These steps do not include a way to fix the problem as the problem could be one of many different things.
 
-1. Start by checking all Flux Kustomizations & Git Repository & OCI Repository and verify they are healthy.
+1. Check if the Flux resources are up-to-date and in a ready state:
+
+   📍 _Run `task reconcile` to force Flux to sync your Git repository state_
 
     ```sh
-    flux get sources oci -A
     flux get sources git -A
     flux get ks -A
-    ```
-
-2. Then check all the Flux Helm Releases and verify they are healthy.
-
-    ```sh
     flux get hr -A
     ```
 
-3. Then check the if the pod is present.
+2. Do you see the pod of the workload you are debugging:
 
     ```sh
     kubectl -n <namespace> get pods -o wide
     ```
 
-4. Then check the logs of the pod if its there.
+3. Check the logs of the pod if its there:
 
     ```sh
     kubectl -n <namespace> logs <pod-name> -f
-    # or
-    stern -n <namespace> <fuzzy-name>
     ```
 
-5. If a resource exists try to describe it to see what problems it might have.
+4. If a resource exists try to describe it to see what problems it might have:
 
     ```sh
     kubectl -n <namespace> describe <resource> <name>
     ```
 
-6. Check the namespace events
+5. Check the namespace events:
 
     ```sh
     kubectl -n <namespace> get events --sort-by='.metadata.creationTimestamp'
     ```
 
-Resolving problems that you have could take some tweaking of your YAML manifests in order to get things working, other times it could be a external factor like permissions on NFS. If you are unable to figure out your problem see the help section below.
+Resolving problems that you have could take some tweaking of your YAML manifests in order to get things working, other times it could be a external factor like permissions on a NFS server.
 
-## ⬆️ Upgrading Talos and Kubernetes
+### ⬆️ Updating Talos and Kubernetes versions
 
-### Manual
+#### Using Renovate
+You should be able to accept renovate PRs to update Talos and Kubernetes via Tuppr. If you encounter issues with this you can try to manually update using the steps below.
+
+#### Manually
+> [!TIP]
+> Ensure the `talosVersion` and `kubernetesVersion` in `talenv.yaml` are up-to-date with the version you wish to upgrade to.
 
 ```sh
-# Upgrade Talos to a newer version
-# : This needs to be run once on every node
-task talos:upgrade node=? image=?
-# e.g.
-# task talos:upgrade node=192.168.42.10 image=factory.talos.dev/installer/${schematic_id}:v1.7.4
+# Upgrade node to a newer Talos version
+task talos:upgrade-node IP=?
+# e.g. task talos:upgrade-node IP=10.10.10.10
 ```
 
 ```sh
-# Upgrade Kubernetes to a newer version
-# : This only needs to be run once against a controller node
-task talos:upgrade-k8s node=? to=?
-# e.g.
-# task talos:upgrade-k8s controller=192.168.42.10 to=1.30.1
+# Upgrade cluster to a newer Kubernetes version
+task talos:upgrade-k8s
+# e.g. task talos:upgrade-k8s
 ```
 
 ## 🤝 Thanks

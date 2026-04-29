@@ -4,39 +4,28 @@ kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
 spec:
-  interval: 30m
-  timeout: 15m
-  chart:
-    spec:
-      chart: rook-ceph-cluster
-      version: v1.18.8
-      sourceRef:
-        kind: HelmRepository
-        name: rook-ceph
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: rook-ceph-cluster
   dependsOn:
     - name: rook-ceph-operator
       namespace: rook-ceph
     - name: snapshot-controller
       namespace: volsync-system
+  interval: 1h
   values:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    ingress:
+    route:
       dashboard:
-        ingressClassName: internal
         host:
           name: "rook.${SECRET_DOMAIN}"
           path: /
+          pathType: PathPrefix
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     toolbox:
       enabled: true
     configOverride: |
@@ -217,9 +206,3 @@ spec:
           volumeBindingMode: Immediate
           parameters:
             region: us-east-1
-        ingress:
-          enabled: true
-          ingressClassName: internal
-          host:
-            name: "rgw.${SECRET_DOMAIN}"
-            path: /

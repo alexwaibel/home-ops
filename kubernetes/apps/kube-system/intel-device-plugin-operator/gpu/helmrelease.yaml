@@ -6,14 +6,9 @@ metadata:
   name: intel-device-plugin-gpu
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: intel-device-plugins-gpu
-      version: 0.34.1
-      sourceRef:
-        kind: HelmRepository
-        name: intel
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: intel-device-plugin-gpu
   install:
     remediation:
       retries: 3

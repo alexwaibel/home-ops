@@ -2,19 +2,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app prometheus-operator-crds
-  namespace: flux-system
+  name: prometheus-operator-crds
 spec:
-  targetNamespace: observability
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
+  interval: 1h
   path: ./kubernetes/apps/observability/prometheus-operator-crds/app
+  postBuild:
+    substituteFrom:
+      - name: cluster-secrets
+        kind: Secret
   prune: false # never should be deleted
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: observability
   wait: false
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m

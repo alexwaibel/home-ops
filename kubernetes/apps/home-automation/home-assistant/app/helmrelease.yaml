@@ -5,26 +5,13 @@ kind: HelmRelease
 metadata:
   name: home-assistant
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: home-assistant
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
+  interval: 1h
   values:
     controllers:
       home-assistant:
@@ -88,29 +75,20 @@ spec:
             port: 8123
           code-server:
             port: 12321
-    ingress:
+    route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "external.${SECRET_DOMAIN}"
-        className: external
-        hosts:
-          - host: "hass.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "hass.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-external
+            namespace: network
       code-server:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: "internal.${SECRET_DOMAIN}"
-        className: internal
-        hosts:
-          - host: "hass-code.${SECRET_DOMAIN}"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: code-server
+        hostnames:
+          - "hass-code.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
     persistence:
       config:
         existingClaim: home-assistant

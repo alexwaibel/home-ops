@@ -4,27 +4,13 @@ kind: HelmRelease
 metadata:
   name: rook-ceph-operator
 spec:
-  interval: 30m
-  timeout: 15m
-  chart:
-    spec:
-      chart: rook-ceph
-      version: v1.18.8
-      sourceRef:
-        kind: HelmRepository
-        name: rook-ceph
-        namespace: flux-system
-  install:
-    remediation:
-      retries: 3
+  chartRef:
+    kind: OCIRepository
+    name: rook-ceph
   dependsOn:
     - name: snapshot-controller
       namespace: volsync-system
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
+  interval: 1h
   values:
     csi:
       cephFSKernelMountOptions: ms_mode=prefer-crc
