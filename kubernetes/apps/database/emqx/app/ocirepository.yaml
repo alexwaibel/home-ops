@@ -6,9 +6,6 @@ metadata:
   name: emqx-operator
 spec:
   interval: 15m
-  layerSelector:
-    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
-    operation: copy
   ref:
     tag: 2.2.29
   url: oci://ghcr.io/emqx/emqx-operator
