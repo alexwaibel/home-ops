@@ -68,10 +68,9 @@ spec:
               runAsNonRoot: true
               runAsUser: 568
               runAsGroup: 568
-              fsGroup: 568
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: [ "ALL" ] }
             resources:
               requests:
                 cpu: 100m
@@ -95,7 +94,7 @@ spec:
               runAsGroup: 568
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: [ "ALL" ] }
     defaultPodOptions:
       terminationGracePeriodSeconds: 120
       securityContext:
@@ -128,7 +127,7 @@ spec:
       scripts:
         type: configMap
         name: qbittorrent-scripts
-        defaultMode: 0775
+        defaultMode: 775
         globalMounts:
           - readOnly: true
       media:
