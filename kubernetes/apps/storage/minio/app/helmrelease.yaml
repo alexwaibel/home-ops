@@ -30,7 +30,7 @@ spec:
             envFrom:
               - secretRef:
                   name: minio-secret
-            args: ["server", "/data", "--console-address", ":9001"]
+            args: [ "server", "/data", "--console-address", ":9001" ]
             probes:
               liveness: &probes
                 enabled: true
@@ -47,7 +47,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: [ "ALL" ] }
             resources:
               requests:
                 cpu: 100m
@@ -60,7 +60,7 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups: [10000]
+        supplementalGroups: [ 10000 ]
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
@@ -81,13 +81,14 @@ spec:
             scrapeTimeout: 10s
     route:
       app:
-        hosts:
-          - host: "{{ .Release.Name }}.${SECRET_DOMAIN}"
-            path: /
-            port: http
-          - host: "s3.${SECRET_DOMAIN}"
-            path: /
-            port: s3
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      s3:
+        hostnames:
+          - "s3.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
