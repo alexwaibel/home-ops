@@ -32,7 +32,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: [ "ALL" ] }
             resources:
               requests:
                 cpu: 10m
@@ -73,7 +73,10 @@ spec:
         ports:
           http:
             port: 8123
-          code-server:
+      code-server:
+        controller: home-assistant
+        ports:
+          http:
             port: 12321
     route:
       app:
