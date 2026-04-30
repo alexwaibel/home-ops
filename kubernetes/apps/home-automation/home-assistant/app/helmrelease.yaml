@@ -86,12 +86,20 @@ spec:
         parentRefs:
           - name: envoy-external
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: http
       code-server:
         hostnames:
           - "hass-code.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: code-server
+                port: http
     persistence:
       config:
         existingClaim: home-assistant
