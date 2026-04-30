@@ -36,7 +36,7 @@ metadata:
   name: self-signed-issuers
 spec:
   dependsOn:
-    - name: cert-manager-issuers
+    - name: cert-manager
   interval: 1h
   path: ./kubernetes/apps/cert-manager/cert-manager/self-signed
   postBuild:

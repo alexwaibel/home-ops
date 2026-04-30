@@ -5,7 +5,7 @@ metadata:
   name: echo
 spec:
   interval: 1h
-  path: ./kubernetes/apps/default/echo/app
+  path: ./kubernetes/apps/network/echo/app
   postBuild:
     substituteFrom:
       - name: cluster-secrets
@@ -15,5 +15,5 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: default
+  targetNamespace: network
   wait: false
