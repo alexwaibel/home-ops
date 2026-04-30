@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
-  name: echo
+  name: external-secrets
 spec:
   interval: 15m
   layerSelector:
@@ -10,4 +10,4 @@ spec:
     operation: copy
   ref:
     tag: 1.2.0
-  url: oci://ghcr.io/external-secrets/external-secrets
+  url: oci://ghcr.io/external-secrets/charts/external-secrets
