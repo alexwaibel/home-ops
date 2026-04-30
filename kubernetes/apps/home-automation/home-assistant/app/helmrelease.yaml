@@ -89,7 +89,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: app
-                port: http
+                port: 8123
       code-server:
         hostnames:
           - "hass-code.${SECRET_DOMAIN}"
@@ -99,7 +99,7 @@ spec:
         rules:
           - backendRefs:
               - identifier: code-server
-                port: http
+                port: 12321
     persistence:
       config:
         existingClaim: home-assistant
