@@ -7,6 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: external-secrets-stores
+      namespace: external-secrets
   interval: 1h
   path: ./kubernetes/apps/rook-ceph/rook-ceph/app
   postBuild:

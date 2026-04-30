@@ -29,6 +29,7 @@ metadata:
 spec:
   dependsOn:
     - name: self-signed-issuers
+      namespace: cert-manager
   interval: 1h
   path: ./kubernetes/apps/external-secrets/external-secrets/certificates
   postBuild:
