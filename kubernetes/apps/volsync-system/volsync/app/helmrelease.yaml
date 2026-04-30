@@ -14,9 +14,16 @@ spec:
       namespace: volsync-system
   interval: 1h
   values:
-    image:
+    fullnameOverride: volsync # Required for volsync-perfectra1n fork
+    image: &image
       repository: ghcr.io/perfectra1n/volsync
-      tag: 0.17.11
+      tag: v0.17.11
+    kopia: *image
+    rclone: *image
+    restic: *image
+    rsync: *image
+    rsync-tls: *image
+    syncthing: *image
     manageCRDs: true
     metrics:
       disableAuth: true
