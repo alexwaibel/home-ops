@@ -23,6 +23,8 @@ kind: Kustomization
 metadata:
   name: emqx-cluster
 spec:
+  dependsOn:
+    - name: emqx
   interval: 1h
   path: ./kubernetes/apps/database/emqx/cluster
   postBuild:
