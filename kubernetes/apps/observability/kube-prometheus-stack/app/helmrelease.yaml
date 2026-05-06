@@ -22,6 +22,7 @@ spec:
     alertmanager:
       route:
         app:
+          enabled: true
           hostnames:
             - "alertmanager.${SECRET_DOMAIN}"
           parentRefs:
@@ -48,7 +49,7 @@ spec:
           - action: labeldrop
             regex: (id|name)
           - action: drop
-            sourceLabels: ["__name__"]
+            sourceLabels: [ "__name__" ]
             regex: (rest_client_request_duration_seconds_bucket|rest_client_request_duration_seconds_sum|rest_client_request_duration_seconds_count)
     kubeApiServer:
       enabled: true
@@ -56,10 +57,10 @@ spec:
         metricRelabelings:
           # Drop high cardinality labels
           - action: drop
-            sourceLabels: ["__name__"]
+            sourceLabels: [ "__name__" ]
             regex: (apiserver|etcd|rest_client)_request(|_sli|_slo)_duration_seconds_bucket
           - action: drop
-            sourceLabels: ["__name__"]
+            sourceLabels: [ "__name__" ]
             regex: (apiserver_response_sizes_bucket|apiserver_watch_events_sizes_bucket)
     kubeControllerManager:
       enabled: true
@@ -77,12 +78,13 @@ spec:
       enabled: false
     prometheus:
       route:
-      app:
-        hostnames:
-          - "prometheus.${SECRET_DOMAIN}"
-        parentRefs:
-          - name: envoy-internal
-            namespace: network
+        app:
+          enabled: true
+          hostnames:
+            - "prometheus.${SECRET_DOMAIN}"
+          parentRefs:
+            - name: envoy-internal
+              namespace: network
       prometheusSpec:
         replicas: 3
         replicaExternalLabelName: __replica__
@@ -127,7 +129,7 @@ spec:
             - action: replace
               regex: (.*)
               replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              sourceLabels: [ "__meta_kubernetes_pod_node_name" ]
               targetLabel: kubernetes_node
     kubeStateMetrics:
       enabled: true
@@ -144,7 +146,7 @@ spec:
             - action: replace
               regex: (.*)
               replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              sourceLabels: [ "__meta_kubernetes_pod_node_name" ]
               targetLabel: kubernetes_node
     grafana:
       enabled: false
