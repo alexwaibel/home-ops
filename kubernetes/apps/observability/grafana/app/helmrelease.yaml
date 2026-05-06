@@ -299,6 +299,7 @@ spec:
       enabled: true
     route:
       app:
+        enabled: true
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:
