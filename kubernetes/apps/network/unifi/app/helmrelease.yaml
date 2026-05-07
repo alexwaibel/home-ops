@@ -42,6 +42,7 @@ spec:
           http:
             port: 8443
             protocol: HTTPS
+            appProtocol: https
           controller:
             enabled: true
             port: 8080
@@ -86,6 +87,10 @@ spec:
         parentRefs:
           - name: envoy-internal
             namespace: network
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: 8443
     persistence:
       data:
         existingClaim: unifi
