@@ -7,20 +7,25 @@ on:
     inputs:
       dryRun:
         description: Dry Run
-        default: "false"
-        required: false
+        type: boolean
+        default: false
+        required: true
       logLevel:
         description: Log Level
+        type: choice
         default: debug
-        required: false
+        options:
+          - debug
+          - info
+        required: true
       version:
-        description: Renovate version
+        description: Renovate Version
         default: latest
-        required: false
+        required: true
   schedule:
     - cron: "0 * * * *" # Every hour
   push:
-    branches: ["main"]
+    branches: [ "main" ]
     paths:
       - .github/renovate.json5
       - .github/renovate/**.json5
@@ -28,15 +33,6 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
-
-env:
-  LOG_LEVEL: "${{ inputs.logLevel || 'debug' }}"
-  RENOVATE_AUTODISCOVER: true
-  RENOVATE_AUTODISCOVER_FILTER: "${{ github.repository }}"
-  RENOVATE_DRY_RUN: "${{ inputs.dryRun == true }}"
-  RENOVATE_PLATFORM: github
-  RENOVATE_PLATFORM_COMMIT: true
-  WORKFLOW_RENOVATE_VERSION: "${{ inputs.version || 'latest' }}"
 
 jobs:
   renovate:
@@ -57,7 +53,14 @@ jobs:
 
       - name: Renovate
         uses: renovatebot/github-action@79dc0ba74dc3de28db0a7aeb1d0b95d5bf5fde2a # v46.1.13
+        env:
+          LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}
+          RENOVATE_AUTODISCOVER: true
+          RENOVATE_AUTODISCOVER_FILTER: ${{ github.repository }}
+          RENOVATE_DRY_RUN: ${{ inputs.dryRun }}
+          RENOVATE_INTERNAL_CHECKS_FILTER: strict
+          RENOVATE_PLATFORM: github
+          RENOVATE_PLATFORM_COMMIT: true
         with:
-          configurationFile: .github/renovate.json5
           token: "${{ steps.app-token.outputs.token }}"
-          renovate-version: "${{ env.WORKFLOW_RENOVATE_VERSION }}"
+          renovate-version: ${{ inputs.version || 'latest' }}
