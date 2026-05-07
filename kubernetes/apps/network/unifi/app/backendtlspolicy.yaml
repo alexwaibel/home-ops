@@ -1,0 +1,14 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: BackendTLSPolicy
+metadata:
+  name: unifi
+spec:
+  targetRefs:
+    - group: ""
+      kind: Service
+      name: unifi
+      sectionName: http
+  validation:
+    hostname: unifi.${SECRET_DOMAIN}
+    wellKnownCACertificates: System

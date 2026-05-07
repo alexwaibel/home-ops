@@ -96,3 +96,15 @@ spec:
         existingClaim: unifi
         globalMounts:
           - path: /unifi
+      cert:
+        type: secret
+        name: unifi-tls
+        advancedMounts:
+          unifi:
+            app:
+              - path: /unifi/cert/cert.pem
+                subPath: tls.crt
+                readOnly: true
+              - path: /unifi/cert/privkey.pem
+                subPath: tls.key
+                readOnly: true
