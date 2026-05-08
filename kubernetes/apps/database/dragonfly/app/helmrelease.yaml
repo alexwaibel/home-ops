@@ -54,6 +54,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities: { drop: [ "ALL" ] }
     defaultPodOptions:
+      automountServiceAccountToken: true
       labels:
         control-plane: controller-manager
       securityContext:
