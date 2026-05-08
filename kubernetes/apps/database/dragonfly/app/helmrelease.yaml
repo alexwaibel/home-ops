@@ -16,8 +16,8 @@ spec:
           app:
             image:
               repository: ghcr.io/dragonflydb/operator
-              tag: v1.3.1@sha256:7410dc31c05bca2c0648fca232f2300b897f8d77f001c19d75c9647f830d768b
-            command: ["/manager"]
+              tag: v1.5.0@sha256:2ceb0128302cd7756b743cc5d56ec9479fb08163b5c563897045a4e5e1555f02
+            command: [ "/manager" ]
             args:
               - --health-probe-bind-address=:8081
               - --metrics-bind-address=:8080
@@ -52,8 +52,11 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: { drop: [ "ALL" ] }
     defaultPodOptions:
+      automountServiceAccountToken: true
+      labels:
+        control-plane: controller-manager
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
