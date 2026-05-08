@@ -1,0 +1,146 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: victoria-metrics
+  interval: 1h
+  values:
+    fullnameOverride: victoria-metrics
+    alertmanager:
+      config:
+        route:
+          group_by: ["alertname", "job"]
+          group_interval: 10m
+          group_wait: 1m
+          receiver: pushover
+          repeat_interval: 12h
+          routes:
+            - receiver: heartbeat
+              group_interval: 5m
+              group_wait: 0s
+              matchers:
+                - alertname =~ "Watchdog"
+              repeat_interval: 5m
+            - receiver: "null"
+              matchers:
+                - alertname =~ "InfoInhibitor"
+            - receiver: pushover
+              continue: true
+              matchers:
+                - severity = "critical"
+        inhibit_rules:
+          - equal: ["alertname", "namespace"]
+            source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
+        receivers:
+          - name: heartbeat
+            webhook_configs:
+              - send_resolved: true
+                url_secret:
+                  name: vmalertmanager-secret
+                  key: ALERTMANAGER_CLUSTER_MAIN_HEARTBEAT_URL
+          - name: "null"
+          - name: pushover
+            pushover_configs:
+              - html: true
+                message: |-
+                  {{- range .Alerts }}
+                    {{- if ne .Annotations.description "" }}
+                      {{ .Annotations.description }}
+                    {{- else if ne .Annotations.summary "" }}
+                      {{ .Annotations.summary }}
+                    {{- else if ne .Annotations.message "" }}
+                      {{ .Annotations.message }}
+                    {{- else }}
+                      Alert description not available
+                    {{- end }}
+                    {{- if gt (len .Labels.SortedPairs) 0 }}
+                      <small>
+                      {{- range .Labels.SortedPairs }}
+                        <b>{{ .Name }}:</b> {{ .Value }}
+                      {{- end }}
+                      </small>
+                    {{- end }}
+                  {{- end }}
+                priority: |-
+                  {{ if eq .Status "firing" }}1{{ else }}0{{ end }}
+                send_resolved: true
+                sound: vibrate
+                title: >-
+                  [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }}
+                token:
+                  name: vmalertmanager-secret
+                  key: ALERTMANAGER_PUSHOVER_TOKEN
+                url_title: View in Alertmanager
+                user_key:
+                  name: vmalertmanager-secret
+                  key: PUSHOVER_USER_KEY
+      route:
+        enabled: true
+        hostnames:
+          - "alertmanager.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      spec:
+        externalURL: "https://alertmanager.${SECRET_DOMAIN}"
+        image:
+          repository: quay.io/prometheus/alertmanager
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: openebs-hostpath
+              resources:
+                requests:
+                  storage: 1Gi
+      useManagedConfig: true
+    grafana:
+      enabled: false
+    kube-state-metrics:
+      enabled: false
+    prometheus-node-exporter:
+      enabled: false
+    victoria-metrics-operator:
+      crds:
+        cleanup:
+          enabled: false
+      operator:
+        enable_converter_ownership: true
+    vmagent:
+      spec:
+        externalLabels:
+          cluster: main
+    vmalert:
+      route:
+        enabled: true
+        hostnames:
+          - "vmalert.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      spec:
+        datasource:
+          url: http://vmsingle-victoria-metrics.observability.svc.cluster.local:8428
+    vmsingle:
+      route:
+        enabled: true
+        hostnames:
+          - "prometheus.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+      spec:
+        retentionPeriod: 2d
+        storage:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 20Gi
+          storageClassName: openebs-hostpath
