@@ -34,16 +34,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
-      - name: Install talhelper
-        run: |
-          curl -sSL https://github.com/budimanjojo/talhelper/releases/download/v3.1.9/talhelper_linux_amd64.tar.gz \
-            | tar -xz -C /usr/local/bin talhelper
-
-      - name: Install talosctl
-        run: |
-          curl -sSL https://github.com/siderolabs/talos/releases/download/v1.13.0/talosctl-linux-amd64 \
-            -o /usr/local/bin/talosctl
-          chmod +x /usr/local/bin/talosctl
+      - name: Setup mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          install_args: aqua:budimanjojo/talhelper aqua:siderolabs/talos
 
       - name: Generate Talos configs
         run: |
