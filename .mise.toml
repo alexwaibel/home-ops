@@ -6,7 +6,7 @@ SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
 TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 
 [tools]
-"python" = "3.14.4"
+"python" = "3.14.5"
 "uv" = "0.11.12"
 "pipx" = "1.12.0"
 "pipx:makejinja" = "2.8.2"
