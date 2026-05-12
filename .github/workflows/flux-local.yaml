@@ -106,9 +106,38 @@ jobs:
             ${{ steps.diff.outputs.diff }}
             ```
 
+  kubeconform:
+    name: Kubeconform
+    needs: pre-job
+    runs-on: ubuntu-latest
+    if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          install_args: aqua:yannh/kubeconform
+
+      - name: Render and validate HelmReleases
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/github/workspace" \
+            ghcr.io/allenporter/flux-local:v8.2.0 \
+            build helmrelease \
+              --all-namespaces \
+              --path /github/workspace/kubernetes/flux/cluster \
+              --output yaml \
+          | kubeconform \
+              --strict \
+              --ignore-missing-schemas \
+              --kubernetes-version 1.36.0 \
+              --summary
+
   flux-local-status:
     name: Flux Local Success
-    needs: ["test", "diff"]
+    needs: ["test", "diff", "kubeconform"]
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
