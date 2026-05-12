@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./grafana.yaml
-  - ./grafanadatasource.yaml
   - ./grafanadashboard.yaml
+  - ./grafanadatasource.yaml
+  - ./servicemonitor.yaml
