@@ -64,26 +64,26 @@ spec:
       replicas: 1
       template:
         spec:
+          initContainers:
+            - name: init-db
+              image: ghcr.io/home-operations/postgres-init:18
+              envFrom:
+                - secretRef:
+                    name: grafana-secret
           containers:
             - name: grafana
               envFrom:
                 - secretRef:
                     name: grafana-secret
-              env:
-                - name: GF_SECURITY_ADMIN_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: grafana-admin-password-secret
-                      key: GF_SECURITY_ADMIN_PASSWORD
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
                 capabilities: {drop: ["ALL"]}
           securityContext:
             runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
           volumes:
             - name: grafana-data
