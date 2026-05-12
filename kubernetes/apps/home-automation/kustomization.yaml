@@ -5,6 +5,7 @@ namespace: home-automation
 
 components:
   - ../../components/sops
+  - ../../components/alerts
 
 resources:
   # Pre Flux-Kustomizations
