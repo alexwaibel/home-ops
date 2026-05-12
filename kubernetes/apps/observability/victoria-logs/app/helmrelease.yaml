@@ -13,7 +13,7 @@ spec:
       fullnameOverride: victoria-logs
       persistentVolume:
         enabled: true
-        storageClassName: openebs-hostpath
+        storageClassName: ceph-block
         size: 50Gi
       retentionPeriod: 30d
       serviceMonitor:
