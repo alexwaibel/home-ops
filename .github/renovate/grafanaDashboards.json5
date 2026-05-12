@@ -5,7 +5,7 @@
       "defaultRegistryUrlTemplate": "https://grafana.com/api/dashboards/{{packageName}}",
       "format": "json",
       "transformTemplates": [
-        "{\"releases\":[{\"version\": $string(revision)}]}"
+        '{"releases":[{"version": $string(revision)}], "sourceDirectory": name}'
       ]
     }
   },
@@ -15,13 +15,11 @@
       "description": [
         "Process Grafana dashboards"
       ],
-      "fileMatch": [
-        "(^|/)kubernetes/.+\\.ya?ml(?:\\.j2)?$"
-      ],
+      managerFilePatterns: ["/grafanadashboard\\.yaml(?:\\.j2)?$/",],
       "matchStrings": [
-        "depName=\"(?<depName>.*)\"\\n(?<indentation>\\s+)gnetId: (?<packageName>\\d+)\\n.+revision: (?<currentValue>\\d+)"
+        "dashboards\\/(?<depName>\\d+)\\/revisions\\/(?<currentValue>\\d+)\\/download",
       ],
-      "autoReplaceStringTemplate": "depName=\"{{{depName}}}\"\n{{{indentation}}}gnetId: {{{packageName}}}\n{{{indentation}}}revision: {{{newValue}}}",
+      "autoReplaceStringTemplate": "dashboards/{{depName}}/revisions/{{newValue}}/download",
       "datasourceTemplate": "custom.grafana-dashboards",
       "versioningTemplate": "regex:^(?<major>\\d+)$"
     }
