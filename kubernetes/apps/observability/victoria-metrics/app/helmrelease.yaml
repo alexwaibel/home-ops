@@ -92,7 +92,7 @@ spec:
         externalURL: "https://alertmanager.${SECRET_DOMAIN}"
         image:
           repository: quay.io/prometheus/alertmanager
-          tag: v0.28.1
+          tag: v0.32.1
         storage:
           volumeClaimTemplate:
             spec:
