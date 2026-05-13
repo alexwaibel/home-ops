@@ -3,7 +3,7 @@ name: "Flux Local"
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -37,7 +37,8 @@ jobs:
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v8.2.0
         with:
-          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/cluster -v
+          args: test --enable-helm --all-namespaces --path
+            /github/workspace/kubernetes/flux/cluster -v
 
   diff:
     name: Flux Local Diff
@@ -48,7 +49,7 @@ jobs:
       pull-requests: write
     strategy:
       matrix:
-        resources: ["helmrelease", "kustomization"]
+        resources: [ "helmrelease", "kustomization" ]
       max-parallel: 4
       fail-fast: false
     if: ${{ needs.pre-job.outputs.any_changed == 'true' }}
@@ -68,14 +69,11 @@ jobs:
         uses: docker://ghcr.io/allenporter/flux-local:v8.2.0
         with:
           args: >-
-            diff ${{ matrix.resources }}
-            --unified 6
-            --path /github/workspace/pull/kubernetes/flux/cluster
-            --path-orig /github/workspace/default/kubernetes/flux/cluster
-            --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
-            --limit-bytes 10000
-            --all-namespaces
-            --sources "flux-system"
+            diff ${{ matrix.resources }} --unified 6 --path
+            /github/workspace/pull/kubernetes/flux/cluster --path-orig
+            /github/workspace/default/kubernetes/flux/cluster --strip-attrs
+            "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
+            --limit-bytes 10000 --all-namespaces --sources "flux-system"
             --output-file diff.patch
 
       - name: Generate Diff
@@ -99,7 +97,8 @@ jobs:
         continue-on-error: true
         uses: mshick/add-pr-comment@8e4927817251f1ff60c001f04568532b38e0b4a0 # v3.11
         with:
-          message-id: "${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}"
+          message-id: "${{ github.event.pull_request.number }}/kubernetes/${{
+            matrix.resources }}"
           message-failure: Diff was not successful
           message: |
             ```diff
@@ -137,7 +136,7 @@ jobs:
 
   flux-local-status:
     name: Flux Local Success
-    needs: ["test", "diff", "kubeconform"]
+    needs: [ "test", "diff", "kubeconform" ]
     runs-on: ubuntu-latest
     if: ${{ always() }}
     steps:
