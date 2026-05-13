@@ -45,15 +45,6 @@ spec:
               - severity = "warning"
         receivers:
           - name: blackhole
-          - name: buddy-heartbeat
-            webhook_configs:
-              - http_config:
-                  bearer_token_secret:
-                    name: vmalertmanager-secret
-                    key: BUDDY_HEARTBEAT_TOKEN
-                url_secret:
-                  name: vmalertmanager-secret
-                  key: BUDDY_HEARTBEAT_URL
           - name: pushover
             pushover_configs:
               - html: true
