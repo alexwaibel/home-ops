@@ -1,5 +1,4 @@
 ---
-
 # This helmfile is for extracting and installing Custom Resource Definitions (CRDs) from Helm charts.
 # It is not intended to be used with helmfile apply or helmfile sync.
 
@@ -19,11 +18,12 @@ releases:
     chart: oci://mirror.gcr.io/envoyproxy/gateway-helm
     version: v1.7.2
 
+  - name: grafana-operator
+    namespace: observability
+    chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
+    version: 5.22.2
+
   - name: kube-prometheus-stack
     namespace: observability
     chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
-<<<<<<< renovate/ghcr.io-prometheus-community-charts-kube-prometheus-stack-84.x
     version: 84.5.0
-=======
-    version: 80.14.4
->>>>>>> main
