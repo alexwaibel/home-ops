@@ -7,6 +7,9 @@ metadata:
   labels:
     dashboards: grafana
 spec:
+  client:
+    useKubeAuth: true
+  disableDefaultAdminSecret: true
   config:
     analytics:
       check_for_updates: "false"
@@ -20,6 +23,17 @@ spec:
       enabled: "false"
     auth.basic:
       enabled: "false"
+    auth.jwt:
+      enabled: "true"
+      header_name: Authorization
+      username_claim: sub
+      email_claim: sub
+      auto_sign_up: "true"
+      role_attribute_strict: "true"
+      role_attribute_path: "contains(sub, 'system:serviceaccount:observability:grafana-operator') && 'GrafanaAdmin' || 'None'"
+      jwk_set_url: https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}/openid/v1/jwks
+      jwk_set_bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+      tls_client_ca: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
     auth.generic_oauth:
       enabled: "true"
       name: Authelia
@@ -47,6 +61,7 @@ spec:
       plugin_admin_enabled: "false"
     security:
       angular_support_enabled: "true"
+      disable_initial_admin_creation: "true"
     server:
       enable_gzip: "true"
       root_url: "https://grafana.${SECRET_DOMAIN}"
@@ -78,7 +93,7 @@ spec:
               securityContext:
                 allowPrivilegeEscalation: false
                 readOnlyRootFilesystem: true
-                capabilities: {drop: ["ALL"]}
+                capabilities: { drop: ["ALL"] }
           securityContext:
             runAsNonRoot: true
             runAsUser: 568
