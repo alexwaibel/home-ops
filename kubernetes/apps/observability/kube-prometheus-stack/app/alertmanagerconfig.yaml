@@ -52,7 +52,9 @@ spec:
     - name: heartbeat
       webhookConfigs:
         - sendResolved: true
-          url: "{{ .ALERTMANAGER_CLUSTER_MAIN_HEARTBEAT_URL }}"
+          urlSecret:
+            name: alertmanager-secret
+            key: ALERTMANAGER_CLUSTER_MAIN_HEARTBEAT_URL
     - name: pushover
       pushoverConfigs:
         - html: true
