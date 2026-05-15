@@ -46,9 +46,9 @@ The guard script denies mutating commands and egress tools (`curl`/`wget`/`nc`/`
     - `kubeconform ...`
     - `helm template ...`
     - `helm show ...`
-    - `yq ...`
-    - `jq ...`
-    - read-only git/file tools: `git status`, `git diff`, `git show`, `git log`, `rg`, `grep`, `find`
+    - read-only git commands: `git status`, `git diff`, `git show`, `git log`
+
+`yq`, `jq`, `rg`, `grep`, and `find` are intentionally **not** allowed by the guard wrapper; run them only with explicit approval.
 
 ## Require approval / denylist
 

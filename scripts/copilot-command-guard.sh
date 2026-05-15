@@ -15,6 +15,15 @@ Runs only read-only commands approved for this repo.
 EOF
 }
 
+has_arg() {
+    local needle="$1"
+    shift
+    for arg in "$@"; do
+        [[ "${arg}" == "${needle}" ]] && return 0
+    done
+    return 1
+}
+
 if [[ $# -lt 1 ]]; then
     usage >&2
     exit 2
@@ -29,7 +38,7 @@ case "${cmd}" in
         case "${sub}" in
             get|describe|logs|top|explain|api-resources|api-versions|version) ;;
             config)
-                [[ "${2:-}" == "view" && "${3:-}" == "--minify" ]] || deny "kubectl $*"
+                has_arg "view" "$@" && has_arg "--minify" "$@" || deny "kubectl $*"
                 ;;
             apply|delete|edit|patch|replace|create|scale|rollout|drain|cordon|uncordon|label|annotate|cp|exec|port-forward|proxy|debug|attach)
                 deny "kubectl $*"
@@ -71,9 +80,16 @@ case "${cmd}" in
         esac
         ;;
     kustomize)
-        [[ "${1:-}" == "build" ]] || deny "kustomize $*"
+        sub="${1:-}"
+        case "${sub}" in
+            build) ;;
+            *) deny "kustomize $*" ;;
+        esac
         ;;
-    kubeconform|yq|jq|rg|grep|find) ;;
+    kubeconform) ;;
+    yq|jq|rg|grep|find)
+        deny "${cmd} $*"
+        ;;
     git)
         sub="${1:-}"
         case "${sub}" in
