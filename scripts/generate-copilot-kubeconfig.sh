@@ -25,8 +25,8 @@ require_cmd() {
     fi
 }
 
-yaml_escape() {
-    printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+yaml_quote() {
+    printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"
 }
 
 NAMESPACE="flux-system"
@@ -107,7 +107,11 @@ if [[ -z "${CLUSTER_CA_DATA}" ]]; then
     CLUSTER_CA_DATA="$(base64 <"${CLUSTER_CA_FILE}" | tr -d '\n')"
 fi
 
-IFS=':' read -r -a SOURCE_KUBECONFIG_PATHS <<<"${SOURCE_KUBECONFIG}"
+KUBECONFIG_SEPARATOR=':'
+if [[ "${SOURCE_KUBECONFIG}" == *';'* && "${SOURCE_KUBECONFIG}" != *':'* ]]; then
+    KUBECONFIG_SEPARATOR=';'
+fi
+IFS="${KUBECONFIG_SEPARATOR}" read -r -a SOURCE_KUBECONFIG_PATHS <<<"${SOURCE_KUBECONFIG}"
 for SOURCE_PATH in "${SOURCE_KUBECONFIG_PATHS[@]}"; do
     if [[ "${SOURCE_PATH}" == "${OUTPUT_PATH}" ]]; then
         echo "Output path must not overwrite the source kubeconfig used to mint tokens: ${OUTPUT_PATH}" >&2
@@ -150,19 +154,19 @@ users:
     user:
       exec:
         apiVersion: client.authentication.k8s.io/v1
-        command: "$(yaml_escape "${CREDENTIAL_HELPER}")"
+        command: $(yaml_quote "${CREDENTIAL_HELPER}")
         args:
           - -n
-          - "$(yaml_escape "${NAMESPACE}")"
+          - $(yaml_quote "${NAMESPACE}")
           - -s
-          - "$(yaml_escape "${SERVICE_ACCOUNT}")"
+          - $(yaml_quote "${SERVICE_ACCOUNT}")
           - -d
-          - "$(yaml_escape "${DURATION}")"
+          - $(yaml_quote "${DURATION}")
           - -c
-          - "$(yaml_escape "${CURRENT_CONTEXT}")"
+          - $(yaml_quote "${CURRENT_CONTEXT}")
         env:
           - name: KUBECONFIG
-            value: "$(yaml_escape "${SOURCE_KUBECONFIG}")"
+            value: $(yaml_quote "${SOURCE_KUBECONFIG}")
         interactiveMode: Never
 EOF
 
