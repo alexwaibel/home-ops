@@ -6,9 +6,6 @@
       go-task
       nix
       nixos-anywhere
-      (writeShellScriptBin "generate-copilot-kubeconfig" ''
-        exec "${../scripts/generate-copilot-kubeconfig.sh}" "$@"
-      '')
     ];
   };
 }

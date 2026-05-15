@@ -46,12 +46,6 @@ export KUBECONFIG="$HOME/.kube/copilot-config"
 scripts/generate-copilot-kubeconfig.sh -d 8h -o ~/.kube/copilot-config
 ```
 
-- For command enforcement, run shell commands via:
-
-```sh
-scripts/copilot-command-guard.sh kubectl get pods -A
-```
-
 ## Preferred local/offline inspection commands
 
 - Flux local tests/diff/render (matching CI path):
