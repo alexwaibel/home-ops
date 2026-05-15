@@ -25,6 +25,10 @@ require_cmd() {
     fi
 }
 
+json_escape() {
+    printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 NAMESPACE="flux-system"
 SERVICE_ACCOUNT="copilot-readonly"
 DURATION="24h"
@@ -75,7 +79,7 @@ cat <<EOF
   "apiVersion": "client.authentication.k8s.io/v1",
   "kind": "ExecCredential",
   "status": {
-    "token": "${TOKEN}"
+    "token": "$(json_escape "${TOKEN}")"
   }
 }
 EOF

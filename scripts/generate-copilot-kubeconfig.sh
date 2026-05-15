@@ -119,8 +119,12 @@ SCRIPT_DIR="$(
     cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd
 )"
 CREDENTIAL_HELPER="${SCRIPT_DIR}/copilot-kube-credential.sh"
+if [[ ! -f "${CREDENTIAL_HELPER}" ]]; then
+    echo "Credential helper is missing: ${CREDENTIAL_HELPER}" >&2
+    exit 1
+fi
 if [[ ! -x "${CREDENTIAL_HELPER}" ]]; then
-    echo "Credential helper is missing or not executable: ${CREDENTIAL_HELPER}" >&2
+    echo "Credential helper is not executable: ${CREDENTIAL_HELPER} (run: chmod +x ${CREDENTIAL_HELPER})" >&2
     exit 1
 fi
 
