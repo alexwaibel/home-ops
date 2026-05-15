@@ -8,30 +8,18 @@ spec:
   chartRef:
     kind: OCIRepository
     name: external-secrets
-  interval: 30m
+  interval: 1h
   values:
-    installCRDs: true
-    image:
-      repository: ghcr.io/external-secrets/external-secrets
-    webhook:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    certController:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
+    leaderElect: true
     serviceMonitor:
       enabled: true
-      interval: 1m
     grafanaDashboard:
       enabled: true
     bitwarden-sdk-server:
       enabled: true
       podAnnotations:
-        secret.reloader.stakater.com/reload: "bitwarden-css-certs,bitwarden-secrets-man\
+        secret.reloader.stakater.com/reload:
+          "bitwarden-css-certs,bitwarden-secrets-man\
           ager,bitwarden-secrets-manager-secrets,bitwarden-tls-certs"
+    webhook:
+      replicaCount: 2
