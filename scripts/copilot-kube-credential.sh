@@ -30,7 +30,6 @@ json_escape() {
 
     value=${value//\\/\\\\}
     value=${value//\"/\\\"}
-    value=${value//\//\\/}
     value=${value//$'\n'/\\n}
     value=${value//$'\r'/\\r}
     value=${value//$'\t'/\\t}
@@ -72,7 +71,8 @@ SOURCE_KUBECONFIG="${KUBECONFIG:-$HOME/.kube/config}"
 
 KUBECTL_CMD=(kubectl)
 if [[ -n "${CONTEXT}" ]]; then
-    KUBECTL_CMD+=(--context "${CONTEXT}")
+    KUBECTL_CMD+=(--context)
+    KUBECTL_CMD+=("${CONTEXT}")
 fi
 
 TOKEN="$(

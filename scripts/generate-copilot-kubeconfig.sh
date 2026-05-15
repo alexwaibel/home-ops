@@ -108,9 +108,11 @@ if [[ -z "${CLUSTER_CA_DATA}" ]]; then
 fi
 
 KUBECONFIG_SEPARATOR=':'
-if [[ "${SOURCE_KUBECONFIG}" == *';'* && "${SOURCE_KUBECONFIG}" != *':'* ]]; then
+case "${OSTYPE:-}" in
+    msys* | cygwin* | win32*)
     KUBECONFIG_SEPARATOR=';'
-fi
+    ;;
+esac
 IFS="${KUBECONFIG_SEPARATOR}" read -r -a SOURCE_KUBECONFIG_PATHS <<<"${SOURCE_KUBECONFIG}"
 for SOURCE_PATH in "${SOURCE_KUBECONFIG_PATHS[@]}"; do
     if [[ "${SOURCE_PATH}" == "${OUTPUT_PATH}" ]]; then
