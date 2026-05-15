@@ -109,7 +109,7 @@ fi
 
 KUBECONFIG_SEPARATOR=':'
 case "${OSTYPE:-}" in
-    msys* | cygwin* | win32*)
+    msys* | cygwin* | mingw* | win32*)
     KUBECONFIG_SEPARATOR=';'
     ;;
 esac

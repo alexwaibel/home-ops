@@ -26,15 +26,7 @@ require_cmd() {
 }
 
 json_escape() {
-    local value="$1"
-
-    value=${value//\\/\\\\}
-    value=${value//\"/\\\"}
-    value=${value//$'\n'/\\n}
-    value=${value//$'\r'/\\r}
-    value=${value//$'\t'/\\t}
-
-    printf '%s' "${value}"
+    "${PYTHON_BIN}" -c 'import json, sys; print(json.dumps(sys.argv[1])[1:-1])' "$1"
 }
 
 NAMESPACE="flux-system"
@@ -66,6 +58,11 @@ while getopts ":n:s:d:c:h" opt; do
 done
 
 require_cmd kubectl
+PYTHON_BIN="$(command -v python3 || command -v python || true)"
+if [[ -z "${PYTHON_BIN}" ]]; then
+    echo "Missing required command: python3 (or python)" >&2
+    exit 1
+fi
 
 SOURCE_KUBECONFIG="${KUBECONFIG:-$HOME/.kube/config}"
 
