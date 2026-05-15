@@ -1,0 +1,19 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-logs-collector
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: victoria-logs-collector
+  interval: 1h
+  values:
+    fullnameOverride: victoria-logs-collector
+    global:
+      image:
+        registry: quay.io
+    podMonitor:
+      enabled: true
+    remoteWrite:
+      - url: http://victoria-logs.observability.svc.cluster.local:9428
