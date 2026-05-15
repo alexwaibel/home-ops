@@ -40,6 +40,8 @@ scripts/generate-copilot-kubeconfig.sh
 export KUBECONFIG="$HOME/.kube/copilot-config"
 ```
 
+- Run the setup once from your normal kubeconfig context. The generated kubeconfig refreshes short-lived tokens automatically with a local exec credential helper.
+
 - Optional overrides:
 
 ```sh

@@ -4,7 +4,7 @@ set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Generate a scoped kubeconfig for the copilot-readonly ServiceAccount.
+Install a scoped kubeconfig for the copilot-readonly ServiceAccount.
 
 Usage:
   generate-copilot-kubeconfig.sh [-n namespace] [-s service-account] [-d duration] [-o output-path]
@@ -25,10 +25,15 @@ require_cmd() {
     fi
 }
 
+yaml_quote() {
+    printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
+}
+
 NAMESPACE="flux-system"
 SERVICE_ACCOUNT="copilot-readonly"
 DURATION="24h"
 OUTPUT_PATH="${COPILOT_KUBECONFIG:-$HOME/.kube/copilot-config}"
+SOURCE_KUBECONFIG="${KUBECONFIG:-$HOME/.kube/config}"
 
 while getopts ":n:s:d:o:h" opt; do
     case "${opt}" in
@@ -56,14 +61,24 @@ done
 require_cmd kubectl
 require_cmd base64
 
-CURRENT_CONTEXT="$(kubectl config current-context)"
+CURRENT_CONTEXT="$(
+    KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config current-context
+)"
 if [[ -z "${CURRENT_CONTEXT}" ]]; then
     echo "No current kubectl context is set." >&2
     exit 1
 fi
 
+CURRENT_USER="$(
+    KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config view --raw -o "jsonpath={.contexts[?(@.name==\"${CURRENT_CONTEXT}\")].context.user}"
+)"
+if [[ "${CURRENT_USER}" == "${SERVICE_ACCOUNT}" ]]; then
+    echo "Current context already uses ${SERVICE_ACCOUNT}; run this script from the source kubeconfig that can mint tokens." >&2
+    exit 1
+fi
+
 CLUSTER_NAME="$(
-    kubectl config view --raw -o "jsonpath={.contexts[?(@.name==\"${CURRENT_CONTEXT}\")].context.cluster}"
+    KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config view --raw -o "jsonpath={.contexts[?(@.name==\"${CURRENT_CONTEXT}\")].context.cluster}"
 )"
 if [[ -z "${CLUSTER_NAME}" ]]; then
     echo "Unable to resolve cluster name for context: ${CURRENT_CONTEXT}" >&2
@@ -71,7 +86,7 @@ if [[ -z "${CLUSTER_NAME}" ]]; then
 fi
 
 CLUSTER_SERVER="$(
-    kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.server}"
+    KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.server}"
 )"
 if [[ -z "${CLUSTER_SERVER}" ]]; then
     echo "Unable to resolve cluster server for cluster: ${CLUSTER_NAME}" >&2
@@ -79,11 +94,11 @@ if [[ -z "${CLUSTER_SERVER}" ]]; then
 fi
 
 CLUSTER_CA_DATA="$(
-    kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.certificate-authority-data}"
+    KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.certificate-authority-data}"
 )"
 if [[ -z "${CLUSTER_CA_DATA}" ]]; then
     CLUSTER_CA_FILE="$(
-        kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.certificate-authority}"
+        KUBECONFIG="${SOURCE_KUBECONFIG}" kubectl config view --raw -o "jsonpath={.clusters[?(@.name==\"${CLUSTER_NAME}\")].cluster.certificate-authority}"
     )"
     if [[ -z "${CLUSTER_CA_FILE}" || ! -f "${CLUSTER_CA_FILE}" ]]; then
         echo "Unable to resolve cluster CA data for cluster: ${CLUSTER_NAME}" >&2
@@ -92,11 +107,20 @@ if [[ -z "${CLUSTER_CA_DATA}" ]]; then
     CLUSTER_CA_DATA="$(base64 <"${CLUSTER_CA_FILE}" | tr -d '\n')"
 fi
 
-TOKEN="$(
-    kubectl --namespace "${NAMESPACE}" create token "${SERVICE_ACCOUNT}" --duration "${DURATION}"
+IFS=':' read -r -a SOURCE_KUBECONFIG_PATHS <<<"${SOURCE_KUBECONFIG}"
+for SOURCE_PATH in "${SOURCE_KUBECONFIG_PATHS[@]}"; do
+    if [[ "${SOURCE_PATH}" == "${OUTPUT_PATH}" ]]; then
+        echo "Output path must not overwrite the source kubeconfig used to mint tokens: ${OUTPUT_PATH}" >&2
+        exit 1
+    fi
+done
+
+SCRIPT_DIR="$(
+    cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd
 )"
-if [[ -z "${TOKEN}" ]]; then
-    echo "Failed to create token for ${NAMESPACE}/${SERVICE_ACCOUNT}" >&2
+CREDENTIAL_HELPER="${SCRIPT_DIR}/copilot-kube-credential.sh"
+if [[ ! -x "${CREDENTIAL_HELPER}" ]]; then
+    echo "Credential helper is missing or not executable: ${CREDENTIAL_HELPER}" >&2
     exit 1
 fi
 
@@ -120,10 +144,27 @@ current-context: copilot-readonly@${CLUSTER_NAME}
 users:
   - name: ${SERVICE_ACCOUNT}
     user:
-      token: ${TOKEN}
+      exec:
+        apiVersion: client.authentication.k8s.io/v1
+        command: "$(yaml_quote "${CREDENTIAL_HELPER}")"
+        args:
+          - -n
+          - "$(yaml_quote "${NAMESPACE}")"
+          - -s
+          - "$(yaml_quote "${SERVICE_ACCOUNT}")"
+          - -d
+          - "$(yaml_quote "${DURATION}")"
+          - -c
+          - "$(yaml_quote "${CURRENT_CONTEXT}")"
+        env:
+          - name: KUBECONFIG
+            value: "$(yaml_quote "${SOURCE_KUBECONFIG}")"
+        interactiveMode: Never
 EOF
 
 chmod 600 "${OUTPUT_PATH}"
 
-echo "Wrote scoped kubeconfig: ${OUTPUT_PATH}"
+echo "Wrote scoped kubeconfig with automatic token refresh: ${OUTPUT_PATH}"
+echo "Source kubeconfig: ${SOURCE_KUBECONFIG}"
+echo "Source context: ${CURRENT_CONTEXT}"
 echo "Run: export KUBECONFIG='${OUTPUT_PATH}'"

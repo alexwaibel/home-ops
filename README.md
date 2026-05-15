@@ -21,7 +21,7 @@ scripts/generate-copilot-kubeconfig.sh
 export KUBECONFIG="$HOME/.kube/copilot-config"
 ```
 
-The helper script uses `kubectl create token` to generate a time-limited token for `flux-system/copilot-readonly`.
+Run the setup once from your normal kubeconfig context. The generated kubeconfig uses an exec credential helper to mint time-limited tokens for `flux-system/copilot-readonly` on demand, so you do not need to rerun the script when tokens expire.
 
 ## 🔧 Hardware
 
