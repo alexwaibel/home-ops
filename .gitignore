@@ -18,6 +18,7 @@ talosconfig
 .private/
 .task/
 .venv/
+/build/
 .DS_Store
 Thumbs.db
 # Nix

@@ -12,6 +12,17 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 📁 nix                # nix configurations
 ```
 
+## 🤖 AI agent read-only access
+
+Use the Flux-managed `copilot-readonly` ServiceAccount and a short-lived token instead of an admin kubeconfig:
+
+```sh
+scripts/generate-copilot-kubeconfig.sh
+export KUBECONFIG="$HOME/.kube/copilot-config"
+```
+
+The helper script uses `kubectl create token` to generate a time-limited token for `flux-system/copilot-readonly`.
+
 ## 🔧 Hardware
 
 | Device                       | Count | OS Disk   | Data Disk  | RAM  | OS       | Purpose                |
