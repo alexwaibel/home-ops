@@ -25,7 +25,7 @@ require_cmd() {
     fi
 }
 
-yaml_quote() {
+yaml_escape() {
     printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'
 }
 
@@ -146,19 +146,19 @@ users:
     user:
       exec:
         apiVersion: client.authentication.k8s.io/v1
-        command: "$(yaml_quote "${CREDENTIAL_HELPER}")"
+        command: "$(yaml_escape "${CREDENTIAL_HELPER}")"
         args:
           - -n
-          - "$(yaml_quote "${NAMESPACE}")"
+          - "$(yaml_escape "${NAMESPACE}")"
           - -s
-          - "$(yaml_quote "${SERVICE_ACCOUNT}")"
+          - "$(yaml_escape "${SERVICE_ACCOUNT}")"
           - -d
-          - "$(yaml_quote "${DURATION}")"
+          - "$(yaml_escape "${DURATION}")"
           - -c
-          - "$(yaml_quote "${CURRENT_CONTEXT}")"
+          - "$(yaml_escape "${CURRENT_CONTEXT}")"
         env:
           - name: KUBECONFIG
-            value: "$(yaml_quote "${SOURCE_KUBECONFIG}")"
+            value: "$(yaml_escape "${SOURCE_KUBECONFIG}")"
         interactiveMode: Never
 EOF
 
