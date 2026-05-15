@@ -5,6 +5,7 @@ namespace: media
 
 components:
   - ../../components/sops
+  - ../../components/alerts
 
 resources:
   # Pre Flux-Kustomizations

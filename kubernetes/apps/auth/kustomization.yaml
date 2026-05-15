@@ -5,6 +5,7 @@ namespace: auth
 
 components:
   - ../../components/sops
+  - ../../components/alerts
 
 resources:
   - ./namespace.yaml

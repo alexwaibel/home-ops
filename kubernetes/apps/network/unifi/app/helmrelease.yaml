@@ -71,15 +71,6 @@ spec:
             enabled: true
             port: 10001
             protocol: UDP
-    serviceMonitor:
-      app:
-        serviceName: unifi
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
     route:
       app:
         hostnames:

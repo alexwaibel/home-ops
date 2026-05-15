@@ -6,6 +6,7 @@ namespace: external-secrets
 
 components:
   - ../../components/sops
+  - ../../components/alerts
 
 resources:
   # Pre Flux-Kustomizations
