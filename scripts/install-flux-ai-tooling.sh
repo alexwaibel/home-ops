@@ -6,7 +6,7 @@ usage() {
     cat <<'USAGE'
 Install flux-operator and flux-operator-mcp binaries.
 
-The installer prefers mise/aqua when available and falls back to direct release downloads.
+The installer prefers mise (with aqua package specs) when available and falls back to direct release downloads.
 
 Usage:
   install-flux-ai-tooling.sh [-d install-dir] [-v version]
@@ -98,8 +98,14 @@ install_with_mise() {
         return 1
     fi
 
-    cli_path="$(mise which flux-operator 2>/dev/null || true)"
-    mcp_path="$(mise which flux-operator-mcp 2>/dev/null || true)"
+    if ! cli_path="$(mise which flux-operator 2>/dev/null)"; then
+        echo "mise did not provide expected flux binaries; falling back to direct release downloads."
+        return 1
+    fi
+    if ! mcp_path="$(mise which flux-operator-mcp 2>/dev/null)"; then
+        echo "mise did not provide expected flux binaries; falling back to direct release downloads."
+        return 1
+    fi
 
     if [[ ! -x "${cli_path}" || ! -x "${mcp_path}" ]]; then
         echo "mise did not provide expected flux binaries; falling back to direct release downloads."
