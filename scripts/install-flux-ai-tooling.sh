@@ -27,7 +27,7 @@ require_cmd() {
 
 TMP_DIR=""
 cleanup() {
-    if [[ -n "${TMP_DIR}" ]]; then
+    if [[ -n "${TMP_DIR}" && -d "${TMP_DIR}" ]]; then
         rm -rf "${TMP_DIR}"
     fi
 }
@@ -99,16 +99,16 @@ install_with_mise() {
     fi
 
     if ! cli_path="$(mise which flux-operator 2>/dev/null)"; then
-        echo "mise did not provide expected flux binaries; falling back to direct release downloads."
+        echo "mise install succeeded but flux-operator binary could not be resolved; falling back to direct release downloads."
         return 1
     fi
     if ! mcp_path="$(mise which flux-operator-mcp 2>/dev/null)"; then
-        echo "mise did not provide expected flux binaries; falling back to direct release downloads."
+        echo "mise install succeeded but flux-operator-mcp binary could not be resolved; falling back to direct release downloads."
         return 1
     fi
 
     if [[ ! -x "${cli_path}" || ! -x "${mcp_path}" ]]; then
-        echo "mise did not provide expected flux binaries; falling back to direct release downloads."
+        echo "mise resolved flux binaries but they were not executable (${cli_path}, ${mcp_path}); falling back to direct release downloads."
         return 1
     fi
 
