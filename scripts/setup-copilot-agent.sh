@@ -93,11 +93,11 @@ echo "Setup complete."
 if [[ "${SKIP_KUBECONFIG}" == false ]]; then
     echo "Export read-only kubeconfig: export KUBECONFIG='${KUBECONFIG_OUTPUT}'"
 fi
-cat <<'EOF2'
+cat <<'USAGE_INFO'
 
 Start read-only MCP server with:
   task agent:mcp-serve
 
 MCP server command (for agent configs):
   flux-operator-mcp serve --read-only
-EOF2
+USAGE_INFO
