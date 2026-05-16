@@ -27,7 +27,7 @@ require_cmd() {
 
 TMP_DIR=""
 cleanup() {
-    if [[ -n "${TMP_DIR}" && -d "${TMP_DIR}" ]]; then
+    if [[ -n "${TMP_DIR}" ]]; then
         rm -rf "${TMP_DIR}"
     fi
 }
@@ -87,13 +87,12 @@ install_with_mise() {
         return 1
     fi
 
-    local version_no_v cli_spec mcp_spec cli_path mcp_path
+    local version_no_v cli_spec cli_path mcp_path
     version_no_v="${VERSION#v}"
     cli_spec="aqua:controlplaneio-fluxcd/flux-operator@${version_no_v}"
-    mcp_spec="aqua:controlplaneio-fluxcd/flux-operator-mcp@${version_no_v}"
 
-    echo "Attempting installation via mise (${cli_spec}, ${mcp_spec})..."
-    if ! mise install "${cli_spec}" "${mcp_spec}"; then
+    echo "Attempting installation via mise (${cli_spec})..."
+    if ! mise install "${cli_spec}"; then
         echo "mise install failed; falling back to direct release downloads."
         return 1
     fi
