@@ -10,7 +10,7 @@ Usage:
   copilot-kube-credential.sh [-n namespace] [-s service-account] [-d duration] [-c context]
 
 Options:
-  -n namespace         ServiceAccount namespace (default: flux-system)
+  -n namespace         ServiceAccount namespace (default: agentic)
   -s service-account   ServiceAccount name (default: copilot-readonly)
   -d duration          Token duration passed to kubectl create token (default: 24h)
   -c context           Source kubeconfig context to use
@@ -29,7 +29,7 @@ json_escape() {
     "${PYTHON_BIN}" -c 'import json, sys; print(json.dumps(sys.argv[1])[1:-1])' "$1"
 }
 
-NAMESPACE="flux-system"
+NAMESPACE="agentic"
 SERVICE_ACCOUNT="copilot-readonly"
 DURATION="24h"
 CONTEXT=""

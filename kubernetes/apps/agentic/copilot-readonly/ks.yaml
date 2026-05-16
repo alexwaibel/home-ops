@@ -6,11 +6,11 @@ metadata:
   name: copilot-readonly
 spec:
   interval: 1h
-  path: ./kubernetes/apps/flux-system/copilot-readonly/app
+  path: ./kubernetes/apps/agentic/copilot-readonly/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: flux-system
+  targetNamespace: agentic
   wait: false

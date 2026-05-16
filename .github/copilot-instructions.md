@@ -33,7 +33,7 @@
 ## Read-only kubeconfig workflow for AI agents
 
 - Do **not** use the admin kubeconfig for Copilot/`ghc`.
-- Use the scoped ServiceAccount (`flux-system/copilot-readonly`) and generate a short-lived kubeconfig:
+- Use the scoped ServiceAccount (`agentic/copilot-readonly`) and generate a short-lived kubeconfig:
 
 ```sh
 scripts/generate-copilot-kubeconfig.sh

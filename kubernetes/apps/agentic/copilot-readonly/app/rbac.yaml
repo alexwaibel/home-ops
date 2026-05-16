@@ -137,4 +137,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: copilot-readonly
-    namespace: flux-system
+    namespace: agentic

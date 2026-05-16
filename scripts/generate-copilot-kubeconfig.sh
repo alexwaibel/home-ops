@@ -10,7 +10,7 @@ Usage:
   generate-copilot-kubeconfig.sh [-n namespace] [-s service-account] [-d duration] [-o output-path]
 
 Options:
-  -n namespace         ServiceAccount namespace (default: flux-system)
+  -n namespace         ServiceAccount namespace (default: agentic)
   -s service-account   ServiceAccount name (default: copilot-readonly)
   -d duration          Token duration passed to kubectl create token (default: 24h)
   -o output-path       Output kubeconfig path (default: ${COPILOT_KUBECONFIG:-$HOME/.kube/copilot-config})
@@ -29,7 +29,7 @@ yaml_quote() {
     printf "'%s'" "$(printf '%s' "$1" | sed "s/'/''/g")"
 }
 
-NAMESPACE="flux-system"
+NAMESPACE="agentic"
 SERVICE_ACCOUNT="copilot-readonly"
 DURATION="24h"
 OUTPUT_PATH="${COPILOT_KUBECONFIG:-$HOME/.kube/copilot-config}"
