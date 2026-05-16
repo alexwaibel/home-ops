@@ -48,6 +48,23 @@ export KUBECONFIG="$HOME/.kube/copilot-config"
 scripts/generate-copilot-kubeconfig.sh -d 8h -o ~/.kube/copilot-config
 ```
 
+## Flux MCP + skills workflow for AI agents
+
+- Use task wrappers to prepare tools and skills:
+
+```sh
+task agent:setup -- --install-tools
+```
+
+- The setup installs Flux agent skills from `ghcr.io/fluxcd/agent-skills` for `github-copilot`.
+- Start the MCP server in read-only mode:
+
+```sh
+task agent:mcp-serve
+```
+
+- The repo includes a `copilot-setup-steps` workflow that preinstalls Flux MCP tooling and Flux skills for Copilot cloud sessions.
+
 ## Preferred local/offline inspection commands
 
 - Flux local tests/diff/render (matching CI path):

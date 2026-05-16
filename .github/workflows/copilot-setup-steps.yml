@@ -1,0 +1,35 @@
+---
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+      - scripts/install-flux-ai-tooling.sh
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+      - scripts/install-flux-ai-tooling.sh
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Install Flux AI tooling
+        env:
+          BIN_DIR: ${{ runner.temp }}/bin
+        run: |
+          mkdir -p "${BIN_DIR}"
+          bash scripts/install-flux-ai-tooling.sh -d "${BIN_DIR}"
+          echo "${BIN_DIR}" >> "$GITHUB_PATH"
+
+      - name: Install Flux agent skills for GitHub Copilot
+        run: |
+          flux-operator skills install ghcr.io/fluxcd/agent-skills --agent github-copilot
