@@ -108,7 +108,7 @@ install_with_mise() {
     fi
 
     if [[ ! -x "${cli_path}" || ! -x "${mcp_path}" ]]; then
-        echo "mise resolved flux binaries but they were not executable (${cli_path}, ${mcp_path}); falling back to direct release downloads."
+        echo "mise resolved flux binaries but they did not exist or lacked execute permissions (${cli_path}, ${mcp_path}); falling back to direct release downloads."
         return 1
     fi
 
