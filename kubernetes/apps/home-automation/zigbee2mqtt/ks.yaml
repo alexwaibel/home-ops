@@ -4,6 +4,8 @@ kind: Kustomization
 metadata:
   name: &app zigbee2mqtt
 spec:
+  dependsOn:
+    - name: mosquitto
   interval: 1h
   path: ./kubernetes/apps/home-automation/zigbee2mqtt/app
   postBuild:
