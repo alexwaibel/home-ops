@@ -27,6 +27,16 @@ require_cmd() {
     fi
 }
 
+require_opt_value() {
+    local opt="$1"
+    local value="${2:-}"
+    if [[ -z "${value}" ]]; then
+        echo "Option ${opt} requires a value." >&2
+        usage >&2
+        exit 1
+    fi
+}
+
 SCRIPT_DIR="$({ cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd; })"
 INSTALL_TOOLS=false
 SKIP_KUBECONFIG=false
@@ -46,19 +56,23 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --kubeconfig-output)
-            KUBECONFIG_OUTPUT="${2:-}"
+            require_opt_value "--kubeconfig-output" "${2:-}"
+            KUBECONFIG_OUTPUT="$2"
             shift 2
             ;;
         --duration)
-            DURATION="${2:-}"
+            require_opt_value "--duration" "${2:-}"
+            DURATION="$2"
             shift 2
             ;;
         --skills-ref)
-            SKILLS_REF="${2:-}"
+            require_opt_value "--skills-ref" "${2:-}"
+            SKILLS_REF="$2"
             shift 2
             ;;
         --agent)
-            AGENT="${2:-}"
+            require_opt_value "--agent" "${2:-}"
+            AGENT="$2"
             shift 2
             ;;
         -h | --help)

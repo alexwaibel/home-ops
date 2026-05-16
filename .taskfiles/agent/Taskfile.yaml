@@ -25,4 +25,4 @@ tasks:
     cmd: flux-operator-mcp serve --read-only
     preconditions:
       - which flux-operator-mcp
-      - test -n "${KUBECONFIG:-}"
+      - test -n "${KUBECONFIG:-}" && test -f "${KUBECONFIG}"
