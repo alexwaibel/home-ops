@@ -91,7 +91,7 @@ install_with_mise() {
     version_no_v="${VERSION#v}"
     cli_spec="aqua:controlplaneio-fluxcd/flux-operator@${version_no_v}"
 
-    echo "Attempting installation via mise (${cli_spec})..."
+    echo "Attempting installation via mise (${cli_spec}); expecting both flux-operator binaries from this package..."
     if ! mise install "${cli_spec}"; then
         echo "mise install failed; falling back to direct release downloads."
         return 1
@@ -106,8 +106,12 @@ install_with_mise() {
         return 1
     fi
 
+    if [[ ! -e "${cli_path}" || ! -e "${mcp_path}" ]]; then
+        echo "mise resolved flux binaries but one or both paths did not exist (${cli_path}, ${mcp_path}); falling back to direct release downloads."
+        return 1
+    fi
     if [[ ! -x "${cli_path}" || ! -x "${mcp_path}" ]]; then
-        echo "mise resolved flux binaries but they did not exist or lacked execute permissions (${cli_path}, ${mcp_path}); falling back to direct release downloads."
+        echo "mise resolved flux binaries but one or both paths were not executable (${cli_path}, ${mcp_path}); falling back to direct release downloads."
         return 1
     fi
 
