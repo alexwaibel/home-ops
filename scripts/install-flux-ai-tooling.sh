@@ -89,13 +89,9 @@ install_with_mise() {
 
     local version_no_v cli_spec cli_path mcp_path
     version_no_v="${VERSION#v}"
-    # This aqua package is expected to provide both binaries:
-    # - flux-operator
-    # - flux-operator-mcp
-    # If it does not, the function falls back to direct GitHub release downloads.
     cli_spec="aqua:controlplaneio-fluxcd/flux-operator@${version_no_v}"
 
-    echo "Attempting installation via mise (${cli_spec}); expecting both flux-operator and flux-operator-mcp binaries from this package..."
+    echo "Attempting installation via mise (${cli_spec})..."
     if ! mise install "${cli_spec}"; then
         echo "mise install failed; falling back to direct release downloads."
         return 1
