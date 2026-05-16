@@ -32,4 +32,8 @@ jobs:
 
       - name: Install Flux agent skills for GitHub Copilot
         run: |
-          flux-operator skills install ghcr.io/fluxcd/agent-skills --agent github-copilot
+          if ! flux-operator skills install ghcr.io/fluxcd/agent-skills --agent github-copilot; then
+            echo "::error::Failed to install ghcr.io/fluxcd/agent-skills for github-copilot"
+            echo "::error::Verify the OCI reference is reachable and the flux-operator CLI is working"
+            exit 1
+          fi

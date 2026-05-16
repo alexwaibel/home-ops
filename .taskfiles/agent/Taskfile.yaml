@@ -25,4 +25,5 @@ tasks:
     cmd: flux-operator-mcp serve --read-only
     preconditions:
       - which flux-operator-mcp
-      - test -n "${KUBECONFIG:-}" && test -f "${KUBECONFIG}"
+      - msg: KUBECONFIG must be set and point to an existing kubeconfig file (run `task agent:setup` first)
+        sh: test -n "${KUBECONFIG:-}" && test -f "${KUBECONFIG}"
