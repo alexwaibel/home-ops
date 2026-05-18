@@ -12,7 +12,7 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./bazarr/ks.yaml
-  - ./overseerr/ks.yaml
+  - ./seerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
