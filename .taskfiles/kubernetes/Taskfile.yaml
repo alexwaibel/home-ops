@@ -6,6 +6,31 @@ vars:
   KUBECONFORM_SCRIPT: "{{.SCRIPTS_DIR}}/kubeconform.sh"
 
 tasks:
+  render:
+    desc: Render Flux Kustomizations and HelmReleases to ./build using flux-local
+    cmds:
+      - mkdir -p {{.ROOT_DIR}}/build
+      - >-
+        docker run --rm
+        -v "{{.ROOT_DIR}}:/github/workspace"
+        ghcr.io/allenporter/flux-local:v8.2.0
+        build kustomization
+        --all-namespaces
+        --path /github/workspace/kubernetes/flux/cluster
+        --output yaml
+        > {{.ROOT_DIR}}/build/flux-kustomizations.yaml
+      - >-
+        docker run --rm
+        -v "{{.ROOT_DIR}}:/github/workspace"
+        ghcr.io/allenporter/flux-local:v8.2.0
+        build helmrelease
+        --all-namespaces
+        --path /github/workspace/kubernetes/flux/cluster
+        --output yaml
+        > {{.ROOT_DIR}}/build/flux-helmreleases.yaml
+    preconditions:
+      - which docker
+
   resources:
     desc: Gather common resources in your cluster, useful when asking for support
     cmds:

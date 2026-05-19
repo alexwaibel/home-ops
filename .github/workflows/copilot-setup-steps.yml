@@ -1,0 +1,42 @@
+---
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+      - scripts/install-flux-ai-tooling.sh
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+      - scripts/install-flux-ai-tooling.sh
+
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+
+      - name: Install Flux AI tooling
+        env:
+          BIN_DIR: ${{ runner.temp }}/bin
+        run: |
+          mkdir -p "${BIN_DIR}"
+          bash scripts/install-flux-ai-tooling.sh -d "${BIN_DIR}"
+          echo "${BIN_DIR}" >> "$GITHUB_PATH"
+
+      - name: Install Flux agent skills for GitHub Copilot
+        run: |
+          if ! flux-operator skills install ghcr.io/fluxcd/agent-skills --agent github-copilot; then
+            echo "::error::Failed to install ghcr.io/fluxcd/agent-skills for github-copilot"
+            echo "::error::Verify the OCI reference is reachable and the flux-operator CLI is working"
+            exit 1
+          fi

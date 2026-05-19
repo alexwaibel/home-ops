@@ -18,6 +18,7 @@ env:
   TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 includes:
+  agent: .taskfiles/agent
   bootstrap: .taskfiles/bootstrap
   kubernetes: .taskfiles/kubernetes
   nix: .taskfiles/nix

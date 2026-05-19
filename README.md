@@ -12,6 +12,29 @@ This is the repo for my home infrastructure including a kubernetes cluster. My c
 📁 nix                # nix configurations
 ```
 
+## 🤖 AI agent read-only access
+
+Use the Flux-managed `copilot-readonly` ServiceAccount and a short-lived token instead of an admin kubeconfig:
+
+```sh
+scripts/generate-copilot-kubeconfig.sh
+export KUBECONFIG="$HOME/.kube/copilot-config"
+```
+
+Run the setup once from your normal kubeconfig context. The generated kubeconfig uses an exec credential helper to mint time-limited tokens for `agentic/copilot-readonly` on demand, so you do not need to rerun the script when tokens expire.
+
+### Flux MCP + agent skills
+
+Use task wrappers to install Flux MCP tooling, bootstrap skills for GitHub Copilot, and start a read-only MCP server:
+
+```sh
+task agent:setup -- --install-tools
+export KUBECONFIG="$HOME/.kube/copilot-config"
+task agent:mcp-serve
+```
+
+This installs Flux skills from `ghcr.io/fluxcd/agent-skills` and keeps live cluster access read-only via `flux-operator-mcp serve --read-only`.
+
 ## 🔧 Hardware
 
 | Device                       | Count | OS Disk   | Data Disk  | RAM  | OS       | Purpose                |

@@ -15,5 +15,24 @@
   "yaml.schemas": {
     "kubernetes": "./kubernetes/**/*.yaml"
   },
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv"
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "chat.tools.terminal.autoApprove": {
+    "rm": false,
+    "rmdir": false,
+    "del": false,
+    "kill": false,
+    "curl": false,
+    "wget": false,
+    "nc": false,
+    "ssh": false,
+    "scp": false,
+    "eval": false,
+    "chmod": false,
+    "chown": false,
+    "/^Remove-Item\\b/i": false,
+    "/^kubectl\\s+(apply|delete|edit|patch|replace|create|scale|rollout|drain|cordon|uncordon|label|annotate|cp|exec|port-forward|proxy|debug|attach)\\b/": false,
+    "/^flux\\s+(reconcile|suspend|resume|create|delete)\\b/": false,
+    "/^helm\\s+(install|upgrade|uninstall|rollback)\\b/": false,
+    "/^git\\s+(push|reset|rebase|revert|clean|cherry-pick|merge|branch\\s+-[dD])\\b/": false
+  }
 }

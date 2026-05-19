@@ -1,0 +1,29 @@
+---
+version: "3"
+
+tasks:
+  setup:
+    desc: Setup read-only kubeconfig, Flux MCP tooling and Flux agent skills for Copilot
+    cmd: bash {{.SCRIPTS_DIR}}/setup-copilot-agent.sh {{.CLI_ARGS}}
+    preconditions:
+      - test -f {{.SCRIPTS_DIR}}/setup-copilot-agent.sh
+
+  skills-install:
+    desc: Install Flux GitOps agent skills for GitHub Copilot
+    cmd: flux-operator skills install ghcr.io/fluxcd/agent-skills --agent github-copilot
+    preconditions:
+      - which flux-operator
+
+  skills-update:
+    desc: Update previously installed Flux GitOps agent skills
+    cmd: flux-operator skills update
+    preconditions:
+      - which flux-operator
+
+  mcp-serve:
+    desc: Start Flux MCP server in read-only mode
+    cmd: flux-operator-mcp serve --read-only
+    preconditions:
+      - which flux-operator-mcp
+      - msg: KUBECONFIG must be set and point to an existing kubeconfig file (run `task agent:setup` first)
+        sh: test -n "${KUBECONFIG:-}" && test -f "${KUBECONFIG}"
