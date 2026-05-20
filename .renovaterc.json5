@@ -30,5 +30,25 @@
       ],
       pinDigests: false,
     },
+    {
+      description: "Disable digest pinning for flux-operator-manifests (artifact field does not support digests)",
+      matchManagers: [
+        "regex",
+      ],
+      matchPackageNames: [
+        "/flux-operator-manifests/",
+      ],
+      pinDigests: false,
+    },
+    {
+      description: "Prevent major PostgreSQL upgrades (requires manual data migration)",
+      matchPackageNames: [
+        "/cloudnative-pg\\/postgresql/",
+      ],
+      matchUpdateTypes: [
+        "major",
+      ],
+      enabled: false,
+    },
   ],
 }
