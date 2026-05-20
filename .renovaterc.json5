@@ -21,6 +21,13 @@
       pinDigests: false,
     },
     {
+      description: "Disable digest pinning for flux manager (tag@sha256 breaks flux-local helm template)",
+      matchManagers: [
+        "flux"
+      ],
+      pinDigests: false,
+    },
+    {
       description: "Disable digest pinning for talenv.yaml, talhelper doesn't support digests",
       matchFileNames: [
         "talos/talenv.yaml"
