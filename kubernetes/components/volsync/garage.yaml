@@ -14,9 +14,13 @@ spec:
       engineVersion: v2
       data:
         RESTIC_REPOSITORY: "{{ .RESTIC_REPOSITORY_TEMPLATE }}/${APP}"
-        RESTIC_PASSWORD: "{{ .RESTIC_PASSWORD }}"
+        RESTIC_PASSWORD: "{{ .password }}"
         AWS_ACCESS_KEY_ID: "{{ .GARAGE_S3_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "{{ .GARAGE_S3_SECRET_ACCESS_KEY }}"
+  data:
+    - secretKey: password
+      remoteRef:
+        key: volsync-restic-password
   dataFrom:
     - extract:
         key: volsync-garage
