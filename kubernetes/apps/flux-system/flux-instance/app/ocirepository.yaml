@@ -10,4 +10,5 @@ spec:
     operation: copy
   ref:
     tag: 0.49.0
+    digest: sha256:c4153031131bc42c8d2fb4b12a8cf998ba63269f61c8ae1655c45ba2206816a1
   url: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
