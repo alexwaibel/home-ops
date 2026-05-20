@@ -1,0 +1,15 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:best-practices",
+    "docker:enableMajor",
+    "github>home-operations/renovate-presets#1.1.0",
+    "github>alexwaibel/home-ops//.renovate/autoMerge.json5",
+    "github>alexwaibel/home-ops//.renovate/groups.json5",
+    "github>alexwaibel/home-ops//.renovate/labels.json5",
+    ":automergeBranch",
+    ":disableRateLimiting",
+    ":semanticCommits",
+    ':timezone(America/Los_Angeles)',
+  ],
+}

@@ -15,5 +15,8 @@
   "yaml.schemas": {
     "kubernetes": "./kubernetes/**/*.yaml"
   },
-  "python.defaultInterpreterPath": "${workspaceFolder}/.venv"
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv",
+  "[yaml]": {
+    "editor.defaultFormatter": "bluebrown.yamlfmt",
+  },
 }
