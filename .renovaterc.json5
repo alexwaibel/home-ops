@@ -1,52 +1,52 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    "config:best-practices",
-    "docker:enableMajor",
-    "github>home-operations/renovate-presets#1.1.0",
-    "github>alexwaibel/home-ops//.renovate/autoMerge.json5",
-    "github>alexwaibel/home-ops//.renovate/groups.json5",
-    "github>alexwaibel/home-ops//.renovate/labels.json5",
-    ":automergeBranch",
-    ":disableRateLimiting",
-    ":semanticCommits",
+    'config:best-practices',
+    'docker:enableMajor',
+    'github>home-operations/renovate-presets#1.1.0',
+    'github>alexwaibel/home-ops//.renovate/autoMerge.json5',
+    'github>alexwaibel/home-ops//.renovate/groups.json5',
+    'github>alexwaibel/home-ops//.renovate/labels.json5',
+    ':automergeBranch',
+    ':disableRateLimiting',
+    ':semanticCommits',
     ':timezone(America/Los_Angeles)',
   ],
   packageRules: [
     {
-      description: "Disable digest pinning for helmfile manager (format has no digest field)",
+      description: 'Disable digest pinning for helmfile manager (format has no digest field)',
       matchManagers: [
-        "helmfile",
+        'helmfile',
       ],
       pinDigests: false,
     },
     {
-      description: "Disable digest pinning for siderolabs images (neither tuppr nor talhelper support digests)",
+      description: 'Disable digest pinning for siderolabs images (neither tuppr nor talhelper support digests)',
       matchManagers: [
-        "regex",
+        'custom.regex',
       ],
       matchPackageNames: [
-        "/siderolabs/",
+        '/siderolabs/',
       ],
       pinDigests: false,
     },
     {
-      description: "Disable digest pinning for flux-operator-manifests (artifact field does not support digests)",
+      description: 'Disable digest pinning for flux-operator-manifests (artifact field does not support digests)',
       matchManagers: [
-        "regex",
+        'custom.regex',
       ],
       matchPackageNames: [
-        "/flux-operator-manifests/",
+        '/flux-operator-manifests/',
       ],
       pinDigests: false,
     },
     {
-      description: "Prevent major PostgreSQL upgrades (requires manual data migration)",
+      description: 'Prevent major PostgreSQL upgrades (requires manual data migration)',
       matchPackageNames: [
-        "/cloudnative-pg\\/postgresql/",
+        '/cloudnative-pg\\/postgresql/',
       ],
       matchUpdateTypes: [
-        "major",
+        'major',
       ],
       enabled: false,
     },
