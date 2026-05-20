@@ -12,4 +12,20 @@
     ":semanticCommits",
     ':timezone(America/Los_Angeles)',
   ],
+  packageRules: [
+    {
+      description: "Disable digest pinning for helmfile manager (format has no digest field)",
+      matchManagers: [
+        "helmfile"
+      ],
+      pinDigests: false,
+    },
+    {
+      description: "Disable digest pinning for talenv.yaml, talhelper doesn't support digests",
+      matchFileNames: [
+        "talos/talenv.yaml"
+      ],
+      pinDigests: false,
+    },
+  ],
 }
