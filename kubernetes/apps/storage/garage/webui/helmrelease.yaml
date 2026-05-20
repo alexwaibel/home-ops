@@ -22,11 +22,22 @@ spec:
             env:
               API_BASE_URL: http://garage.storage.svc.cluster.local:3903
               S3_ENDPOINT_URL: http://garage.storage.svc.cluster.local:3900
-              API_ADMIN_KEY:
-                valueFrom:
-                  secretKeyRef:
-                    name: garage-secret
-                    key: GARAGE_ADMIN_TOKEN
+            envFrom:
+              - secretRef:
+                  name: garage-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: 3909
+                  initialDelaySeconds: 15
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
