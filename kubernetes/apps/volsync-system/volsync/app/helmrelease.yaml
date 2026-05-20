@@ -8,7 +8,7 @@ spec:
     kind: OCIRepository
     name: volsync
   dependsOn:
-    - name: minio
+    - name: garage
       namespace: storage
     - name: snapshot-controller
       namespace: volsync-system
