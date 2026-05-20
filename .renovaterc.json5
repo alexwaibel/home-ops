@@ -16,21 +16,17 @@
     {
       description: "Disable digest pinning for helmfile manager (format has no digest field)",
       matchManagers: [
-        "helmfile"
+        "helmfile",
       ],
       pinDigests: false,
     },
     {
-      description: "Disable digest pinning for flux manager (tag@sha256 breaks flux-local helm template)",
+      description: "Disable digest pinning for siderolabs images (neither tuppr nor talhelper support digests)",
       matchManagers: [
-        "flux"
+        "regex",
       ],
-      pinDigests: false,
-    },
-    {
-      description: "Disable digest pinning for talenv.yaml, talhelper doesn't support digests",
-      matchFileNames: [
-        "talos/talenv.yaml"
+      matchPackageNames: [
+        "/siderolabs/",
       ],
       pinDigests: false,
     },
