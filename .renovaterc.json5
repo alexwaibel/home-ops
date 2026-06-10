@@ -3,7 +3,7 @@
   extends: [
     'config:best-practices',
     'docker:enableMajor',
-    'github>home-operations/renovate-presets#1.3.1',
+    'github>home-operations/renovate-presets#2.0.0',
     'github>alexwaibel/home-ops//.renovate/autoMerge.json5',
     'github>alexwaibel/home-ops//.renovate/groups.json5',
     'github>alexwaibel/home-ops//.renovate/labels.json5',
