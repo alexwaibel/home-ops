@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.28.2
-    digest: sha256:fb74f401206b350d690edd4f5b738346cca1ff5fa026c495c6ad70d10b192a81
+    tag: 0.28.3
+    digest: sha256:e01684efd9aa83c81578a2f624c0bd702e607844b8f0bf19196230322703485a
   url: oci://ghcr.io/cloudnative-pg/charts/cloudnative-pg
