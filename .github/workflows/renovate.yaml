@@ -55,6 +55,7 @@ jobs:
         uses: renovatebot/github-action@8217b3fc286df088d7c27f3255fe8414463bc0fd # v46.1.15
         env:
           LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}
+          RENOVATE_ALLOWED_UNSAFE_EXECUTIONS: '["mise"]'
           RENOVATE_AUTODISCOVER: true
           RENOVATE_AUTODISCOVER_FILTER: ${{ github.repository }}
           RENOVATE_DRY_RUN: ${{ inputs.dryRun }}
