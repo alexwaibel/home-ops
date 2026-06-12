@@ -41,5 +41,4 @@
       enabled: false,
     },
   ],
-  allowedUnsafeExecutions: [ "mise" ],
 }
