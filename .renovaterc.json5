@@ -21,12 +21,9 @@
       pinDigests: false,
     },
     {
-      description: 'Disable digest pinning for siderolabs images (neither tuppr nor talhelper support digests)',
+      description: 'Disable digest pinning for the annotated (custom.regex) manager (# renovate comments)',
       matchManagers: [
         'custom.regex',
-      ],
-      matchPackageNames: [
-        '/siderolabs/',
       ],
       pinDigests: false,
     },
