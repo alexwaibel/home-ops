@@ -122,7 +122,7 @@ jobs:
       - name: Render and validate HelmReleases
         env:
           # renovate: datasource=docker depName=ghcr.io/allenporter/flux-local
-          FLUX_LOCAL_VERSION: v8.3.0
+          FLUX_LOCAL_VERSION: v8.4.0
           # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
           KUBERNETES_VERSION: 1.36.2
         run: |
