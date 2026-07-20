@@ -106,6 +106,10 @@ spec:
         type: emptyDir
         globalMounts:
           - path: /tmp
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /var/log/shelfmark
       books:
         type: nfs
         server: 192.168.20.11
