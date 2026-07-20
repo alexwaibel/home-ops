@@ -1,0 +1,115 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shelfmark
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: shelfmark
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  interval: 1h
+  values:
+    controllers:
+      shelfmark:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.41.1@sha256:1a5bf4b4820a879cdf8d93d7ef0d2d963af56670c9ebff8981860b6804ebc8ab
+            env:
+              VPN_SERVICE_PROVIDER: custom
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+              FIREWALL_INPUT_PORTS: &port 8084
+              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12 # Allow access to k8s subnets
+            envFrom:
+              - secretRef:
+                  name: shelfmark-gluetun-secret
+            resources:
+              limits:
+                squat.ai/tun: "1"
+            restartPolicy: Always
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                add:
+                  - NET_ADMIN
+        containers:
+          app:
+            image:
+              repository: ghcr.io/calibrain/shelfmark
+              tag: v1.3.3@sha256:1f0e9ecdef24a3d8f5787282eaea3859edcd3bb0c3d508382e2b2bc4bb18d7d6
+            env:
+              TZ: America/Los_Angeles
+              PUID: 568
+              PGID: 568
+              FLASK_PORT: *port
+              AUTH_METHOD: oidc
+              OIDC_DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              OIDC_CLIENT_ID: shelfmark
+              OIDC_GROUP_CLAIM: groups
+              OIDC_ADMIN_GROUP: admins
+              HIDE_LOCAL_AUTH: "true"
+              OIDC_AUTO_REDIRECT: "true"
+            envFrom:
+              - secretRef:
+                  name: shelfmark-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 568
+              runAsGroup: 568
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 50m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      config:
+        existingClaim: shelfmark
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      books:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/books
+        globalMounts:
+          - path: /books
+            subPath: ingest

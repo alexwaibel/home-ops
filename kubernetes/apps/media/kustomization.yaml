@@ -12,9 +12,11 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./bazarr/ks.yaml
+  - ./bookboss/ks.yaml
   - ./seerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
+  - ./shelfmark/ks.yaml
   - ./sonarr/ks.yaml

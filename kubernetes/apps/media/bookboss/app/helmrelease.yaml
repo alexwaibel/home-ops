@@ -1,0 +1,112 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bookboss
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: bookboss
+  interval: 1h
+  values:
+    controllers:
+      bookboss:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
+            envFrom: &envFrom
+              - secretRef:
+                  name: bookboss-secret
+        containers:
+          app:
+            image:
+              repository: ghcr.io/szinn/bookboss
+              tag: v0.8.31@sha256:3bed78dabd1b2b33ee0ac039fce22e49adf1bbfeaa39b40f1e9bf7d4122c989d
+            env:
+              TZ: America/Los_Angeles
+              BOOKBOSS__FRONTEND__LISTEN_IP: 0.0.0.0
+              BOOKBOSS__FRONTEND__LISTEN_PORT: &port 8080
+              BOOKBOSS__FRONTEND__BASE_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              BOOKBOSS__LIBRARY__LIBRARY_PATH: /library/books
+              BOOKBOSS__IMPORT__BOOKDROP_PATH: /library/bookdrop
+              BOOKBOSS__OIDC__DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              BOOKBOSS__OIDC__CLIENT_ID: bookboss
+              BOOKBOSS__OIDC__BUTTON_LABEL: Sign in with Authelia
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  failureThreshold: 30
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 1Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      library:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/books
+        globalMounts:
+          - path: /library/books
+            subPath: library
+      bookdrop:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/books
+        globalMounts:
+          - path: /library/bookdrop
+            subPath: ingest
