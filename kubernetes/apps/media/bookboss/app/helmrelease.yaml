@@ -3,18 +3,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: bookboss
 spec:
   chartRef:
     kind: OCIRepository
-    name: radarr
-  dependsOn:
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
+    name: bookboss
   interval: 1h
   values:
     controllers:
-      radarr:
+      bookboss:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -24,23 +21,22 @@ spec:
               tag: 18@sha256:ebd9d30add17acdf935d73eb004758c7dfd9388aaa605fda70ad74378ab92aec
             envFrom: &envFrom
               - secretRef:
-                  name: radarr-secret
+                  name: bookboss-secret
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/radarr
-              tag: 6.4.0.10523@sha256:c82ca292d70ac798bc993421fa7467b0c760238db646a1abc7789115d4359d5c
+              repository: ghcr.io/szinn/bookboss
+              tag: v0.8.31@sha256:3bed78dabd1b2b33ee0ac039fce22e49adf1bbfeaa39b40f1e9bf7d4122c989d
             env:
-              RADARR__APP__INSTANCENAME: Radarr
-              RADARR__APP__THEME: dark
-              RADARR__AUTH__METHOD: External
-              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              RADARR__LOG__DBENABLED: "False"
-              RADARR__LOG__LEVEL: info
-              RADARR__LOG__ANALYTICSENABLED: "False"
-              RADARR__SERVER__PORT: &port 80
-              RADARR__UPDATE__BRANCH: develop
               TZ: America/Los_Angeles
+              BOOKBOSS__FRONTEND__LISTEN_IP: 0.0.0.0
+              BOOKBOSS__FRONTEND__LISTEN_PORT: &port 8080
+              BOOKBOSS__FRONTEND__BASE_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              BOOKBOSS__LIBRARY__LIBRARY_PATH: /library/books
+              BOOKBOSS__IMPORT__BOOKDROP_PATH: /library/bookdrop
+              BOOKBOSS__OIDC__DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
+              BOOKBOSS__OIDC__CLIENT_ID: bookboss
+              BOOKBOSS__OIDC__BUTTON_LABEL: Sign in with Authelia
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -48,20 +44,31 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /ping
+                    path: /
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  failureThreshold: 30
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 100m
+                cpu: 50m
+                memory: 128Mi
               limits:
                 memory: 1Gi
     defaultPodOptions:
@@ -85,21 +92,21 @@ spec:
           - name: envoy-internal
             namespace: network
     persistence:
-      config:
-        existingClaim: radarr
-      scripts:
-        type: configMap
-        name: radarr-configmap
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/pushover-notify.sh
-            subPath: pushover-notify.sh
-            readOnly: true
       tmp:
         type: emptyDir
-      media:
+        globalMounts:
+          - path: /tmp
+      library:
         type: nfs
         server: 192.168.20.11
-        path: /data/media
+        path: /data/books
         globalMounts:
-          - path: /media
+          - path: /library/books
+            subPath: library
+      bookdrop:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/books
+        globalMounts:
+          - path: /library/bookdrop
+            subPath: ingest
