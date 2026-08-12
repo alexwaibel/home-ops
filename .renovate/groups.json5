@@ -8,8 +8,8 @@
         "docker",
         "github-releases"
       ],
-      matchPackagePatterns: [
-        "dragonfly(?:db)?.operator"
+      matchPackageNames: [
+        "/dragonfly(?:db)?.operator/"
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
@@ -82,9 +82,9 @@
         "Talos Group"
       ],
       groupName: "Talos",
-      matchPackagePatterns: [
-        "siderolabs/talosctl",
-        "siderolabs/installer"
+      matchPackageNames: [
+        "/siderolabs/talosctl/",
+        "/siderolabs/installer/"
       ],
       matchDatasources: [
         "docker"

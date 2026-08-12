@@ -1,15 +1,12 @@
 {
   $schema: 'https://docs.renovatebot.com/renovate-schema.json',
   extends: [
-    'config:best-practices',
-    'docker:enableMajor',
-    'github>home-operations/renovate-presets#5.0.0',
+    'github>home-operations/renovate-presets#7.0.0',
+    'github>home-operations/renovate-presets//apps/cnpg.json5#7.0.0',
+    'github>home-operations/renovate-presets//apps/grafanaDashboards.json5#7.0.0',
     'github>alexwaibel/home-ops//.renovate/autoMerge.json5',
     'github>alexwaibel/home-ops//.renovate/groups.json5',
     'github>alexwaibel/home-ops//.renovate/labels.json5',
-    ':automergeBranch',
-    ':disableRateLimiting',
-    ':semanticCommits',
     ':timezone(America/Los_Angeles)',
   ],
   packageRules: [
