@@ -171,43 +171,43 @@ url_api = "https://api.github.com/repos/cli/cli/releases/assets/496108319"
 provenance = "github-attestations"
 
 [[tools."aqua:cloudflare/cloudflared"]]
-version = "2026.7.3"
+version = "2026.8.2"
 backend = "aqua:cloudflare/cloudflared"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64"]
-checksum = "sha256:65259e652a7bea08bf5df603233ab22b8bf3116af8df9f9206209af6a1b955c0"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-linux-arm64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487053052"
+checksum = "sha256:7747d94570fb390cf47dcb4f9555c193c6355cda9793f0d878d9049e5d6a7790"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-arm64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514390092"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64-musl"]
-checksum = "sha256:65259e652a7bea08bf5df603233ab22b8bf3116af8df9f9206209af6a1b955c0"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-linux-arm64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487053052"
+checksum = "sha256:7747d94570fb390cf47dcb4f9555c193c6355cda9793f0d878d9049e5d6a7790"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-arm64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514390092"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64"]
-checksum = "sha256:9d71c677db00134c1bd4144b7783486b654ad281b1ea62b4972098d19f770f17"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-linux-amd64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487052912"
+checksum = "sha256:fcfb02b575a52ca1af2e3267af4e1517bcdeb30ac48c834c69abaed3c0576ad2"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-amd64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514389937"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64-musl"]
-checksum = "sha256:9d71c677db00134c1bd4144b7783486b654ad281b1ea62b4972098d19f770f17"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-linux-amd64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487052912"
+checksum = "sha256:fcfb02b575a52ca1af2e3267af4e1517bcdeb30ac48c834c69abaed3c0576ad2"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-linux-amd64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514389937"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-arm64"]
-checksum = "sha256:90c5a4f914d705fd70c135dba6d80b1791d254b08d6d4136301941f88330dd09"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-darwin-arm64.tgz"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487053461"
+checksum = "sha256:9042c2c5d8b2de78e60f313d5fb31b6c5c1cebde787a3caf1f2c9588084ac442"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-darwin-arm64.tgz"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514389484"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-x64"]
-checksum = "sha256:70d1c8684fa6d14b5843787ec8d1ea8e18b23650e424f4ea43d849a506487c3b"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-darwin-amd64.tgz"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487053558"
+checksum = "sha256:f1727723c586500e2092368ae21871b3df7ddfd2cb097f22d81bee4a9c458bb4"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-darwin-amd64.tgz"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514389917"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.windows-x64"]
-checksum = "sha256:8635da433b6df8194746e88ed9d2589566c20e38bfc2a80e431a348b7c765841"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.7.3/cloudflared-windows-amd64.exe"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/487053700"
+checksum = "sha256:c29eee2b121f5436a642eed69fd9767da7e7b8c510fa50aaa130337f931357b5"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.8.2/cloudflared-windows-amd64.exe"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/514390329"
 
 [[tools."aqua:cue-lang/cue"]]
 version = "0.17.1"
