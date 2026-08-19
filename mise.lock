@@ -642,7 +642,7 @@ url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146721"
 provenance = "cosign"
 
 [[tools."aqua:siderolabs/talos"]]
-version = "1.13.8"
+version = "1.13.9"
 backend = "aqua:siderolabs/talos"
 
 [tools."aqua:siderolabs/talos"."platforms.linux-arm64"]
