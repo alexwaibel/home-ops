@@ -81,7 +81,7 @@ radios, NAS, etc).
 
 - `HOST_MQTT` = 192.168.20.85
 - `HOST_MQTT_PORT` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
-- `HOST_HA_FRONTEND` = 192.168.20.81 (dedicated Envoy Gateway frontend, `envoy-ha`)
+- `HOST_HA_FRONTEND` = 192.168.20.91 (dedicated Envoy Gateway frontend, `envoy-ha`)
 - `HOST_HA_EGRESS` = 192.168.20.89 (**placeholder** - Cilium egress gateway source IP for
   Home Assistant pod egress; confirm this IP is free and configure it as an alias/secondary IP
   on the elected Cilium node's interface before relying on it)
