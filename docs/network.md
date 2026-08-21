@@ -79,39 +79,26 @@ radios, NAS, etc).
 - `NET_MGMT` = 192.168.10.0/24
 - `NET_COMPUTE` = 192.168.20.0/24
 - `NET_WG` = 192.168.50.0/24
-- `NET_HOME` = union of all of the above (used for "block RFC1918 in general" rules)
 - `NET_PRIVATE_V4` = 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 (all RFC1918, for default-deny rules)
 
 **Host aliases:**
 
 - `HOST_MQTT` = 192.168.20.85 (Mosquitto broker LoadBalancer IP)
-- `HOST_HA_FRONTEND` = 192.168.20.91 (Home Assistant LoadBalancer IP - the LAN / inter-VLAN
-  front door for HA on port 8123. It is a plain LoadBalancer service, not an Envoy gateway.
-  External access to HA is separate: it flows through the Cloudflare tunnel to `envoy-external` -
-  see [Home Assistant ingress paths](#home-assistant-ingress-paths) below)
 - `HOST_PLEX` = 192.168.20.87
 - `HOST_SAMSUNG_TV` = *(placeholder - static-reserve the TV's IP and fill in)*
 
 **Port aliases:**
 
 - `PORT_MQTT_TLS` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
-- `PORT_HA` = 8123 (Home Assistant HTTP, reached directly on `HOST_HA_FRONTEND` from the LAN)
 - `PORT_PLEX` = 32400
 
-## Home Assistant ingress paths
+## Home Assistant access
 
-Home Assistant is reachable two independent ways, and this split is deliberate:
-
-- **LAN / inter-VLAN**: clients on the LAN (e.g. Personal) reach HA directly at
-  `HOST_HA_FRONTEND` (`192.168.20.91`) on `PORT_HA` (8123). This is a dedicated Cilium
-  LoadBalancer IP on HA's own Kubernetes service - a firewall rule to `HOST_HA_FRONTEND` means
-  "reach Home Assistant" specifically, not "reach the shared ingress gateway". The LAN path is
-  plain HTTP; if TLS on the LAN is wanted later, Home Assistant can serve its own certificate on
-  this IP.
-- **External / internet**: served through the Cloudflare tunnel, whose wildcard ingress
-  (`*.${SECRET_DOMAIN}`) terminates at the shared `envoy-external` Envoy gateway, which routes
-  `hass.${SECRET_DOMAIN}` to Home Assistant. HTTPS is terminated there. No dedicated gateway is
-  needed for HA.
+Home Assistant is reached over the internet through the Cloudflare tunnel, whose wildcard
+ingress (`*.${SECRET_DOMAIN}`) terminates at the shared `envoy-external` Envoy gateway, which
+routes `hass.${SECRET_DOMAIN}` to Home Assistant. HTTPS is terminated there. Home Assistant has
+no dedicated LAN LoadBalancer IP in this baseline, so there is no inter-VLAN firewall rule for
+reaching its dashboard directly - LAN clients use the same tunnel hostname.
 
 ## Per-VLAN firewall policy matrix
 
@@ -191,8 +178,7 @@ see [Deferred / future work](#deferred--future-work).
 ### VLAN 50 WireGuard
 
 - Split-tunnel: per-peer `/32` allow rules to only the specific internal hosts/ports that peer
-  needs (e.g. admin peer -> `NET_MGMT` + `NET_COMPUTE`; service peer -> single host such as
-  `HOST_HA_FRONTEND:PORT_HA`).
+  needs (e.g. admin peer -> `NET_MGMT` + `NET_COMPUTE`; service peer -> a single host/port).
 - Block `NET_WG -> NET_PRIVATE_V4` except the explicit per-peer allows above.
 
 ## mDNS reflection scope
@@ -240,7 +226,7 @@ The UAP-AC-Pro does not support PPSK, so per-device Wi-Fi identity is approximat
   - **Admin peers**: routed into `NET_WG`, with firewall rules granting Management + Compute
     access. Admin access uses WireGuard even from inside the house (no LAN-based admin bypass).
   - **Service peers**: routed into `NET_WG`, with firewall rules granting access to exactly one
-    destination host/port (e.g. remote access to `HOST_HA_FRONTEND:PORT_HA` only).
+    destination host/port.
 - Split-tunnel by default; only home-network-destined traffic goes over the tunnel.
 - An emergency physical Management port (a switch port hard-wired to `NET_MGMT`, physically
   accessible only to the owner) exists as an out-of-band recovery path if WireGuard/OPNsense
@@ -265,7 +251,7 @@ relied on (a device phoning home, a cast target, a printer, NFS quirks). To limi
 For each VLAN, verify:
 
 1. **Positive**: the explicit allow rules in the matrix above work (e.g. IoT-Local device can
-   reach `HOST_MQTT:8883`, Personal can reach `HOST_HA_FRONTEND:PORT_HA`, Media can reach Plex).
+   reach `HOST_MQTT:8883`, Media can reach Plex).
 2. **Negative**: everything not explicitly allowed is blocked and logged (e.g. IoT-Cloud cannot
    reach Management or Compute, Guest cannot reach any RFC1918, Media cannot initiate to
    Personal).
