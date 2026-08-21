@@ -37,7 +37,7 @@ current gaps or unremediated weaknesses.
 | 4  | Guest        | 192.168.4.0/24    | 192.168.4.1    | 192.168.4.100+ | Internet-only, isolated                  |
 | 5  | Work         | 192.168.5.0/24    | 192.168.5.1    | 192.168.5.100+ | Work laptop/phone, isolated from home    |
 | 6  | IoT-Local    | 192.168.6.0/24    | 192.168.6.1    | 192.168.6.100+ | LAN-only IoT, no WAN                     |
-| 7  | Media        | 192.168.7.0/24    | 192.168.7.1    | 192.168.7.100+ | Media/entertainment devices              |
+| 7  | Media        | 192.168.7.0/24    | 192.168.7.1    | 192.168.7.100+ | Media/entertainment devices, incl. game consoles |
 | 10 | Management   | 192.168.10.0/24   | 192.168.10.1   | 192.168.10.100+| Switch/AP/router admin plane             |
 | 20 | Compute      | 192.168.20.0/24   | 192.168.20.1   | 192.168.20.100+| Homelab/k8s/NAS, low IPs = infra         |
 | 50 | WireGuard    | 192.168.50.0/24   | 192.168.50.1   | n/a (per-peer) | Remote access, per-peer /32s             |
@@ -55,6 +55,7 @@ radios, NAS, etc).
 | Denon AVR                                  | 7 Media      | Media/entertainment, casting target            |
 | Samsung TV                                 | 7 Media      | Media/entertainment; WAN blocked per-host       |
 | NVIDIA Shield                              | 7 Media      | Media/entertainment, casting target            |
+| Game consoles (PlayStation/Xbox/Switch)     | 7 Media      | Media/entertainment, casting target            |
 | Zigbee radio (192.168.20.184:6638)         | 20 Compute   | In-cluster serial-over-IP bridge for zigbee2mqtt|
 | Z-Wave radio (192.168.20.183)              | 20 Compute   | In-cluster serial-over-IP bridge                |
 | zigbee2mqtt / Home Assistant / Mosquitto   | 20 Compute   | Cluster-hosted infrastructure services          |
