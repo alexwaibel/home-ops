@@ -82,7 +82,10 @@ radios, NAS, etc).
 
 - `HOST_MQTT` = 192.168.20.85
 - `HOST_MQTT_PORT` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
-- `HOST_HA_FRONTEND` = 192.168.20.91 (dedicated Envoy Gateway frontend, `envoy-ha`)
+- `HOST_HA_FRONTEND` = 192.168.20.91 (dedicated Cilium LoadBalancer IP on the Home Assistant
+  service; this is the LAN / inter-VLAN front door for HA on port 8123. It is a plain
+  LoadBalancer service, not an Envoy gateway. External access to HA is separate - it flows
+  through the Cloudflare tunnel to `envoy-external` - see "Home Assistant ingress paths" below)
 - `HOST_K8S_NODES` = 192.168.20.21, 192.168.20.22, 192.168.20.23 (the Talos nodes; used as the
   source for Home Assistant's cross-VLAN egress rules - see "Home Assistant cross-VLAN egress
   (Option D)" below for why this alias is deliberately coarse)
@@ -94,9 +97,24 @@ radios, NAS, etc).
 **Port aliases:**
 
 - `PORT_MQTT_TLS` = 8883
-- `PORT_HA` = 443 (HTTPS only, via `HOST_HA_FRONTEND`)
+- `PORT_HA` = 8123 (Home Assistant HTTP, reached directly on `HOST_HA_FRONTEND` from the LAN)
 - `PORT_ESPHOME_API` = 6053 (optional, only if native API is used instead of MQTT)
 - `PORT_CAST` = 8008-8009, 8443 (Google Cast control/discovery, HA-initiated only)
+
+## Home Assistant ingress paths
+
+Home Assistant is reachable two independent ways, and this split is deliberate:
+
+- **LAN / inter-VLAN**: clients on the LAN (e.g. Personal) reach HA directly at
+  `HOST_HA_FRONTEND` (`192.168.20.91`) on `PORT_HA` (8123). This is a dedicated Cilium
+  LoadBalancer IP on HA's own Kubernetes service - a firewall rule to `HOST_HA_FRONTEND` means
+  "reach Home Assistant" specifically, not "reach the shared ingress gateway". The LAN path is
+  plain HTTP; if TLS on the LAN is wanted later, Home Assistant can serve its own certificate on
+  this IP.
+- **External / internet**: served through the Cloudflare tunnel, whose wildcard ingress
+  (`*.${SECRET_DOMAIN}`) terminates at the shared `envoy-external` Envoy gateway, which routes
+  `hass.${SECRET_DOMAIN}` to Home Assistant. HTTPS is terminated there. No dedicated gateway is
+  needed for HA.
 
 ## Per-VLAN firewall policy matrix
 
@@ -134,7 +152,7 @@ Default-deny inter-VLAN; explicit allow rules evaluated top-to-bottom per interf
 ### VLAN 2 Personal
 1. Allow `NET_PERSONAL -> this firewall` DNS/DHCP/NTP
 2. Allow admin clients (a small alias, not the whole `NET_PERSONAL`) `-> NET_MGMT`
-3. Allow `NET_PERSONAL -> HOST_HA_FRONTEND:443`
+3. Allow `NET_PERSONAL -> HOST_HA_FRONTEND:PORT_HA`
 4. Allow `NET_PERSONAL -> NET_MEDIA` (casting, see Media matrix rule 2)
 5. Block `NET_PERSONAL -> NET_PRIVATE_V4` except rules above (log)
 6. Allow `NET_PERSONAL -> WAN` any
@@ -221,7 +239,7 @@ The UAP-AC-Pro does not support PPSK, so per-device Wi-Fi identity is approximat
     Compute access. Admin access uses WireGuard even from inside the house (no LAN-based admin
     bypass).
   - **Service peers**: routed into `NET_WG`, with firewall rules granting access to exactly one
-    destination host/port (e.g. remote access to `HOST_HA_FRONTEND:443` only).
+    destination host/port (e.g. remote access to `HOST_HA_FRONTEND:PORT_HA` only).
 - Split-tunnel by default; only home-network-destined traffic goes over the tunnel.
 - An emergency physical Management port (a switch port hard-wired to `NET_MGMT`, physically
   accessible only to the owner) exists as an out-of-band recovery path if WireGuard/OPNsense
@@ -232,7 +250,7 @@ The UAP-AC-Pro does not support PPSK, so per-device Wi-Fi identity is approximat
 For each VLAN, verify:
 
 1. **Positive**: the explicit allow rules in the matrix above work (e.g. IoT-Local device can
-   reach `HOST_MQTT:8883`, Personal can reach `HOST_HA_FRONTEND:443`).
+   reach `HOST_MQTT:8883`, Personal can reach `HOST_HA_FRONTEND:PORT_HA`).
 2. **Negative**: everything not explicitly allowed is blocked and logged (e.g. IoT-Cloud cannot
    reach Management, Guest cannot reach Compute).
 3. **Spoofing test**: from a device on the VLAN, attempt to source traffic as another host's IP
