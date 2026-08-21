@@ -68,11 +68,6 @@ spec:
     service:
       app:
         controller: home-assistant
-        # Dedicated LoadBalancer IP = the LAN / inter-VLAN "front door" for Home Assistant
-        # (HOST_HA_FRONTEND in docs/network.md). Untrusted VLANs (IoT, Personal) reach HA at
-        # this IP directly on 8123, so a firewall rule to HOST_HA_FRONTEND means "reach HA" and
-        # not "reach the shared gateway". External access is separate: it flows through the
-        # Cloudflare tunnel (*.${SECRET_DOMAIN} -> envoy-external), see the app route below.
         type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.20.91
