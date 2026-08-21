@@ -47,7 +47,8 @@ spec:
       toPorts:
         - ports:
             - port: "8008"
-              endPort: 8009
+              protocol: TCP
+            - port: "8009"
               protocol: TCP
             - port: "8443"
               protocol: TCP
