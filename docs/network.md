@@ -82,9 +82,9 @@ radios, NAS, etc).
 - `HOST_MQTT` = 192.168.20.85
 - `HOST_MQTT_PORT` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
 - `HOST_HA_FRONTEND` = 192.168.20.91 (dedicated Envoy Gateway frontend, `envoy-ha`)
-- `HOST_HA_EGRESS` = 192.168.20.89 (**placeholder** - Cilium egress gateway source IP for
-  Home Assistant pod egress; confirm this IP is free and configure it as an alias/secondary IP
-  on the elected Cilium node's interface before relying on it)
+- `HOST_K8S_NODES` = 192.168.20.21, 192.168.20.22, 192.168.20.23 (the Talos nodes; used as the
+  source for Home Assistant's cross-VLAN egress rules - see "Home Assistant cross-VLAN egress
+  (Option D)" below for why this alias is deliberately coarse)
 - `HOST_ZIGBEE_RADIO` = 192.168.20.184:6638
 - `HOST_ZWAVE_RADIO` = 192.168.20.183
 - `HOST_PLEX` = 192.168.20.87
@@ -123,8 +123,10 @@ Default-deny inter-VLAN; explicit allow rules evaluated top-to-bottom per interf
 
 ### VLAN 20 Compute
 1. Allow `NET_COMPUTE -> this firewall` DNS/DHCP/NTP
-2. Allow `HOST_HA_EGRESS -> NET_MEDIA` `PORT_CAST` (Google Cast control from HA only)
-3. Allow `HOST_HA_EGRESS -> NET_IOT_LOCAL` `PORT_ESPHOME_API` (optional, only if native API used)
+2. Allow `HOST_K8S_NODES -> NET_MEDIA` `PORT_CAST` (Google Cast control; restricted to the
+   Home Assistant pod by the in-cluster `CiliumNetworkPolicy`, not by this source alias)
+3. Allow `HOST_K8S_NODES -> NET_IOT_LOCAL` `PORT_ESPHOME_API` (optional, only if native API used;
+   same in-cluster restriction applies)
 4. Block `NET_COMPUTE -> endpoint VLANs` (3,4,5,6,7) default-deny (log), except rules above
 5. Allow `NET_COMPUTE -> WAN` any (updates/images)
 
@@ -151,6 +153,28 @@ Default-deny inter-VLAN; explicit allow rules evaluated top-to-bottom per interf
 - Split-tunnel: per-peer `/32` allow rules to only the specific internal hosts/ports that peer
   needs (e.g. admin peer -> `NET_MGMT` + `HOST_HA_FRONTEND`; service peer -> single host).
 - Block `NET_WG -> NET_PRIVATE_V4` except the explicit per-peer allows above.
+
+## Home Assistant cross-VLAN egress (Option D)
+
+Most IoT integrations are MQTT-first, i.e. device -> broker *inbound*; the stateful reply covers
+Home Assistant's side and no HA -> device rule is needed at all. Only the handful of
+HA-initiated integrations (Google Cast, ESPHome native API, and similar) need cross-VLAN egress,
+and those are handled in two layers:
+
+1. **Coarse firewall layer**: OPNsense allows `HOST_K8S_NODES` (the Talos node IPs) to reach the
+   specific device destinations + ports listed in the Compute matrix above. This is honest about
+   what the firewall can actually see: pod traffic leaves the cluster masqueraded behind a node
+   IP, so the firewall cannot distinguish Home Assistant from any other pod.
+2. **Precise in-cluster layer**: the `home-assistant` `CiliumNetworkPolicy`
+   (`kubernetes/apps/home-automation/home-assistant/app/networkpolicy.yaml`) selects the Home
+   Assistant pod by label and puts it in default-deny egress, explicitly allowing in-cluster
+   traffic, internet, and exactly those device destinations + ports. Because Cilium enforces on
+   pod identity rather than IP, only Home Assistant can actually use the path the firewall rule
+   opens - a compromised non-HA pod on the same node is dropped in-cluster.
+
+The tradeoff is stated plainly: the firewall rule is broader than "only Home Assistant", and the
+narrowing is done by Cilium. In exchange there is no single pinned egress IP, so no
+single-node dependency or node-placement coupling for Home Assistant's egress path.
 
 ## mDNS reflection scope
 
@@ -211,12 +235,16 @@ For each VLAN, verify:
 2. **Negative**: everything not explicitly allowed is blocked and logged (e.g. IoT-Cloud cannot
    reach Management, Guest cannot reach Compute).
 3. **Spoofing test**: from a device on the VLAN, attempt to source traffic as another host's IP
-   in the *same* carve-out (e.g. spoof `HOST_HA_EGRESS` from a different Compute pod/host, or
-   spoof another IoT-Local device's IP). Success criterion: **even if the source spoof
-   succeeds at the IP layer, the resulting traffic still only reaches the same narrow
-   destination/port the real policy already allows** - i.e. spoofing gains the attacker no
-   additional firewall privilege, because carve-outs are scoped to destination host + port, not
-   granted based on trusting a source IP claim.
+   in the *same* carve-out (e.g. source traffic from a different Compute pod/host toward
+   `NET_MEDIA` `PORT_CAST`, or spoof another IoT-Local device's IP). Success criterion: **even
+   if the source spoof succeeds at the IP layer, the resulting traffic still only reaches the
+   same narrow destination/port the real policy already allows** - i.e. spoofing gains the
+   attacker no additional firewall privilege, because carve-outs are scoped to destination host
+   + port, not granted based on trusting a source IP claim. For the Home Assistant egress
+   carve-out specifically, this is defense in depth: the OPNsense rule is coarse (any node IP
+   may reach those device ports), but the `home-assistant` `CiliumNetworkPolicy` means a
+   non-Home-Assistant pod attempting to reach a device VLAN is dropped in-cluster by Cilium
+   before the packet ever reaches the firewall.
 4. **Cross-VLAN spoof test**: attempt to source traffic as an IP from a *different* VLAN's
    subnet. Success criterion: reverse-path filtering (pf `antispoof`, enabled by default in
    OPNsense) drops the packet at the ingress interface, and/or the switch's native-VLAN +
