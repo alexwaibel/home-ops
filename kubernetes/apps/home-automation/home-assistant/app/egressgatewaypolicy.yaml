@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cilium.io/ciliumegressgatewaypolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumEgressGatewayPolicy
+metadata:
+  name: home-assistant
+spec:
+  # All RFC1918 destinations - HA talks to devices/services across VLANs (Google Cast,
+  # ESPHome native API, etc). OPNsense rules should key off egressIP below rather than
+  # "any node in VLAN 20" for HA -> device flows.
+  destinationCIDRs:
+    - "192.168.0.0/16"
+  egressGateway:
+    nodeSelector:
+      matchLabels:
+        # PLACEHOLDER: label exactly the node that has 192.168.20.89 configured as an IP
+        # alias with this label (e.g. `kubectl label node <node> network.home-ops/egress-ha=true`).
+        # A generic label like kubernetes.io/os=linux would let Cilium pick an arbitrary node,
+        # defeating the point of a stable, single egress source IP.
+        network.home-ops/egress-ha: "true"
+    # PLACEHOLDER: pick a free, unused IP in the Cilium node's VLAN 20 subnet and add it as a
+    # secondary/alias IP on the elected node's interface (Cilium egress gateway does not create
+    # the IP itself, it only selects and NATs to it). 192.168.20.89 is currently unallocated
+    # (see docs/network.md for the full IP allocation table) - replace if it conflicts.
+    egressIP: 192.168.20.89
+  selectors:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: home-assistant
+      namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: home-automation

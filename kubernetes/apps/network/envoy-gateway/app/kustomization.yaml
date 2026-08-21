@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./certificate.yaml
   - ./envoy.yaml
+  - ./envoy-ha.yaml
   - ./grafanadashboard.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml

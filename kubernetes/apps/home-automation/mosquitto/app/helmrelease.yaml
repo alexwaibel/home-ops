@@ -61,7 +61,46 @@ spec:
         ports:
           mqtt:
             port: 1883
-    configMaps: {}
+          mqtts:
+            port: 8883
+    configMaps:
+      conf.d:
+        data:
+          # Additional config included via `include_dir` from the secret-managed mosquitto.conf.
+          # Kept out of the secret so the TLS listener + ACL wiring is reviewable in plaintext.
+          tls-listener.conf: |
+            listener 8883
+            certfile /mosquitto/certs/tls.crt
+            keyfile /mosquitto/certs/tls.key
+          # Per-device least-privilege ACL scaffold. Populate with real usernames before relying on it.
+          mosquitto.acl: |
+            # Mosquitto ACL file - one entry per authenticated device/service.
+            # `mosquitto_pwd` (mounted below) must contain a matching user for each `user` line.
+            # Reference: https://mosquitto.org/man/mosquitto-conf-5.html (acl_file)
+            #
+            # Home Assistant - broad access since it is the primary consumer/automation hub.
+            # user homeassistant
+            # topic readwrite #
+            #
+            # zigbee2mqtt - its own bridge topics plus Home Assistant discovery.
+            # user zigbee2mqtt
+            # topic readwrite zigbee2mqtt/#
+            # topic write homeassistant/#
+            #
+            # Tasmota smart plugs - each device scoped to its own topic tree only.
+            # user tasmota-plug-livingroom
+            # topic readwrite tasmota/plug-livingroom/#
+            # topic write stat/plug-livingroom/#
+            # topic write tele/plug-livingroom/#
+            # topic read cmnd/plug-livingroom/#
+            #
+            # ESPHome air purifier - scoped to its own device topic tree only.
+            # user esphome-air-purifier
+            # topic readwrite esphome/air-purifier/#
+            #
+            # Robot vacuum (Valetudo) - scoped to its own device topic tree only.
+            # user valetudo-vacuum
+            # topic readwrite valetudo/vacuum/#
     persistence:
       mosquitto-config:
         type: secret
@@ -72,3 +111,17 @@ spec:
             subPath: mosquitto.conf
           - path: /mosquitto/config/mosquitto_pwd
             subPath: mosquitto_pwd
+      mosquitto-conf.d:
+        type: configMap
+        identifier: conf.d
+        globalMounts:
+          - path: /mosquitto/config/conf.d/tls-listener.conf
+            subPath: tls-listener.conf
+          - path: /mosquitto/config/mosquitto.acl
+            subPath: mosquitto.acl
+      mosquitto-tls:
+        type: secret
+        name: mosquitto-tls
+        defaultMode: 0400
+        globalMounts:
+          - path: /mosquitto/certs

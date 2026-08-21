@@ -25,6 +25,9 @@ spec:
             env:
               TZ: America/Los_Angeles
               PLEX_ADVERTISE_URL: "https://plex.${SECRET_DOMAIN}:443,http://192.168.20.87:32400"
+              # SECURITY TRADEOFF: any device on VLAN 2 (192.168.2.0/24) is implicitly trusted as an
+              # authenticated Plex user - VLAN membership becomes the credential. Consider removing this
+              # and relying on normal Plex account auth instead.
               PLEX_NO_AUTH_NETWORKS: 192.168.2.0/24
             probes:
               liveness: &probes

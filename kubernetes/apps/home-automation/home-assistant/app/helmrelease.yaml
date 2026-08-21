@@ -82,7 +82,7 @@ spec:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
           - "hass.${SECRET_DOMAIN}"
         parentRefs:
-          - name: envoy-external
+          - name: envoy-ha
             namespace: network
         rules:
           - backendRefs:
