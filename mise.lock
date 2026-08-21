@@ -743,6 +743,10 @@ url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/501486577"
 version = "2.8.2"
 backend = "pipx:makejinja"
 
+[[tools."pipx:pre-commit"]]
+version = "4.6.2"
+backend = "pipx:pre-commit"
+
 [[tools.python]]
 version = "3.14.7"
 backend = "core:python"
