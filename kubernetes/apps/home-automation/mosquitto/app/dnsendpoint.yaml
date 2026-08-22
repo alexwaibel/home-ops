@@ -3,6 +3,8 @@ apiVersion: externaldns.k8s.io/v1alpha1
 kind: DNSEndpoint
 metadata:
   name: mosquitto
+  annotations:
+    external-dns.alpha.kubernetes.io/controller: none
 spec:
   endpoints:
     - dnsName: mosquitto.${SECRET_DOMAIN}
