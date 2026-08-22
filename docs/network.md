@@ -83,13 +83,13 @@ radios, NAS, etc).
 
 **Host aliases:**
 
-- `HOST_MQTT` = 192.168.20.85 (Mosquitto broker LoadBalancer IP)
+- `HOST_MQTT` = 192.168.20.80 (internal Envoy gateway IP)
 - `HOST_PLEX` = 192.168.20.87
 - `HOST_SAMSUNG_TV` = *(placeholder - static-reserve the TV's IP and fill in)*
 
 **Port aliases:**
 
-- `PORT_MQTT_TLS` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
+- `PORT_MQTT_TLS` = 8883 (Envoy-terminated TLS; 1883 is cluster-internal only, not routed)
 - `PORT_PLEX` = 32400
 
 ## Home Assistant access

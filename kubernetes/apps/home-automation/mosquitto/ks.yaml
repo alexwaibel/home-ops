@@ -7,8 +7,6 @@ spec:
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
-    - name: cert-manager
-      namespace: cert-manager
   interval: 1h
   path: ./kubernetes/apps/home-automation/mosquitto/app
   postBuild:

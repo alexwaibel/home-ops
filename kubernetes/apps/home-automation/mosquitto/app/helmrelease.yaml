@@ -55,19 +55,20 @@ spec:
     service:
       app:
         controller: mosquitto
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: mosquitto.${SECRET_DOMAIN}
-          lbipam.cilium.io/ips: 192.168.20.85
-        ports:
-          mqtts:
-            port: 8883
-      internal:
-        controller: mosquitto
-        type: ClusterIP
         ports:
           mqtt:
             port: 1883
+    route:
+      mqtt:
+        kind: TCPRoute
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: mqtts
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: mqtt
     persistence:
       mosquitto-config:
         type: secret
@@ -78,11 +79,3 @@ spec:
             subPath: mosquitto.conf
           - path: /mosquitto/config/mosquitto_pwd
             subPath: mosquitto_pwd
-          - path: /mosquitto/config/conf.d/tls-listener.conf
-            subPath: tls-listener.conf
-      mosquitto-tls:
-        type: secret
-        name: mosquitto-tls
-        defaultMode: 0400
-        globalMounts:
-          - path: /mosquitto/certs

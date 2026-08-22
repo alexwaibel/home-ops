@@ -1,0 +1,10 @@
+---
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: mosquitto
+spec:
+  endpoints:
+    - dnsName: mosquitto.${SECRET_DOMAIN}
+      recordType: A
+      targets: ["192.168.20.80"]
