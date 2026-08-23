@@ -1,6 +1,9 @@
 [settings]
 lockfile = true
 
+[hooks]
+postinstall = "mise generate git-pre-commit --write"
+
 [env]
 _.python.venv = { path = "{{config_root}}/.venv", create = true }
 KUBECONFIG = "{{config_root}}/kubeconfig"
@@ -21,6 +24,7 @@ TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 "aqua:FiloSottile/age" = "1.3.1"
 "aqua:fluxcd/flux2" = "2.9.4"
 "aqua:getsops/sops" = "3.13.3"
+"aqua:gitleaks/gitleaks" = "8.30.1"
 "aqua:go-task/task" = "3.52.0"
 "aqua:helm/helm" = "4.2.3"
 "aqua:helmfile/helmfile" = "1.7.3"
@@ -30,3 +34,7 @@ TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 "aqua:mikefarah/yq" = "4.53.3"
 "aqua:siderolabs/talos" = "1.13.8"
 "aqua:yannh/kubeconform" = "0.8.0"
+
+[tasks.pre-commit]
+description = "Scan staged changes for secrets"
+run = "gitleaks git --pre-commit --redact --staged --verbose"
