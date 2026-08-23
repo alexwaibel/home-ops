@@ -83,14 +83,18 @@ radios, NAS, etc).
 
 **Host aliases:**
 
-- `HOST_MQTT` = 192.168.20.85 (Mosquitto broker LoadBalancer IP)
+- `HOST_MQTT` = 192.168.20.80 (internal Envoy gateway terminating MQTT TLS)
 - `HOST_PLEX` = 192.168.20.87
 - `HOST_SAMSUNG_TV` = *(placeholder - static-reserve the TV's IP and fill in)*
 
 **Port aliases:**
 
-- `PORT_MQTT_TLS` = 8883 (TLS listener only; 1883 is intra-cluster/VLAN-20 only, not routed)
+- `PORT_MQTT_TLS` = 8883 (Envoy MQTT TLS listener; 1883 is cluster-internal only)
 - `PORT_PLEX` = 32400
+
+MQTT clients on IoT VLANs reach `mosquitto.${SECRET_DOMAIN}` through `HOST_MQTT:8883`.
+Envoy terminates TLS on the internal gateway and forwards the decrypted MQTT stream to the
+cluster-internal `mosquitto` Service on port 1883.
 
 ## Home Assistant access
 
