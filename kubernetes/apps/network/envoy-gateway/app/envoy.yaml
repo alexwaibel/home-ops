@@ -102,12 +102,16 @@ spec:
           - kind: Secret
             name: ${SECRET_DOMAIN/./-}-production-tls
     - name: mqtts
-      hostname: mosquitto.${SECRET_DOMAIN}
       protocol: TLS
       port: 8883
       allowedRoutes:
         namespaces:
-          from: All
+          from: Selector
+          selector:
+            matchLabels:
+              kubernetes.io/metadata.name: home-automation
+        kinds:
+          - kind: TLSRoute
       tls:
         mode: Terminate
         certificateRefs:

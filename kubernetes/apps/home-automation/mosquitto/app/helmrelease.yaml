@@ -60,7 +60,9 @@ spec:
             port: 1883
     route:
       mqtt:
-        kind: TCPRoute
+        kind: TLSRoute
+        hostnames:
+          - "mosquitto.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
