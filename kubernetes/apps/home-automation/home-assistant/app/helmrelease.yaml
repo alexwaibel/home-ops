@@ -15,9 +15,6 @@ spec:
   values:
     controllers:
       home-assistant:
-        # Recreate avoids two pods briefly holding the same fixed IoT
-        # macvlan IP/MAC during a rollout.
-        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
