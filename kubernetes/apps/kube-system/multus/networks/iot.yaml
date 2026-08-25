@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/k8s.cni.cncf.io/networkattachmentdefinition_v1.json
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: iot
+spec:
+  # "ethSel0" is Talos' synthetic name for each node's sole device-selector
+  # interface (see talos/talconfig.yaml); the VLAN sub-interface it creates
+  # is named "<parent>.<vlanId>".
+  config: |-
+    {
+      "cniVersion": "0.3.1",
+      "name": "iot",
+      "plugins": [
+        {
+          "type": "macvlan",
+          "master": "ethSel0.${SECRET_IOT_VLAN_ID}",
+          "mode": "bridge",
+          "ipam": {
+            "type": "static",
+            "routes": [
+              {"dst": "0.0.0.0/0", "gw": "${SECRET_IOT_GATEWAY}"}
+            ]
+          }
+        },
+        {
+          "type": "sbr"
+        }
+      ]
+    }

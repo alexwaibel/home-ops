@@ -10,6 +10,7 @@ My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Fl
 - [envoy](https://www.envoyproxy.io/): API gateway
 - [external-dns](https://github.com/kubernetes-sigs/external-dns): DNS record sync between ingress and DNS provider
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets with [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/)
+- [multus](https://github.com/k8snetworkplumbingwg/multus-cni): Secondary pod network interfaces, used to attach Home Assistant to the IoT VLAN
 - [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistent storage
 - [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
 - [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)
@@ -245,6 +246,17 @@ task talos:upgrade-node IP=?
 task talos:upgrade-k8s
 # e.g. task talos:upgrade-k8s
 ```
+
+## 🛰️ Multus & the IoT VLAN
+
+Home Assistant is attached to the IoT VLAN via [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) (a macvlan + `sbr` `NetworkAttachmentDefinition`) so it can receive Chromecast/mDNS discovery traffic directly, instead of relying on the Cilium pod network. This requires values that aren't safe to guess and so aren't included in this repo. Before applying:
+
+1. **Trunk the IoT VLAN** to every node Home Assistant may be scheduled on.
+2. Set the real IoT VLAN ID in `talos/talenv.yaml` (`iotVlanID`) and in the `cluster-secrets` Bitwarden/SOPS secret as `SECRET_IOT_VLAN_ID` (used by `kubernetes/apps/kube-system/multus/networks/iot.yaml`) — both must match.
+3. Add `SECRET_IOT_GATEWAY` (IoT default gateway), `SECRET_HOME_ASSISTANT_IOT_IP` (a **reserved**, unused IoT address, e.g. `192.168.70.50/24`), and `SECRET_HOME_ASSISTANT_IOT_MAC` (a fixed, locally-administered MAC) to `cluster-secrets`.
+4. **Reserve** the chosen Home Assistant IoT IP/MAC in your DHCP server so nothing else can claim it.
+5. Add a **firewall rule** allowing the Home Assistant IoT IP to reach Chromecast devices (and vice versa, for casting).
+6. Re-run `task talos:generate-config` and apply to the affected nodes so the VLAN sub-interface is created.
 
 ## 🤝 Thanks
 

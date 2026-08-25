@@ -15,8 +15,20 @@ spec:
   values:
     controllers:
       home-assistant:
+        # Recreate avoids two pods briefly holding the same fixed IoT
+        # macvlan IP/MAC during a rollout.
+        strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
+          k8s.v1.cni.cncf.io/networks: |
+            [
+              {
+                "name": "iot",
+                "namespace": "kube-system",
+                "ips": ["${SECRET_HOME_ASSISTANT_IOT_IP}"],
+                "mac": "${SECRET_HOME_ASSISTANT_IOT_MAC}"
+              }
+            ]
         containers:
           app:
             image:
