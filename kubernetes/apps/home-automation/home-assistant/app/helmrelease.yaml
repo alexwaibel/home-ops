@@ -65,7 +65,7 @@ spec:
               "name": "iot",
               "namespace": "kube-system",
               "ips": ["192.168.3.20/24"],
-              "mac": "02:1a:2b:3c:4d:5e"
+              "mac": "a2:38:a0:5e:11:f9"
             }
           ]
       securityContext:
