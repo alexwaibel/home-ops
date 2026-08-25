@@ -171,8 +171,6 @@ The `external-dns` application created in the `networking` namespace will handle
 > 2. Restart dnsmasq on the server.
 > 3. Query an internal-only subdomain from your workstation (any `internal` class routes): `dig @<home-dns-server-ip> echo-server-internal.<your-domain>`. It should resolve to your internal gateway IP.
 
-If you're having trouble with DNS be sure to check out these two GitHub discussions: [Internal DNS](https://github.com/onedr0p/cluster-template/discussions/719) and [Pod DNS resolution broken](https://github.com/onedr0p/cluster-template/discussions/635).
-
 ... Nothing working? That is expected, this is DNS after all!
 
 ## 💥 Reset
@@ -246,15 +244,6 @@ task talos:upgrade-node IP=?
 task talos:upgrade-k8s
 # e.g. task talos:upgrade-k8s
 ```
-
-## 🛰️ Multus & the IoT VLAN
-
-Home Assistant is attached to the IoT VLAN (`192.168.3.0/24`, VLAN ID `3`) via [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) (a macvlan + `sbr` `NetworkAttachmentDefinition`) so it can receive Chromecast/mDNS discovery traffic directly, instead of relying on the Cilium pod network. This mirrors [onedr0p's setup](https://github.com/onedr0p/home-ops) and, like it, uses plain (non-secret) values since the IoT VLAN/subnet isn't sensitive. Before applying:
-
-1. **Trunk the IoT VLAN** (`3`) to every node Home Assistant may be scheduled on.
-2. **Reserve** `192.168.3.20` (and its fixed MAC, see `home-assistant`'s `helmrelease.yaml`) in your DHCP server so nothing else can claim it.
-3. Add a **firewall rule** allowing the Home Assistant IoT IP to reach Chromecast devices (and vice versa, for casting).
-4. Re-run `task talos:generate-config` and apply to the affected nodes so the VLAN sub-interface is created.
 
 ## 🤝 Thanks
 

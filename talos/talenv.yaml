@@ -2,6 +2,3 @@
 talosVersion: v1.13.8
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.2
-
-# IoT VLAN (192.168.3.0/24) used by the Home Assistant Multus attachment.
-iotVlanID: 3
