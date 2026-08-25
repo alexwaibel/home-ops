@@ -3,7 +3,11 @@ experimental = true
 lockfile = true
 
 [hooks]
-postinstall = "mise generate git-pre-commit --write"
+postinstall = '''
+if [ "$MISE_INSTALLED_TOOLS" != "[]" ]; then
+  mise generate git-pre-commit --write
+fi
+'''
 
 [env]
 _.python.venv = { path = "{{config_root}}/.venv", create = true }
