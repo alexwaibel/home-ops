@@ -368,6 +368,10 @@ url_api = "https://api.github.com/repos/getsops/sops/releases/assets/486808200"
 [tools."aqua:getsops/sops"."platforms.windows-x64".provenance.slsa]
 url = "https://github.com/getsops/sops/releases/download/v3.13.3/sops-v3.13.3.intoto.jsonl"
 
+[[tools."aqua:gitleaks/gitleaks"]]
+version = "8.30.1"
+backend = "aqua:gitleaks/gitleaks"
+
 [[tools."aqua:go-task/task"]]
 version = "3.52.0"
 backend = "aqua:go-task/task"
