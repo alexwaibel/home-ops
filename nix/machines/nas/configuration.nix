@@ -60,9 +60,7 @@
     lockdPort = 4001;
     mountdPort = 4002;
     statdPort = 4000;
-    exports = ''
-      /data 192.168.20.0/24(rw,no_subtree_check,all_squash,anonuid=568,anongid=100) 192.168.2.0/24(rw,no_subtree_check,all_squash,anonuid=568,anongid=100)
-    '';
+    extraNfsdConfig = '''';
   };
 
   # Enable the OpenSSH daemon.

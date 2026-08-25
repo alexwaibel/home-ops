@@ -180,6 +180,7 @@
               encryption = "aes-256-gcm";
               keyformat = "passphrase";
               keylocation = "file:///tmp/secret.key";
+              sharenfs = "rw=192.168.20.0/24,rw=192.168.2.0/24,rw=192.168.1.0/24,no_subtree_check,all_squash,anonuid=568,anongid=100";
             };
             postCreateHook = ''
               zfs set keylocation="file:///root/secret.key" "data/$name";
