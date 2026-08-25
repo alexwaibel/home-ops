@@ -29,6 +29,7 @@
       };
       data1 = {
         type = "disk";
+        destroy = false;
         device = "/dev/sda";
         content = {
           type = "gpt";
@@ -45,6 +46,7 @@
       };
       data2 = {
         type = "disk";
+        destroy = false;
         device = "/dev/sdb";
         content = {
           type = "gpt";
@@ -61,6 +63,7 @@
       };
       data3 = {
         type = "disk";
+        destroy = false;
         device = "/dev/sdc";
         content = {
           type = "gpt";
@@ -77,6 +80,7 @@
       };
       data4 = {
         type = "disk";
+        destroy = false;
         device = "/dev/sde";
         content = {
           type = "gpt";
