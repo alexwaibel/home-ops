@@ -58,8 +58,6 @@ spec:
               limits:
                 memory: 512Mi
     defaultPodOptions:
-      # IoT VLAN is 192.168.3.0/24; .20 is reserved for Home Assistant so
-      # Chromecast/mDNS discovery works from the pod's own IoT interface.
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [
