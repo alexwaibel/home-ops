@@ -54,14 +54,23 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
-        type: LoadBalancer
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: mosquitto.${SECRET_DOMAIN}
-          lbipam.cilium.io/ips: 192.168.20.85
+        controller: mosquitto
         ports:
           mqtt:
             port: 1883
-    configMaps: {}
+    route:
+      mqtt:
+        kind: TLSRoute
+        hostnames:
+          - "mosquitto.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: mqtts
+        rules:
+          - backendRefs:
+              - identifier: app
+                port: mqtt
     persistence:
       mosquitto-config:
         type: secret
