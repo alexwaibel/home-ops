@@ -8,7 +8,9 @@ spec:
   # IoT VLAN is 192.168.3.0/24 (VLAN ID 3). "ethSel0" is Talos' synthetic
   # name for each node's sole device-selector interface (see
   # talos/talconfig.yaml); the VLAN sub-interface it creates is named
-  # "<parent>.<vlanId>", i.e. "ethSel0.3".
+  # "<parent>.<vlanId>", i.e. "ethSel0.3". No static "addresses" are set
+  # below: Multus injects the per-pod "ips" annotation into this "static"
+  # IPAM config at ADD time.
   config: |-
     {
       "cniVersion": "0.3.1",
