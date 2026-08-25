@@ -10,6 +10,7 @@ My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Fl
 - [envoy](https://www.envoyproxy.io/): API gateway
 - [external-dns](https://github.com/kubernetes-sigs/external-dns): DNS record sync between ingress and DNS provider
 - [external-secrets](https://github.com/external-secrets/external-secrets): Managed Kubernetes secrets with [Bitwarden Secrets Manager](https://bitwarden.com/products/secrets-manager/)
+- [multus](https://github.com/k8snetworkplumbingwg/multus-cni): Secondary pod network interfaces, used to attach Home Assistant to the IoT VLAN
 - [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistent storage
 - [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
 - [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)

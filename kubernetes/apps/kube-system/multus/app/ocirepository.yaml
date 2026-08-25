@@ -1,0 +1,14 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: multus
+spec:
+  interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
+  ref:
+    tag: 0.1.0
+    digest: sha256:554367a617b08f2ba6d9f1c5b43001acd8a8c79fe274df286c042280bf67f9e1
+  url: oci://ghcr.io/home-operations/charts/multus
