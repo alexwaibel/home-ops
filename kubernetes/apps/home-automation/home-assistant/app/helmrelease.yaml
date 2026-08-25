@@ -20,15 +20,6 @@ spec:
         strategy: Recreate
         annotations:
           reloader.stakater.com/auto: "true"
-          k8s.v1.cni.cncf.io/networks: |
-            [
-              {
-                "name": "iot",
-                "namespace": "kube-system",
-                "ips": ["${SECRET_HOME_ASSISTANT_IOT_IP}"],
-                "mac": "${SECRET_HOME_ASSISTANT_IOT_MAC}"
-              }
-            ]
         containers:
           app:
             image:
@@ -70,6 +61,18 @@ spec:
               limits:
                 memory: 512Mi
     defaultPodOptions:
+      # IoT VLAN is 192.168.3.0/24; .20 is reserved for Home Assistant so
+      # Chromecast/mDNS discovery works from the pod's own IoT interface.
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [
+            {
+              "name": "iot",
+              "namespace": "kube-system",
+              "ips": ["192.168.3.20/24"],
+              "mac": "02:1a:2b:3c:4d:5e"
+            }
+          ]
       securityContext:
         runAsNonRoot: true
         runAsUser: 568

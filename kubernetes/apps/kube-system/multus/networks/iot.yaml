@@ -5,9 +5,10 @@ kind: NetworkAttachmentDefinition
 metadata:
   name: iot
 spec:
-  # "ethSel0" is Talos' synthetic name for each node's sole device-selector
-  # interface (see talos/talconfig.yaml); the VLAN sub-interface it creates
-  # is named "<parent>.<vlanId>".
+  # IoT VLAN is 192.168.3.0/24 (VLAN ID 3). "ethSel0" is Talos' synthetic
+  # name for each node's sole device-selector interface (see
+  # talos/talconfig.yaml); the VLAN sub-interface it creates is named
+  # "<parent>.<vlanId>", i.e. "ethSel0.3".
   config: |-
     {
       "cniVersion": "0.3.1",
@@ -15,12 +16,12 @@ spec:
       "plugins": [
         {
           "type": "macvlan",
-          "master": "ethSel0.${SECRET_IOT_VLAN_ID}",
+          "master": "ethSel0.3",
           "mode": "bridge",
           "ipam": {
             "type": "static",
             "routes": [
-              {"dst": "0.0.0.0/0", "gw": "${SECRET_IOT_GATEWAY}"}
+              {"dst": "0.0.0.0/0", "gw": "192.168.3.1"}
             ]
           }
         },

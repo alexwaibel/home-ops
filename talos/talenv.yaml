@@ -3,6 +3,5 @@ talosVersion: v1.13.8
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.2
 
-# TODO: replace with the real IoT VLAN ID (must match SECRET_IOT_VLAN_ID in
-# cluster-secrets) before running `task talos:generate-config`.
-iotVlanID: 999
+# IoT VLAN (192.168.3.0/24) used by the Home Assistant Multus attachment.
+iotVlanID: 3

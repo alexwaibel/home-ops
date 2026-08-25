@@ -33,10 +33,6 @@ spec:
     - name: multus
   interval: 1h
   path: ./kubernetes/apps/kube-system/multus/networks
-  postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
   prune: true
   sourceRef:
     kind: GitRepository
