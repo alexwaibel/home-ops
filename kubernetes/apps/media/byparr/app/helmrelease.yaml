@@ -55,14 +55,6 @@ spec:
           http:
             port: *port
     persistence:
-      cache:
-        type: emptyDir
-        globalMounts:
-          - path: /cache
-      home:
-        type: emptyDir
-        globalMounts:
-          - path: /home/byparr
       tmp:
         type: emptyDir
         globalMounts:
