@@ -17,7 +17,7 @@ spec:
           app:
             image:
               repository: ghcr.io/thephaseless/byparr
-              tag: latest@sha256:874f719518f617d03a60e03411fc5d090647e1a877041e81f8dc965927c7deb6
+              tag: 3.0.4@sha256:874f719518f617d03a60e03411fc5d090647e1a877041e81f8dc965927c7deb6
             env:
               HOST: 0.0.0.0
               PORT: &port 8191
@@ -42,7 +42,7 @@ spec:
               requests:
                 cpu: 100m
               limits:
-                memory: 2Gi
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
