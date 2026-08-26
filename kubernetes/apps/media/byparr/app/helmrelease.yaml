@@ -1,0 +1,75 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: byparr
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: byparr
+  interval: 1h
+  values:
+    controllers:
+      byparr:
+        strategy: RollingUpdate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/thephaseless/byparr
+              tag: latest@sha256:874f719518f617d03a60e03411fc5d090647e1a877041e81f8dc965927c7deb6
+            env:
+              HOST: 0.0.0.0
+              PORT: &port 8191
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 2Gi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    persistence:
+      cache:
+        type: emptyDir
+        globalMounts:
+          - path: /cache
+      home:
+        type: emptyDir
+        globalMounts:
+          - path: /home/byparr
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      shm:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 512Mi
+        globalMounts:
+          - path: /dev/shm
