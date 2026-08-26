@@ -6,91 +6,41 @@ metadata:
 spec:
   chartRef:
     kind: OCIRepository
-    name: dragonfly
-  interval: 1h
+    name: dragonfly-operator
+  interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
-    controllers:
-      dragonfly-operator:
-        strategy: RollingUpdate
-        containers:
-          app:
-            image:
-              repository: ghcr.io/dragonflydb/operator
-              tag: v1.6.1@sha256:b11411142935f92ed0ec30a5ddeb31680e09ab66beecb827cb0224f1c4238638
-            command: [ "/manager" ]
-            args:
-              - --health-probe-bind-address=:8081
-              - --metrics-bind-address=:8080
-            env:
-              - name: WATCH_NAMESPACE
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.namespace
-            probes:
-              liveness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /healthz
-                    port: &port 8081
-                  initialDelaySeconds: 15
-                  periodSeconds: 20
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /readyz
-                    port: *port
-                  initialDelaySeconds: 5
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-            resources:
-              requests:
-                cpu: 10m
-              limits:
-                memory: 128Mi
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities: { drop: [ "ALL" ] }
-    defaultPodOptions:
-      automountServiceAccountToken: true
-      labels:
-        control-plane: controller-manager
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
-        seccompProfile: { type: RuntimeDefault }
+    fullnameOverride: dragonfly-operator-controller-manager
+    crds:
+      install: true
+      keep: true
+      annotations:
+        kustomize.toolkit.fluxcd.io/prune: disabled
+    manager:
+      image:
+        repository: ghcr.io/dragonflydb/operator
+      resources:
+        requests:
+          cpu: 10m
+        limits:
+          memory: 128Mi
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
           labelSelector:
             matchLabels:
-              app.kubernetes.io/name: *app
-    service:
-      app:
-        controller: *app
-        ports:
-          http:
-            port: *port
-          metrics:
-            port: 8080
+              control-plane: controller-manager
+    rbacProxy:
+      enabled: false
     serviceMonitor:
-      app:
-        serviceName: *app
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
-    serviceAccount:
-      dragonfly-operator:
-        enabled: true
+      enabled: true
+      interval: 1m
+      timeout: 10s
