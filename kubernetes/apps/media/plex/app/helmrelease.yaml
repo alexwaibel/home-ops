@@ -24,7 +24,7 @@ spec:
               tag: 1.43.3.10861@sha256:235402dacb4c66224052de3dfd4c444044e792185ab27dc83b5c200a55370492
             env:
               TZ: America/Los_Angeles
-              PLEX_ADVERTISE_URL: "https://plex.${SECRET_DOMAIN}:443,http://192.168.20.87:32400"
+              PLEX_ADVERTISE_URL: "https://plex.${SECRET_DOMAIN}:443,http://192.168.30.87:32400"
             probes:
               liveness: &probes
                 enabled: true
@@ -66,7 +66,7 @@ spec:
       app:
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.20.87
+          io.cilium/lb-ipam-ips: 192.168.30.87
         externalTrafficPolicy: Local
         ports:
           http:

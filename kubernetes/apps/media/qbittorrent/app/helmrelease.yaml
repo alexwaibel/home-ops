@@ -106,7 +106,7 @@ spec:
         controller: qbittorrent
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.20.86
+          io.cilium/lb-ipam-ips: 192.168.30.86
         externalTrafficPolicy: Local
         ports:
           http:
