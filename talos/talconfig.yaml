@@ -43,6 +43,9 @@ nodes:
           - vlanId: 3
             dhcp: false
             mtu: 1500
+          - vlanId: 30
+            dhcp: false
+            mtu: 1500
     patches:
       # Encrypt system disk with TPM
       - |-
@@ -86,6 +89,9 @@ nodes:
           - vlanId: 3
             dhcp: false
             mtu: 1500
+          - vlanId: 30
+            dhcp: false
+            mtu: 1500
     patches:
       # Encrypt system disk with TPM
       - |-
@@ -127,6 +133,9 @@ nodes:
           ip: "192.168.20.90"
         vlans:
           - vlanId: 3
+            dhcp: false
+            mtu: 1500
+          - vlanId: 30
             dhcp: false
             mtu: 1500
     patches:
