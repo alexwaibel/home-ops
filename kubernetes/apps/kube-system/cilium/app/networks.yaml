@@ -6,7 +6,6 @@ metadata:
 spec:
   allowFirstLastIPs: "No"
   blocks:
-    - cidr: "192.168.20.0/24"
     - cidr: "192.168.30.0/24"
 ---
 apiVersion: cilium.io/v2alpha1
@@ -15,26 +14,8 @@ metadata:
   name: l2-policy
 spec:
   loadBalancerIPs: true
-  serviceSelector:
-    matchExpressions:
-      - key: network
-        operator: NotIn
-        values: ["services-vlan"]
-  nodeSelector:
-    matchLabels:
-      kubernetes.io/os: linux
----
-apiVersion: cilium.io/v2alpha1
-kind: CiliumL2AnnouncementPolicy
-metadata:
-  name: l2-policy-services-vlan
-spec:
-  loadBalancerIPs: true
   interfaces:
     - ^ethSel0\.30$
-  serviceSelector:
-    matchLabels:
-      network: services-vlan
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
