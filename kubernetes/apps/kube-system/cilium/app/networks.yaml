@@ -31,7 +31,7 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
-    - ^enp89s0\.30$
+    - ^ethSel0\.30$
   serviceSelector:
     matchLabels:
       network: services-vlan
