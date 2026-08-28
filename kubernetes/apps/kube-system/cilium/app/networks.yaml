@@ -15,11 +15,6 @@ metadata:
   name: l2-policy
 spec:
   loadBalancerIPs: true
-  serviceSelector:
-    matchExpressions:
-      - key: network
-        operator: NotIn
-        values: ["services-vlan"]
   nodeSelector:
     matchLabels:
       kubernetes.io/os: linux
