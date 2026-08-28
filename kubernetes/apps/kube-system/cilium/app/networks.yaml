@@ -16,6 +16,7 @@ metadata:
 spec:
   loadBalancerIPs: true
   interfaces:
+    - ^ethSel0$
     - ^ethSel0\.30$
   nodeSelector:
     matchLabels:
