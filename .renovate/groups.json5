@@ -2,6 +2,19 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
+      description: "Mise Tools Group",
+      groupName: "mise-tools",
+      matchManagers: [
+        "mise",
+      ],
+      schedule: [
+        "before 6am on Monday",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
+    },
+    {
       description: "Dragonfly Operator Group",
       groupName: "dragonfly-operator",
       matchDatasources: [
@@ -84,14 +97,20 @@
       groupName: "Talos",
       matchPackageNames: [
         "/siderolabs/talosctl/",
+        "/siderolabs/talos/",
         "/siderolabs/installer/"
       ],
       matchDatasources: [
-        "docker"
+        "docker",
+        "github-releases",
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 2,
+      schedule: [
+        "at any time",
+      ],
       separateMinorPatch: true,
     },
   ],
