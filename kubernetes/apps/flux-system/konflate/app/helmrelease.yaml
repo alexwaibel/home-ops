@@ -14,7 +14,7 @@ spec:
       repo: github://alexwaibel/home-ops
       statusChecks: true
       prComments: true
-      publicUrl: https://{{ .Release.Name }}.${SECRET_DOMAIN}
+      publicUrl: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
       mcp: false
       verifyImages: true
     secret:
