@@ -7,6 +7,17 @@
       matchManagers: [
         "mise",
       ],
+      matchUpdateTypes: [
+        "major",
+        "minor",
+        "patch",
+        "pin",
+        "pinDigest",
+        "digest",
+        "rollback",
+        "bump",
+        "replacement",
+      ],
       schedule: [
         "before 6am on Monday",
       ],
@@ -103,6 +114,7 @@
       matchDatasources: [
         "docker",
         "github-releases",
+        "github-tags",
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
