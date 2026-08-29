@@ -13,7 +13,7 @@ My cluster runs on [Talos Linux](https://www.talos.dev/) and is managed with [Fl
 - [multus](https://github.com/k8snetworkplumbingwg/multus-cni): Secondary pod network interfaces, used to attach Home Assistant to the IoT VLAN
 - [openebs](https://github.com/openebs/openebs): Managed local path block storage for persistent storage
 - [reloader](https://github.com/stakater/Reloader): Automated rolling upgrades for pods when secrets and configmaps are changed
-- [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [flux-local](https://github.com/allenporter/flux-local)
+- [renovate](https://github.com/renovatebot/renovate): Automated PRs for dependency upgrades including diffs using [konflate](https://github.com/home-operations/konflate)
 - [rook](https://rook.io/): Distributed block storage using Ceph for persistent storage
 - [sops](https://github.com/getsops/sops): Managed Kubernetes secrets which are encrypted and committed to Git
 - [spegel](https://github.com/spegel-org/spegel): Stateless cluster local OCI registry mirror
