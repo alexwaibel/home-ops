@@ -32,12 +32,20 @@ spec:
     configOverride: |
       [global]
       osd_class_update_on_start = false
+    # Keep Ceph on Squid for the chart migration; Tentacle (v20) lands separately.
+    # The chart derives both cephVersion and the toolbox image from cephImage, and
+    # setting cephClusterSpec.cephVersion alongside it renders a duplicate key.
+    cephImage:
+      repository: quay.io/ceph/ceph
+      tag: v19.2.6
     cephClusterSpec:
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
       crashCollector:
         disable: false
       csi:
+        cephfs:
+          kernelMountOptions: ms_mode=prefer-crc
         readAffinity:
           enabled: true
       dashboard:

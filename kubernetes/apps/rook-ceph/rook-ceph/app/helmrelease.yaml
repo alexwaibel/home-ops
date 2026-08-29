@@ -13,6 +13,8 @@ spec:
   interval: 1h
   values:
     csi:
+      # No-op on the v1.20 chart; kept so the HR spec is unchanged and helm-controller
+      # only upgrades once the v1.20.6 artifact is fetched, never the cached v1.19.10
       cephFSKernelMountOptions: ms_mode=prefer-crc
     enableDiscoveryDaemon: true
     monitoring:
