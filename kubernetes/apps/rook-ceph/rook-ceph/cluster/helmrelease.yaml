@@ -37,7 +37,7 @@ spec:
     # setting cephClusterSpec.cephVersion alongside it renders a duplicate key.
     cephImage:
       repository: quay.io/ceph/ceph
-      tag: v19.2.6
+      tag: v21.1.0@sha256:5ff3692d2f3f4bf47ca7717de6f8f8556440ce3e15efaa680b62cb924eec0541
     cephClusterSpec:
       cleanupPolicy:
         wipeDevicesFromOtherClusters: true
