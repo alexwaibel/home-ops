@@ -10,6 +10,6 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 0.6.2
-    digest: sha256:3d4c86add59337ea276d39d84d1f703101c149c1f14f72011aa922893d75319c
+    tag: 0.6.4
+    digest: sha256:6673006e8f5c7a826bc4a0728c76f431bda6cc29e018211a8aabe80399392fad
   url: oci://ghcr.io/home-operations/charts/konflate
