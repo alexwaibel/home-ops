@@ -14,6 +14,7 @@ resources:
   - ./bazarr/ks.yaml
   - ./bookboss/ks.yaml
   - ./byparr/ks.yaml
+  - ./lidarr/ks.yaml
   - ./music-assistant/ks.yaml
   - ./seerr/ks.yaml
   - ./plex/ks.yaml

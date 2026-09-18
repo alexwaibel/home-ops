@@ -3,45 +3,58 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: music-assistant
+  name: lidarr
 spec:
   chartRef:
     kind: OCIRepository
-    name: music-assistant
+    name: lidarr
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 1h
   values:
     controllers:
-      music-assistant:
+      lidarr:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
+            envFrom: &envFrom
+              - secretRef:
+                  name: lidarr-secret
         containers:
           app:
             image:
-              repository: ghcr.io/music-assistant/server
-              tag: 2.10.3@sha256:885872224fa541c0faefc936625c939ba705a00e89c180f89e877f58448ea5d5
+              repository: ghcr.io/home-operations/lidarr
+              tag: 3.1.6.5078@sha256:b4c60ae24ff264bcdfd8d5562982d99105c17b82c28a6986498f6fb215b7f42e
             env:
+              LIDARR__APP__INSTANCENAME: Lidarr
+              LIDARR__APP__THEME: dark
+              LIDARR__AUTH__METHOD: External
+              LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              LIDARR__LOG__DBENABLED: "False"
+              LIDARR__LOG__LEVEL: info
+              LIDARR__LOG__ANALYTICSENABLED: "False"
+              LIDARR__SERVER__PORT: &port 80
+              LIDARR__UPDATE__BRANCH: develop
               TZ: America/Los_Angeles
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /
-                    port: &port 8095
-                  periodSeconds: 30
-                  timeoutSeconds: 5
-                  failureThreshold: 5
-              readiness: *probes
-              startup:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /
+                    path: /ping
                     port: *port
-                  failureThreshold: 30
+                  initialDelaySeconds: 0
                   periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -49,20 +62,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 256Mi
               limits:
-                memory: 2Gi
+                memory: 1Gi
     defaultPodOptions:
-      annotations:
-        k8s.v1.cni.cncf.io/networks: |
-          [
-            {
-              "name": "media",
-              "namespace": "kube-system",
-              "ips": ["192.168.7.22/24"],
-              "mac": "a2:38:a0:5e:11:fa"
-            }
-          ]
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -72,12 +74,9 @@ spec:
         seccompProfile: { type: RuntimeDefault }
     service:
       app:
-        controller: music-assistant
         ports:
           http:
             port: *port
-          stream:
-            port: 8097
     route:
       app:
         hostnames:
@@ -86,18 +85,13 @@ spec:
           - name: envoy-internal
             namespace: network
     persistence:
-      data:
-        existingClaim: music-assistant
-        globalMounts:
-          - path: /data
-      music:
-        type: nfs
-        server: 192.168.20.11
-        path: /data/media/music/library
-        globalMounts:
-          - path: /music
-            readOnly: true
+      config:
+        existingClaim: lidarr
       tmp:
         type: emptyDir
+      media:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media
         globalMounts:
-          - path: /tmp
+          - path: /media
