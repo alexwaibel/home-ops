@@ -62,7 +62,7 @@ spec:
         k8s.v1.cni.cncf.io/networks: |
           [
             {
-              "name": "media",
+              "name": "media-local",
               "namespace": "kube-system",
               "ips": ["192.168.7.21/24"],
               "mac": "a2:38:a0:5e:11:f9"
