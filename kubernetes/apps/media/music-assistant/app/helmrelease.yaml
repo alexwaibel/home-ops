@@ -57,9 +57,9 @@ spec:
         k8s.v1.cni.cncf.io/networks: |
           [
             {
-              "name": "iot",
+              "name": "media",
               "namespace": "kube-system",
-              "ips": ["192.168.3.21/24"],
+              "ips": ["192.168.7.22/24"],
               "mac": "a2:38:a0:5e:11:fa"
             }
           ]
