@@ -52,6 +52,7 @@ spec:
               limits:
                 memory: 1Gi
     defaultPodOptions:
+      hostname: kopia
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
