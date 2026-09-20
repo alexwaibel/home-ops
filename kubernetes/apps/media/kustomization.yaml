@@ -21,5 +21,6 @@ resources:
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
+  - ./romm/ks.yaml
   - ./shelfmark/ks.yaml
   - ./sonarr/ks.yaml
