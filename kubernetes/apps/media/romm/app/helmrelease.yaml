@@ -92,6 +92,7 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "roms.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
