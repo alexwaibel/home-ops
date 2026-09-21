@@ -88,3 +88,4 @@ spec:
         path: /data/media
         globalMounts:
           - path: /media
+            readOnly: true

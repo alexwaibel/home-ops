@@ -93,7 +93,7 @@ spec:
       music:
         type: nfs
         server: 192.168.20.11
-        path: /data/media/music/library
+        path: /data/media/music
         globalMounts:
           - path: /music
             readOnly: true
