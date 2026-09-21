@@ -17,6 +17,7 @@ resources:
   - ./byparr/ks.yaml
   - ./lidarr/ks.yaml
   - ./music-assistant/ks.yaml
+  - ./romm/ks.yaml
   - ./seerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
