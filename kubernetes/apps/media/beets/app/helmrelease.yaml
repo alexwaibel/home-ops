@@ -15,30 +15,32 @@ spec:
   values:
     controllers:
       beets:
-        type: cronjob
-        cronjob:
-          schedule: "*/15 * * * *"
-          timeZone: America/Los_Angeles
-          concurrencyPolicy: Forbid
-          startingDeadlineSeconds: 300
-          activeDeadlineSeconds: 3600
-          backoffLimit: 1
+        type: deployment
+        replicas: 1
+        strategy: Recreate
         containers:
           app:
             image:
               repository: ghcr.io/linuxserver/beets
               tag: 2.14.1@sha256:99582f104d04241b46a4a7071d424d0529800f9e3d04baa36db47b5e8cda6e96
             command:
-              - /lsiopy/bin/beet
+              - python3
             args:
-              - -v
-              - import
-              - --quiet
-              - /music
+              - /scripts/enrich.py
             env:
               BEETSDIR: /config
+              BEETS_MEDIA_ROOT: /music
+              BEETS_WEBHOOK_PORT: &port 8338
+              BACKFILL_ON_START: "true"
               HOME: /config
+              LIDARR_MEDIA_ROOT: /media/music
+              LIDARR_URL: http://lidarr.media.svc.cluster.local
               TZ: America/Los_Angeles
+              LIDARR_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: lidarr-secret
+                    key: LIDARR__AUTH__APIKEY
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -50,8 +52,30 @@ spec:
               limits:
                 cpu: "2"
                 memory: 2Gi
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
     defaultPodOptions:
-      restartPolicy: Never
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -69,6 +93,9 @@ spec:
           - path: /config/config.yaml
             subPath: config.yaml
             readOnly: true
+          - path: /scripts/enrich.py
+            subPath: enrich.py
+            readOnly: true
       tmp:
         type: emptyDir
         globalMounts:
@@ -79,3 +106,9 @@ spec:
         path: /data/media/music
         globalMounts:
           - path: /music
+    service:
+      app:
+        controller: beets
+        ports:
+          http:
+            port: *port

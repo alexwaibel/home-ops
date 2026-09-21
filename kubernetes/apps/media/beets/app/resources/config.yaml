@@ -1,6 +1,6 @@
 ---
 directory: /music
-library: /config/library.db
+library: /tmp/library.db
 art_filename: cover
 original_date: false
 per_disc_numbering: false
@@ -12,13 +12,15 @@ plugins:
   - embedart
   - replaygain
 
+match:
+  strong_rec_thresh: 1.0
+
 import:
   write: true
   copy: false
   move: false
   resume: false
-  incremental: true
-  incremental_skip_later: true
+  incremental: false
   quiet: true
   quiet_fallback: skip
   none_rec_action: skip

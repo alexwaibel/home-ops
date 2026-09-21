@@ -10,5 +10,6 @@ configMapGenerator:
   - name: beets-config
     files:
       - config.yaml=./resources/config.yaml
+      - enrich.py=./resources/enrich.py
 generatorOptions:
   disableNameSuffixHash: true
