@@ -1,0 +1,49 @@
+---
+directory: /music
+library: /config/library.db
+art_filename: cover
+original_date: false
+per_disc_numbering: false
+
+plugins:
+  - chroma
+  - musicbrainz
+  - fetchart
+  - embedart
+  - replaygain
+
+import:
+  write: true
+  copy: false
+  move: false
+  resume: false
+  incremental: true
+  incremental_skip_later: true
+  quiet: true
+  quiet_fallback: skip
+  none_rec_action: skip
+  duplicate_action: skip
+  from_scratch: false
+  log: /config/import.log
+
+chroma:
+  auto: true
+
+fetchart:
+  auto: true
+  cautious: true
+  cover_names: cover folder front album art
+  maxwidth: 1200
+
+embedart:
+  auto: true
+  ifempty: true
+  maxwidth: 1200
+  remove_art_file: false
+
+replaygain:
+  auto: true
+  backend: ffmpeg
+  threads: 2
+  overwrite: false
+  peak: sample

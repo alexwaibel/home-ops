@@ -13,6 +13,7 @@ resources:
   # Flux-Kustomizations
   - ./aurral/ks.yaml
   - ./bazarr/ks.yaml
+  - ./beets/ks.yaml
   - ./bookboss/ks.yaml
   - ./byparr/ks.yaml
   - ./lidarr/ks.yaml

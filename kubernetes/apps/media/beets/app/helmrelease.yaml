@@ -1,0 +1,81 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beets
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: beets
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  interval: 1h
+  values:
+    controllers:
+      beets:
+        type: cronjob
+        cronjob:
+          schedule: "*/15 * * * *"
+          timeZone: America/Los_Angeles
+          concurrencyPolicy: Forbid
+          startingDeadlineSeconds: 300
+          activeDeadlineSeconds: 3600
+          backoffLimit: 1
+        containers:
+          app:
+            image:
+              repository: ghcr.io/linuxserver/beets
+              tag: 2.14.1@sha256:99582f104d04241b46a4a7071d424d0529800f9e3d04baa36db47b5e8cda6e96
+            command:
+              - /lsiopy/bin/beet
+            args:
+              - -v
+              - import
+              - --quiet
+              - /music
+            env:
+              BEETSDIR: /config
+              HOME: /config
+              TZ: America/Los_Angeles
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: "2"
+                memory: 2Gi
+    defaultPodOptions:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    persistence:
+      config:
+        existingClaim: beets
+      config-file:
+        type: configMap
+        name: beets-config
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      music:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media/music
+        globalMounts:
+          - path: /music
