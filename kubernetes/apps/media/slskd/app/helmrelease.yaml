@@ -53,6 +53,12 @@ spec:
               SLSKD_INCOMPLETE_DIR: /media/downloads/slskd/incomplete
               SLSKD_NO_HTTPS: "true"
               SLSKD_REMOTE_CONFIGURATION: "true"
+              SLSKD_SHARED_DIR: /media/music
+              SLSKD_SHARE_CACHE_RETENTION: 60
+              SLSKD_SHARE_CACHE_STORAGE_MODE: Disk
+              SLSKD_SHARE_CACHE_WORKERS: 2
+              SLSKD_UPLOAD_SLOTS: 5
+              SLSKD_UPLOAD_SPEED_LIMIT: 51200
               SLSKD_VPN: "true"
               SLSKD_VPN_GLUETUN_URL: http://localhost:8000
               SLSKD_VPN_PORT_FORWARDING: "true"
@@ -125,3 +131,10 @@ spec:
         globalMounts:
           - path: /media/downloads/slskd
             subPath: slskd
+      music:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media/music
+        globalMounts:
+          - path: /media/music
+            readOnly: true
