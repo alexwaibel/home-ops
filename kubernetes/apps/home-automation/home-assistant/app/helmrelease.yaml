@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/home-assistant
-              tag: 2026.8.3@sha256:16ca445e58fa71d4f7ff287d4e9793ea690ccae932a5e200852371425cd7abb0
+              tag: 2026.9.3@sha256:638c4c8d62caad377e70bfa7beef75f70c9343a49aed64aad824f2cd06843c1c
             env:
               TZ: America/Los_Angeles
             envFrom:
@@ -39,7 +39,7 @@ spec:
           code-server:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.135.0@sha256:ccd326184d71efc5ebb94155eda7bb30153902342a35dbc8525450d81aa55012
+              tag: 4.138.0@sha256:81706b71ace316157850cbcfb574714d1067249c107a415b3a03dc6b613ebfbc
             args:
               [
                 "--auth",
@@ -62,9 +62,9 @@ spec:
         k8s.v1.cni.cncf.io/networks: |
           [
             {
-              "name": "iot",
+              "name": "media-local",
               "namespace": "kube-system",
-              "ips": ["192.168.3.20/24"],
+              "ips": ["192.168.7.21/24"],
               "mac": "a2:38:a0:5e:11:f9"
             }
           ]

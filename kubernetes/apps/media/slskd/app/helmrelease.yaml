@@ -3,18 +3,18 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: shelfmark
+  name: slskd
 spec:
   chartRef:
     kind: OCIRepository
-    name: shelfmark
+    name: slskd
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
   values:
     controllers:
-      shelfmark:
+      slskd:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
@@ -26,12 +26,14 @@ spec:
               VPN_SERVICE_PROVIDER: protonvpn
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
+              VPN_PORT_FORWARDING: on
+              PORT_FORWARD_ONLY: on
               SERVER_COUNTRIES: United States
-              FIREWALL_INPUT_PORTS: &port 8084
-              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12 # Allow access to k8s subnets
+              FIREWALL_INPUT_PORTS: &httpPort 5030
+              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12
             envFrom:
               - secretRef:
-                  name: shelfmark-gluetun-secret
+                  name: slskd-gluetun-secret
             resources:
               limits:
                 squat.ai/tun: "1"
@@ -44,31 +46,44 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/calibrain/shelfmark
-              tag: v1.3.15@sha256:9602290324993c801b319d3166b202b96bd9039af2416f0916dae03a5bdca815
+              repository: slskd/slskd
+              tag: 0.26.0@sha256:ecd4026d4f8fb504e2cc55323efa2c1f5b56d20d3686b018249cc36b48ea17a6
             env:
+              DOTNET_BUNDLE_EXTRACT_BASE_DIR: /tmp/.net
+              SLSKD_DOWNLOADS_DIR: /media/downloads/slskd/complete
+              SLSKD_INCOMPLETE_DIR: /media/downloads/slskd/incomplete
+              SLSKD_NO_HTTPS: "true"
+              SLSKD_REMOTE_CONFIGURATION: "true"
+              SLSKD_SHARED_DIR: /media/music
+              SLSKD_SHARE_CACHE_RETENTION: 60
+              SLSKD_SHARE_CACHE_STORAGE_MODE: Disk
+              SLSKD_SHARE_CACHE_WORKERS: 2
+              SLSKD_UPLOAD_SLOTS: 5
+              SLSKD_UPLOAD_SPEED_LIMIT: 51200
+              SLSKD_VPN: "true"
+              SLSKD_VPN_GLUETUN_URL: http://localhost:8000
+              SLSKD_VPN_PORT_FORWARDING: "true"
               TZ: America/Los_Angeles
-              PUID: 568
-              PGID: 568
-              FLASK_PORT: *port
-              AUTH_METHOD: oidc
-              OIDC_DISCOVERY_URL: "https://auth.${SECRET_DOMAIN}/.well-known/openid-configuration"
-              OIDC_CLIENT_ID: shelfmark
-              OIDC_GROUP_CLAIM: groups
-              OIDC_ADMIN_GROUP: admins
-              HIDE_LOCAL_AUTH: "true"
-              OIDC_AUTO_REDIRECT: "true"
             envFrom:
               - secretRef:
-                  name: shelfmark-secret
+                  name: slskd-secret
             probes:
-              liveness:
+              liveness: &probes
                 enabled: true
-              readiness:
-                enabled: true
+                custom: true
+                spec:
+                  tcpSocket:
+                    port: *httpPort
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *probes
               startup:
                 enabled: true
+                custom: true
                 spec:
+                  tcpSocket:
+                    port: *httpPort
                   failureThreshold: 30
                   periodSeconds: 10
             securityContext:
@@ -81,18 +96,19 @@ spec:
             resources:
               requests:
                 cpu: 50m
-                memory: 256Mi
+                memory: 128Mi
               limits:
-                memory: 2Gi
+                memory: 1Gi
     defaultPodOptions:
       securityContext:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
     service:
       app:
+        controller: slskd
         ports:
           http:
-            port: *port
+            port: *httpPort
     route:
       app:
         hostnames:
@@ -102,19 +118,24 @@ spec:
             namespace: network
     persistence:
       config:
-        existingClaim: shelfmark
+        existingClaim: slskd
+        globalMounts:
+          - path: /app
       tmp:
         type: emptyDir
         globalMounts:
           - path: /tmp
-      logs:
-        type: emptyDir
-        globalMounts:
-          - path: /var/log/shelfmark
-      books:
+      media:
         type: nfs
         server: 192.168.20.11
-        path: /data/books
+        path: /data/media/downloads
         globalMounts:
-          - path: /books
-            subPath: ingest
+          - path: /media/downloads/slskd
+            subPath: slskd
+      music:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media/music
+        globalMounts:
+          - path: /media/music
+            readOnly: true

@@ -3,58 +3,47 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarr
+  name: aurral
 spec:
   chartRef:
     kind: OCIRepository
-    name: sonarr
+    name: aurral
   dependsOn:
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
   values:
     controllers:
-      sonarr:
-        annotations:
-          reloader.stakater.com/auto: "true"
-        initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/home-operations/postgres-init
-              tag: 18@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
-            envFrom: &envFrom
-              - secretRef:
-                  name: sonarr-secret
+      aurral:
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/sonarr
-              tag: 4.0.20.3012@sha256:1f19eb5e0f421418c1a956bbe01310a0141423afe28bd9a4b1dcb8629ff2bce2
+              repository: ghcr.io/lklynet/aurral
+              tag: 2.9.1@sha256:5690b43d50c76f81af3d0163ae05061f3227e8631da5bffbdd67c0d6407a334e
             env:
-              SONARR__APP__INSTANCENAME: Sonarr
-              SONARR__APP__THEME: dark
-              SONARR__AUTH__METHOD: External
-              SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              SONARR__LOG__DBENABLED: "False"
-              SONARR__LOG__LEVEL: info
-              SONARR__LOG__ANALYTICSENABLED: "False"
-              SONARR__SERVER__PORT: &port 80
-              SONARR__UPDATE__BRANCH: develop
+              AURRAL_DATA_DIR: /config
               TZ: America/Los_Angeles
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /ping
-                    port: *port
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
+                    path: /api/health
+                    port: &port 3001
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/health
+                    port: *port
+                  failureThreshold: 30
+                  periodSeconds: 10
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -62,8 +51,9 @@ spec:
             resources:
               requests:
                 cpu: 100m
+                memory: 256Mi
               limits:
-                memory: 1Gi
+                memory: 2Gi
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -81,28 +71,21 @@ spec:
       app:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "music-requests.${SECRET_DOMAIN}"
         parentRefs:
           - name: envoy-internal
             namespace: network
     persistence:
       config:
-        existingClaim: sonarr
-      scripts:
-        type: configMap
-        name: sonarr-configmap
-        defaultMode: 0775
-        globalMounts:
-          - path: /scripts/pushover-notify.sh
-            subPath: pushover-notify.sh
-            readOnly: true
-          - path: /scripts/refresh-series.sh
-            subPath: refresh-series.sh
-            readOnly: true
+        existingClaim: aurral
       tmp:
         type: emptyDir
+        globalMounts:
+          - path: /tmp
       media:
         type: nfs
         server: 192.168.20.11
         path: /data/media
         globalMounts:
           - path: /media
+            readOnly: true

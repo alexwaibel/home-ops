@@ -3,32 +3,24 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kopia
+  name: music-assistant
 spec:
   chartRef:
     kind: OCIRepository
-    name: kopia
+    name: music-assistant
   interval: 1h
   values:
     controllers:
-      kopia:
+      music-assistant:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/kopia
-              tag: 0.23.1@sha256:27da0a33b44e1b902150a6c963514237217464bb13118a95bb056667be93cda5
+              repository: ghcr.io/music-assistant/server
+              tag: 2.10.3@sha256:885872224fa541c0faefc936625c939ba705a00e89c180f89e877f58448ea5d5
             env:
-              KOPIA_WEB_ENABLED: true
-              KOPIA_WEB_PORT: &port 80
               TZ: America/Los_Angeles
-            envFrom:
-              - secretRef:
-                  name: kopia-secret
-            args:
-              - --refresh-interval=5m
-              - --without-password
             probes:
               liveness: &probes
                 enabled: true
@@ -36,11 +28,10 @@ spec:
                 spec:
                   httpGet:
                     path: /
-                    port: *port
-                  initialDelaySeconds: 30
+                    port: &port 8095
                   periodSeconds: 30
-                  timeoutSeconds: 10
-                  failureThreshold: 6
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               readiness: *probes
               startup:
                 enabled: true
@@ -49,66 +40,64 @@ spec:
                   httpGet:
                     path: /
                     port: *port
+                  failureThreshold: 30
                   periodSeconds: 10
-                  timeoutSeconds: 10
-                  failureThreshold: 60
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 10m
+                cpu: 100m
                 memory: 256Mi
               limits:
-                memory: 4Gi
+                memory: 2Gi
     defaultPodOptions:
-      hostname: kopia
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [
+            {
+              "name": "media",
+              "namespace": "kube-system",
+              "ips": ["192.168.7.22/24"],
+              "mac": "a2:38:a0:5e:11:fa"
+            }
+          ]
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
     service:
       app:
+        controller: music-assistant
         ports:
           http:
             port: *port
+          stream:
+            port: 8097
     route:
       app:
         hostnames:
           - "{{ .Release.Name }}.${SECRET_DOMAIN}"
         parentRefs:
-          - name: envoy-internal
+          - name: envoy-external
             namespace: network
     persistence:
-      config:
-        type: emptyDir
-        globalMounts:
-          - path: /config
-      config-file:
-        type: secret
-        name: kopia-repository-secret
-        globalMounts:
-          - path: /config/repository.config
-            subPath: repository.config
-            readOnly: true
-      nas:
-        type: nfs
-        server: 192.168.20.11
-        path: /data
+      data:
+        existingClaim: music-assistant
         globalMounts:
           - path: /data
+      music:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media/music
+        globalMounts:
+          - path: /music
             readOnly: true
-      tmpfs:
+      tmp:
         type: emptyDir
-        advancedMounts:
-          kopia:
-            app:
-              - path: /config/cache
-                subPath: cache
-              - path: /config/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+        globalMounts:
+          - path: /tmp
