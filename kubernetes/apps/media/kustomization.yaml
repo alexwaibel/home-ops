@@ -11,13 +11,19 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
+  - ./aurral/ks.yaml
   - ./bazarr/ks.yaml
+  - ./beets/ks.yaml
   - ./bookboss/ks.yaml
   - ./byparr/ks.yaml
+  - ./lidarr/ks.yaml
+  - ./music-assistant/ks.yaml
+  - ./romm/ks.yaml
   - ./seerr/ks.yaml
   - ./plex/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml
   - ./shelfmark/ks.yaml
+  - ./slskd/ks.yaml
   - ./sonarr/ks.yaml

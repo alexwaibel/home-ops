@@ -37,10 +37,10 @@ nodes:
         mtu: 1500
         vip:
           ip: "192.168.20.90"
-        # Trunked IoT VLAN sub-interface; no host address is needed since it
-        # only serves as the Multus macvlan master (see kube-system/multus).
+        # Trunked VLAN sub-interfaces; no host addresses are needed since they
+        # only serve as Multus macvlan masters (see kube-system/multus).
         vlans:
-          - vlanId: 3
+          - vlanId: 7
             dhcp: false
             mtu: 1500
           - vlanId: 30
@@ -86,7 +86,7 @@ nodes:
         vip:
           ip: "192.168.20.90"
         vlans:
-          - vlanId: 3
+          - vlanId: 7
             dhcp: false
             mtu: 1500
           - vlanId: 30
@@ -132,7 +132,7 @@ nodes:
         vip:
           ip: "192.168.20.90"
         vlans:
-          - vlanId: 3
+          - vlanId: 7
             dhcp: false
             mtu: 1500
           - vlanId: 30

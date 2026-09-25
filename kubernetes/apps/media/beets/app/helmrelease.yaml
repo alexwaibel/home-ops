@@ -1,0 +1,114 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: beets
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: beets
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  interval: 1h
+  values:
+    controllers:
+      beets:
+        type: deployment
+        replicas: 1
+        strategy: Recreate
+        containers:
+          app:
+            image:
+              repository: ghcr.io/linuxserver/beets
+              tag: 2.14.1@sha256:99582f104d04241b46a4a7071d424d0529800f9e3d04baa36db47b5e8cda6e96
+            command:
+              - python3
+            args:
+              - /scripts/enrich.py
+            env:
+              BEETSDIR: /config
+              BEETS_MEDIA_ROOT: /music
+              BEETS_WEBHOOK_PORT: &port 8338
+              BACKFILL_ON_START: "true"
+              HOME: /config
+              LIDARR_MEDIA_ROOT: /media/music
+              LIDARR_URL: http://lidarr.media.svc.cluster.local
+              TZ: America/Los_Angeles
+              LIDARR_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: lidarr-secret
+                    key: LIDARR__AUTH__APIKEY
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+                memory: 256Mi
+              limits:
+                cpu: "2"
+                memory: 2Gi
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    persistence:
+      config:
+        existingClaim: beets
+      config-file:
+        type: configMap
+        name: beets-config
+        globalMounts:
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true
+          - path: /scripts/enrich.py
+            subPath: enrich.py
+            readOnly: true
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp
+      music:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/media/music
+        globalMounts:
+          - path: /music
+    service:
+      app:
+        controller: beets
+        ports:
+          http:
+            port: *port

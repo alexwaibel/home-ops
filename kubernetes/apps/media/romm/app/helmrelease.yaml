@@ -1,0 +1,124 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: romm
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: romm
+  interval: 1h
+  values:
+    controllers:
+      romm:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
+            envFrom: &envFrom
+              - secretRef:
+                  name: romm-secret
+        containers:
+          app:
+            image:
+              repository: rommapp/romm
+              tag: 5.3.1@sha256:0d66b4ea152a237c7f24b95e87459f46d3c596a7c0b35a82f26bc971487278b3
+            env:
+              TZ: America/Los_Angeles
+              ROMM_BASE_URL: "https://{{ .Release.Name }}.${SECRET_DOMAIN}"
+              ROMM_PORT: &port 8080
+              ROMM_SESSION_SECURE_COOKIE: "true"
+              ROMM_DB_DRIVER: postgresql
+              DB_HOST: postgres16-rw.database.svc.cluster.local
+              DB_PORT: 5432
+              DB_NAME: romm
+              REDIS_HOST: dragonfly.database.svc.cluster.local
+              REDIS_PORT: 6379
+              HASHEOUS_API_ENABLED: "true"
+              HLTB_API_ENABLED: "true"
+              ENABLE_SCHEDULED_RESCAN: "true"
+              SCHEDULED_RESCAN_CRON: "0 3 * * *"
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/heartbeat
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
+              readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/heartbeat
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 30
+            securityContext:
+              runAsNonRoot: true
+              runAsUser: 568
+              runAsGroup: 568
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 50m
+                memory: 512Mi
+              limits:
+                memory: 4Gi
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+          - "roms.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+    persistence:
+      data:
+        existingClaim: romm
+        globalMounts:
+          - path: /romm
+      config:
+        type: configMap
+        name: romm-config
+        globalMounts:
+          - path: /romm/config/config.yml
+            subPath: config.yml
+            readOnly: true
+      library:
+        type: nfs
+        server: 192.168.20.11
+        path: /data/games
+        globalMounts:
+          - path: /romm/library
+      nginx:
+        type: emptyDir
+        globalMounts:
+          - path: /etc/nginx/conf.d
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

@@ -42,6 +42,16 @@ spec:
                   timeoutSeconds: 10
                   failureThreshold: 6
               readiness: *probes
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 10
+                  failureThreshold: 60
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -49,9 +59,11 @@ spec:
             resources:
               requests:
                 cpu: 10m
+                memory: 256Mi
               limits:
-                memory: 1Gi
+                memory: 4Gi
     defaultPodOptions:
+      hostname: kopia
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -71,6 +83,10 @@ spec:
           - name: envoy-internal
             namespace: network
     persistence:
+      config:
+        type: emptyDir
+        globalMounts:
+          - path: /config
       config-file:
         type: secret
         name: kopia-repository-secret
