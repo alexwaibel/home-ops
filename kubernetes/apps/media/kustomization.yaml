@@ -16,6 +16,7 @@ resources:
   - ./beets/ks.yaml
   - ./bookboss/ks.yaml
   - ./byparr/ks.yaml
+  - ./crosspoint-sync/ks.yaml
   - ./lidarr/ks.yaml
   - ./music-assistant/ks.yaml
   - ./romm/ks.yaml
