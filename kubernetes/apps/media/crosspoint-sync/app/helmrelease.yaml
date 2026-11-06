@@ -23,7 +23,7 @@ spec:
           app:
             image:
               repository: ghcr.io/crosspoint-reader/crosspoint-sync
-              tag: main@sha256:4c5c4953817540cb9300bd7ae463362b045f4af32c51c97a7807482221061f9b
+              tag: main@sha256:e7f90b275efd1721cd7af48947f34b230e9d6de7cfc967c388acd6454bb96460
             env:
               TZ: America/Los_Angeles
               PORT: &port 8080
