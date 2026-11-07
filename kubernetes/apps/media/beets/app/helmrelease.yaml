@@ -22,7 +22,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/beets
-              tag: 2.14.1@sha256:ae076820ec34ea5e9ec05a22931e98ab555e9c25e784c5fb001c84f411119c73
+              tag: 2.14.1@sha256:01e4d6177968a8312843f0b1b19d766ee2f07eb08b327ef2ae9422a5dcd2364a
             command:
               - python3
             args:
