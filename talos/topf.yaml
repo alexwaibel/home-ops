@@ -1,7 +1,7 @@
 ---
 clusterName: kubernetes
 clusterEndpoint: https://192.168.20.90:6443
-talosVersion: v1.14.4
+talosVersion: v1.14.6
 schematicId: 4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0
 secureboot: true
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
