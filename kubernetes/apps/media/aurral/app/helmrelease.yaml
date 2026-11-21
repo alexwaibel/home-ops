@@ -19,7 +19,7 @@ spec:
           app:
             image:
               repository: ghcr.io/lklynet/aurral
-              tag: 2.10.0@sha256:e15f05e525a7c9d4a97e36ff18b6a37904dda6c803e46f0fd87900a7021febae
+              tag: 3.0.1@sha256:dfca50e61cfdea54506c9836431a3c6b526873e0650f4a348a4a032a1324b7dc
             env:
               AURRAL_DATA_DIR: /config
               TZ: America/Los_Angeles
