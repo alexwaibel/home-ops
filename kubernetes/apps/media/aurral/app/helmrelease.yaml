@@ -22,6 +22,7 @@ spec:
               tag: 3.0.1@sha256:dfca50e61cfdea54506c9836431a3c6b526873e0650f4a348a4a032a1324b7dc
             env:
               AURRAL_DATA_DIR: /config
+              HOME: /tmp
               TZ: America/Los_Angeles
             probes:
               liveness: &probes
