@@ -86,128 +86,142 @@ url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhel
 url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086712"
 
 [[tools."aqua:cilium/cilium-cli"]]
-version = "0.20.1"
+version = "0.20.3"
 backend = "aqua:cilium/cilium-cli"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-arm64"]
-checksum = "sha256:d237550b882af6f2e01e8985e1e024d57c0774611c0a527c7a20dcee7dc4fd07"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358779"
+checksum = "sha256:fa1bd66b407ec205e88746fc0b17590a247f255bf71bb9dfb0008b14d158f68d"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456165"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-arm64-musl"]
-checksum = "sha256:d237550b882af6f2e01e8985e1e024d57c0774611c0a527c7a20dcee7dc4fd07"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358779"
+checksum = "sha256:fa1bd66b407ec205e88746fc0b17590a247f255bf71bb9dfb0008b14d158f68d"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456165"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-x64"]
-checksum = "sha256:24e817dcfcc8a12e325ce7547617bcbcf171c5b0b335bb24d2bb1207ba047f61"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358772"
+checksum = "sha256:b987ad0d195310d3fc96553aa7bcd41d1e97b64713ecdfee3eb48dd27e1ec7d7"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456158"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-x64-musl"]
-checksum = "sha256:24e817dcfcc8a12e325ce7547617bcbcf171c5b0b335bb24d2bb1207ba047f61"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358772"
+checksum = "sha256:b987ad0d195310d3fc96553aa7bcd41d1e97b64713ecdfee3eb48dd27e1ec7d7"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456158"
 
 [tools."aqua:cilium/cilium-cli"."platforms.macos-arm64"]
-checksum = "sha256:3521cb6af8f621d64dac63c7537fd9aa2ff878fb1f7a6f50e69b31bf45c02cb8"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358773"
+checksum = "sha256:5a53acbe09f1515f52b7e625517872dd0d0e02e2f6082c919527cc507b110a15"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456160"
 
 [tools."aqua:cilium/cilium-cli"."platforms.macos-x64"]
-checksum = "sha256:b5ac658a9a87c933a3cc662f035d8ab4a3cbfdf67d942526b37566907a0d88ad"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-darwin-amd64.tar.gz"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358780"
+checksum = "sha256:6141f85d8ddb9c2b26fb0ab7eb2ed7a5d0e9efe1fe59006419f30d8c2434b60c"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456157"
 
 [tools."aqua:cilium/cilium-cli"."platforms.windows-x64"]
-checksum = "sha256:869bc322c880db7c566995f8e251dd3270e15814f26e4c7c8c13922319a939e3"
-url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.1/cilium-windows-amd64.zip"
-url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/585358777"
+checksum = "sha256:3fe0df6fbf6471b958863106e23e46cc6339c86b74bf28b805e8a4113f7a2cde"
+checksum_source = "mise-versions"
+url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-windows-amd64.zip"
+url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456161"
 
 [[tools."aqua:cli/cli"]]
-version = "2.101.0"
+version = "2.105.0"
 backend = "aqua:cli/cli"
 
 [tools."aqua:cli/cli"."platforms.linux-arm64"]
-checksum = "sha256:b57e8063f18862647c9d22727c32e9da1b963f8bf9db648fe123a6975695640f"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857147"
+checksum = "sha256:b1278c75107423d818f1937fd92cafc9e5e9b606631568f68d7fb816f5885a02"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188590"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.linux-arm64-musl"]
-checksum = "sha256:b57e8063f18862647c9d22727c32e9da1b963f8bf9db648fe123a6975695640f"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857147"
+checksum = "sha256:b1278c75107423d818f1937fd92cafc9e5e9b606631568f68d7fb816f5885a02"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188590"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.linux-x64"]
-checksum = "sha256:9bca2d1c16825f109907a23307628a2f0698fbf99662b73a5cf0b020293072b8"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857134"
+checksum = "sha256:79e7ab5db738c48777b696e374f8b428f0647debfb424f44d2f426370407fe2f"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188566"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.linux-x64-musl"]
-checksum = "sha256:9bca2d1c16825f109907a23307628a2f0698fbf99662b73a5cf0b020293072b8"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857134"
+checksum = "sha256:79e7ab5db738c48777b696e374f8b428f0647debfb424f44d2f426370407fe2f"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188566"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.macos-arm64"]
-checksum = "sha256:e4303e39d8f07141c4bad4b99b01079f05029c59b27076e8fbc825c985ecdd8b"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_macOS_arm64.zip"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857200"
+checksum = "sha256:2a5d03103ae444927383b93d9ffd65579a26e2eb900ce1cf11f55258d5319ded"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_macOS_arm64.zip"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188673"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.macos-x64"]
-checksum = "sha256:a6fd66c88e2f07d6e4e058173db341d07dd74d58cf8f19ae668293d2bb614ca3"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_macOS_amd64.zip"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857203"
+checksum = "sha256:23602cbccbbdc6285a8520745b714cb927ce2ca621779373c2a20cd8e33fda66"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_macOS_amd64.zip"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188667"
 provenance = "github-attestations"
 
 [tools."aqua:cli/cli"."platforms.windows-x64"]
-checksum = "sha256:bc6c814367b193cd8e713611d61e36013c0ef843b8f516458fe3eda039192794"
-url = "https://github.com/cli/cli/releases/download/v2.101.0/gh_2.101.0_windows_amd64.zip"
-url_api = "https://api.github.com/repos/cli/cli/releases/assets/565857681"
+checksum = "sha256:8813a72c899900afaa10e3fec8fbc64b908c89dbfe837e95ed2fa500fc140627"
+url = "https://github.com/cli/cli/releases/download/v2.105.0/gh_2.105.0_windows_amd64.zip"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/761188741"
 provenance = "github-attestations"
 
 [[tools."aqua:cloudflare/cloudflared"]]
-version = "2026.9.3"
+version = "2026.11.1"
 backend = "aqua:cloudflare/cloudflared"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64"]
-checksum = "sha256:aaeb2d7d0da3614634c7e03ab13487a1522c2e79165ed2929cfe23d5e95b326d"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-arm64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586326897"
+checksum = "sha256:b155cec3e48e489cfb8e5c602769fb8c771083018d8881d68b4d18a791567c5a"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-arm64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759527003"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64-musl"]
-checksum = "sha256:aaeb2d7d0da3614634c7e03ab13487a1522c2e79165ed2929cfe23d5e95b326d"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-arm64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586326897"
+checksum = "sha256:b155cec3e48e489cfb8e5c602769fb8c771083018d8881d68b4d18a791567c5a"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-arm64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759527003"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64"]
-checksum = "sha256:77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586326564"
+checksum = "sha256:97bb3b02d23a5980fc9c15a1a270e692da1923f103f920d5b16d4931d5ab55e7"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-amd64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759526142"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64-musl"]
-checksum = "sha256:77e26d8d900e0b8469f416239d14b5f296525fdf79fee6f511ef55609e3fbac2"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-linux-amd64"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586326564"
+checksum = "sha256:97bb3b02d23a5980fc9c15a1a270e692da1923f103f920d5b16d4931d5ab55e7"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-amd64"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759526142"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-arm64"]
-checksum = "sha256:587c2cfb1c230fe36c7fa7727da78be459dae028cabe8c001291999350f07095"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-darwin-arm64.tgz"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586327707"
+checksum = "sha256:02fe4bcf08f2c09699cff30658228a739a0c47fb75f3653d1b8772a27ade4462"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-darwin-arm64.tgz"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759523594"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-x64"]
-checksum = "sha256:d1155d0837487f261183b15c1eab6c4ebcad9dc49b94675f1524c3564cea3977"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-darwin-amd64.tgz"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586327580"
+checksum = "sha256:5e0403b188dfee71fbd9b995e7dc9910d61b661c52371935ab6475d41185632f"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-darwin-amd64.tgz"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759524027"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.windows-x64"]
-checksum = "sha256:f096265ec2fcbe9bb6e2d64268db167ced3fcbb83d894bdb9e2fcdb26f2ea7e2"
-url = "https://github.com/cloudflare/cloudflared/releases/download/2026.9.3/cloudflared-windows-amd64.exe"
-url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/586327964"
+checksum = "sha256:341deda3db5ec498a0482254d6c38c0b7cf01a30c37bb5dd95d2216d08955e35"
+checksum_source = "mise-versions"
+url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-windows-amd64.exe"
+url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759528258"
 
 [[tools."aqua:cue-lang/cue"]]
 version = "0.17.1"
@@ -249,12 +263,64 @@ url = "https://github.com/cue-lang/cue/releases/download/v0.17.1/cue_v0.17.1_win
 url_api = "https://api.github.com/repos/cue-lang/cue/releases/assets/479014351"
 
 [[tools."aqua:fluxcd/flux2"]]
-version = "2.9.5"
+version = "2.10.1"
 backend = "aqua:fluxcd/flux2"
 
-[tools."aqua:fluxcd/flux2".options]
-"vars.slsa_signer_identity" = "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.1.0"
-"vars.slsa_signer_issuer" = "https://token.actions.githubusercontent.com"
+[tools."aqua:fluxcd/flux2"."platforms.linux-arm64"]
+checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-arm64".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl"]
+checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-x64"]
+checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-x64".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl"]
+checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
+
+[tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.macos-arm64"]
+checksum = "sha256:c0a8dc285c568905ae38e25074985f3181c82a3c8d66316959561f27a626909d"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871028"
+
+[tools."aqua:fluxcd/flux2"."platforms.macos-arm64".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.macos-x64"]
+checksum = "sha256:0e083b1a53887ffee1624c67de74eea3ed9d7fd0215efb4b4090c8cc97abb824"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871014"
+
+[tools."aqua:fluxcd/flux2"."platforms.macos-x64".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
+
+[tools."aqua:fluxcd/flux2"."platforms.windows-x64"]
+checksum = "sha256:acb91b95222166bf0f2f62f81ea0bbbe7f271732700f5db164de306dd4efbdf3"
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_windows_amd64.zip"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871019"
+
+[tools."aqua:fluxcd/flux2"."platforms.windows-x64".provenance.slsa]
+url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
 
 [[tools."aqua:getsops/sops"]]
 version = "3.13.3"
@@ -356,114 +422,128 @@ url = "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8
 url_api = "https://api.github.com/repos/gitleaks/gitleaks/releases/assets/378333178"
 
 [[tools."aqua:go-task/task"]]
-version = "3.53.1"
+version = "3.54.0"
 backend = "aqua:go-task/task"
 
 [tools."aqua:go-task/task"."platforms.linux-arm64"]
-checksum = "sha256:e3ad19101493a0112e1f22ae8ccc54bf03e533b1076a0ca1e6c782a09ad2e588"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645523"
+checksum = "sha256:d7189d439d4a6058e39e1b2acd7c8b27acd4856691b408f23b242e4294e1df5b"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090041"
 
 [tools."aqua:go-task/task"."platforms.linux-arm64-musl"]
-checksum = "sha256:e3ad19101493a0112e1f22ae8ccc54bf03e533b1076a0ca1e6c782a09ad2e588"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645523"
+checksum = "sha256:d7189d439d4a6058e39e1b2acd7c8b27acd4856691b408f23b242e4294e1df5b"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090041"
 
 [tools."aqua:go-task/task"."platforms.linux-x64"]
-checksum = "sha256:a54a408f6861ff921f6e87774180db31bacd8c1e7c944ca696db9fea49a82fc7"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645449"
+checksum = "sha256:680859dbb4d881a9c72d4d9a8f510825450849af8567deacd7302c01124416fb"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090073"
 
 [tools."aqua:go-task/task"."platforms.linux-x64-musl"]
-checksum = "sha256:a54a408f6861ff921f6e87774180db31bacd8c1e7c944ca696db9fea49a82fc7"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645449"
+checksum = "sha256:680859dbb4d881a9c72d4d9a8f510825450849af8567deacd7302c01124416fb"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090073"
 
 [tools."aqua:go-task/task"."platforms.macos-arm64"]
-checksum = "sha256:85d2d96c2380b33d7855b07b3f7a20dc7ca0eda999a26efa0fb5f6f32b366cd7"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645491"
+checksum = "sha256:12a69fcf37bb8d5bc9150c44f9a936775b73e59ff044c2c245232f198c135637"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090068"
 
 [tools."aqua:go-task/task"."platforms.macos-x64"]
-checksum = "sha256:7f1a702d54a789cb818a636039a83df071f4179893133afafa4eba351a7e19ef"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645492"
+checksum = "sha256:0543b0844a725814c0412d3f4bed12873ce9ed0da207b15775f63a97d734aac0"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090006"
 
 [tools."aqua:go-task/task"."platforms.windows-x64"]
-checksum = "sha256:27c0cd248c12cba03d8958d954a3df981c900be885ec9ce5f6a3cdc4e9a19316"
-url = "https://github.com/go-task/task/releases/download/v3.53.1/task_windows_amd64.zip"
-url_api = "https://api.github.com/repos/go-task/task/releases/assets/519645548"
+checksum = "sha256:837f42f71899ea41d07a47acc81d4d6ea80cb41c68292345f915c656473efcb7"
+checksum_source = "mise-versions"
+url = "https://github.com/go-task/task/releases/download/v3.54.0/task_windows_amd64.zip"
+url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090005"
 
 [[tools."aqua:helm/helm"]]
-version = "4.3.0"
+version = "4.3.2"
 backend = "aqua:helm/helm"
 
 [tools."aqua:helm/helm"."platforms.linux-arm64"]
-checksum = "sha256:31c5794dd55c66a51e6b7d2e2ac7a114ae8b1de41ff1d9ba51748ac973b06a08"
-url = "https://get.helm.sh/helm-v4.3.0-linux-arm64.tar.gz"
+checksum = "sha256:df31cb61680ef728f82c770e5280dd565617bee6b039d37e85c677288be4bbb0"
+url = "https://get.helm.sh/helm-v4.3.2-linux-arm64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.linux-arm64-musl"]
-checksum = "sha256:31c5794dd55c66a51e6b7d2e2ac7a114ae8b1de41ff1d9ba51748ac973b06a08"
-url = "https://get.helm.sh/helm-v4.3.0-linux-arm64.tar.gz"
+checksum = "sha256:df31cb61680ef728f82c770e5280dd565617bee6b039d37e85c677288be4bbb0"
+url = "https://get.helm.sh/helm-v4.3.2-linux-arm64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.linux-x64"]
-checksum = "sha256:86584a54def73570558f66f5111cc53dfed56689637ae32c1201205d494f54fb"
-url = "https://get.helm.sh/helm-v4.3.0-linux-amd64.tar.gz"
+checksum = "sha256:d1c0278d46beab79582d7e50f5b3dc206944ba8e577cde618513fd07daa53983"
+url = "https://get.helm.sh/helm-v4.3.2-linux-amd64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.linux-x64-musl"]
-checksum = "sha256:86584a54def73570558f66f5111cc53dfed56689637ae32c1201205d494f54fb"
-url = "https://get.helm.sh/helm-v4.3.0-linux-amd64.tar.gz"
+checksum = "sha256:d1c0278d46beab79582d7e50f5b3dc206944ba8e577cde618513fd07daa53983"
+url = "https://get.helm.sh/helm-v4.3.2-linux-amd64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.macos-arm64"]
-checksum = "sha256:d3870437e1e95b67f8edbde964156c84a26503f560821d40c542441658934fba"
-url = "https://get.helm.sh/helm-v4.3.0-darwin-arm64.tar.gz"
+checksum = "sha256:6f3421de3a8cc2ac578c8cfb33b8edde290dde2871bc1bab12e24f2e5caeaa90"
+url = "https://get.helm.sh/helm-v4.3.2-darwin-arm64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.macos-x64"]
-checksum = "sha256:347a784877e0e20eac865e8d1c36a80f6bb0861d6f29abd34defb6570ef95d92"
-url = "https://get.helm.sh/helm-v4.3.0-darwin-amd64.tar.gz"
+checksum = "sha256:9e0068e9ae18c441d27388190ee7f53ae65eba44bfe910b40bdac44c4b51fa71"
+url = "https://get.helm.sh/helm-v4.3.2-darwin-amd64.tar.gz"
 
 [tools."aqua:helm/helm"."platforms.windows-x64"]
-checksum = "sha256:551b0065fdfae8ba74ddac3a213e46e0144188cacf997ae1002f508af169728e"
-url = "https://get.helm.sh/helm-v4.3.0-windows-amd64.tar.gz"
+checksum = "sha256:03af0db72f7ba1108065365a21e2a9e581a6fdf9fd8191156373e17aab75e4dc"
+url = "https://get.helm.sh/helm-v4.3.2-windows-amd64.tar.gz"
 
 [[tools."aqua:helmfile/helmfile"]]
-version = "1.8.0"
+version = "1.8.4"
 backend = "aqua:helmfile/helmfile"
 
 [tools."aqua:helmfile/helmfile"."platforms.linux-arm64"]
-checksum = "sha256:01037dc187840a778ec65eae66b549b63d619a853540c8983f90d73ccbce5033"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342817"
+checksum = "sha256:96f898a9faf236e06c5e65bf39a7f4ca727f5e911be1b28e2c2f80adabc132ed"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828773"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.linux-arm64-musl"]
-checksum = "sha256:01037dc187840a778ec65eae66b549b63d619a853540c8983f90d73ccbce5033"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342817"
+checksum = "sha256:96f898a9faf236e06c5e65bf39a7f4ca727f5e911be1b28e2c2f80adabc132ed"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828773"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.linux-x64"]
-checksum = "sha256:35d5d39fc608342b23fc7ce1dd0c3bf0c96cc07ec3796507ab6894a5d172bf20"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342815"
+checksum = "sha256:1f19ced8adb0cdf2350e94ca598cf64e390d8c21d0d9b4bdc1c9f246d4591c9d"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828694"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.linux-x64-musl"]
-checksum = "sha256:35d5d39fc608342b23fc7ce1dd0c3bf0c96cc07ec3796507ab6894a5d172bf20"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342815"
+checksum = "sha256:1f19ced8adb0cdf2350e94ca598cf64e390d8c21d0d9b4bdc1c9f246d4591c9d"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828694"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.macos-arm64"]
-checksum = "sha256:b377e295940018fb0e49ca9e0aabdabb00fc612af3d9e12003f01635dc87e1ef"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342814"
+checksum = "sha256:61e7fa5401269785d6ee7bc1eac21e614371c00c705fda6e2e9f9d02c0fbc7b3"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828695"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.macos-x64"]
-checksum = "sha256:d367d72d035985b69863f0e0a6e1815c23a546a1bcdae3cdbb9c17893303e6f3"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342816"
+checksum = "sha256:859ab46d4608ebc1005c5f7c3c07d35562330340795b40750dbb316aae608390"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828692"
+provenance = "github-attestations"
 
 [tools."aqua:helmfile/helmfile"."platforms.windows-x64"]
-checksum = "sha256:cc3f1615e0f5cbd89fa4f7f5b0b70d18e211695308514d0e94997f5acaf59b36"
-url = "https://github.com/helmfile/helmfile/releases/download/v1.8.0/helmfile_1.8.0_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/560342877"
+checksum = "sha256:e6b3ddae846869a99379d5949a56021f68f48cf6e6abcfbdc2ae2e2033c964f2"
+url = "https://github.com/helmfile/helmfile/releases/download/v1.8.4/helmfile_1.8.4_windows_amd64.tar.gz"
+url_api = "https://api.github.com/repos/helmfile/helmfile/releases/assets/741828784"
+provenance = "github-attestations"
 
 [[tools."aqua:jqlang/jq"]]
 version = "1.8.1"
@@ -551,81 +631,81 @@ url = "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize/
 url_api = "https://api.github.com/repos/kubernetes-sigs/kustomize/releases/assets/275587134"
 
 [[tools."aqua:kubernetes/kubernetes/kubectl"]]
-version = "1.37.1"
+version = "1.37.2"
 backend = "aqua:kubernetes/kubernetes/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-arm64"]
-checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
+checksum = "sha256:fcc16f63186659d9722014b7e02d5fdd2d4e669cb8c0ab66365d7d3b8ba03509"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-arm64-musl"]
-checksum = "sha256:ff749f4b78d9c4f1ec87307df9b50119ed819e2094aa9810cb9acffc3286c8c7"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/arm64/kubectl"
+checksum = "sha256:fcc16f63186659d9722014b7e02d5fdd2d4e669cb8c0ab66365d7d3b8ba03509"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-x64"]
-checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
+checksum = "sha256:c04487523e7aa7d1493f7808174c899db93d7a9cf57531420cd76b9bd415f8f4"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.linux-x64-musl"]
-checksum = "sha256:65691ff77eb6fa44c908b77a1082c9f092c3b9733b5cefabec0d1104890e21a8"
-url = "https://dl.k8s.io/v1.37.1/bin/linux/amd64/kubectl"
+checksum = "sha256:c04487523e7aa7d1493f7808174c899db93d7a9cf57531420cd76b9bd415f8f4"
+url = "https://dl.k8s.io/v1.37.2/bin/linux/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.macos-arm64"]
-checksum = "sha256:fd65982c97ddad3106754b69ffa196d0e543aa591930ae52aed1adfb92f8c77f"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/arm64/kubectl"
+checksum = "sha256:55701af0d51815ee335f240e48acf0959c3c23017ed3fa816e880c4a92bae581"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/arm64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.macos-x64"]
-checksum = "sha256:6851381c486ff6edd691623e3d65c87cb9a5b02887ff8fbbb38d8a031b748387"
-url = "https://dl.k8s.io/v1.37.1/bin/darwin/amd64/kubectl"
+checksum = "sha256:88379aff5c8111de6be0a394adffba2819e44cde269f3ab23cef76de1a48eaa8"
+url = "https://dl.k8s.io/v1.37.2/bin/darwin/amd64/kubectl"
 
 [tools."aqua:kubernetes/kubernetes/kubectl"."platforms.windows-x64"]
-checksum = "sha256:14b93c4916a6f37a06fbc1f46b0a1d2404c4f9741be09f00d6caf8af3b05f1d3"
-url = "https://dl.k8s.io/v1.37.1/bin/windows/amd64/kubectl.exe"
+checksum = "sha256:1691938f7de0e931969f9968c3601cf32d6b0d573573afb4ce471f3d28f51984"
+url = "https://dl.k8s.io/v1.37.2/bin/windows/amd64/kubectl.exe"
 
 [[tools."aqua:mikefarah/yq"]]
-version = "4.53.6"
+version = "4.54.3"
 backend = "aqua:mikefarah/yq"
 
 [tools."aqua:mikefarah/yq"."platforms.linux-arm64"]
-checksum = "sha256:88a1016bc1d657375a35864e4f44b6f333df8ff97b559f51bba0adcb2169df09"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_arm64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028007"
+checksum = "sha256:89f69310b61b68d1245065a1241d1fc843f7a36cd6103ffd77ad987613bd1b67"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_linux_arm64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219924"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.linux-arm64-musl"]
-checksum = "sha256:88a1016bc1d657375a35864e4f44b6f333df8ff97b559f51bba0adcb2169df09"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_arm64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028007"
+checksum = "sha256:89f69310b61b68d1245065a1241d1fc843f7a36cd6103ffd77ad987613bd1b67"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_linux_arm64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219924"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.linux-x64"]
-checksum = "sha256:c5f056448f973ae7d39b5401949648a78f2dc1947d6a8eb65be60d5c504b9385"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028022"
+checksum = "sha256:129534601871538efe0ba4c5e62a34fb1d5f469bcb975c4fddeb467d82974973"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_linux_amd64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219936"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.linux-x64-musl"]
-checksum = "sha256:c5f056448f973ae7d39b5401949648a78f2dc1947d6a8eb65be60d5c504b9385"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028022"
+checksum = "sha256:129534601871538efe0ba4c5e62a34fb1d5f469bcb975c4fddeb467d82974973"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_linux_amd64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219936"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.macos-arm64"]
-checksum = "sha256:cceb0b8d71ea5294334121f8429f33f92b920e7217d904a2f9f35443968ac424"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_darwin_arm64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028033"
+checksum = "sha256:a2aebb93b5bdcb61bb76f630e42a0ef6a3ee10842a6516cd7b9e4080786ec593"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_darwin_arm64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219940"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.macos-x64"]
-checksum = "sha256:caa513cb04f3804b34d4752f0e0d7904fecb9e7cf1d34081289f83259319a7f6"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_darwin_amd64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028031"
+checksum = "sha256:96d5105ffd693d6845c54fbd825b2d1bbdb8619e0a2ce6af95e5654e841e0984"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_darwin_amd64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219934"
 provenance = "cosign"
 
 [tools."aqua:mikefarah/yq"."platforms.windows-x64"]
-checksum = "sha256:ece3dd8bb50d39f93610506273ea262feb91e5c486bbddbb10abf91b2a6c0f14"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_windows_amd64.exe"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522027974"
+checksum = "sha256:066ea0a09a282e47588ec1e1867280ff5ede458f7183617a2d99012e4e34f18a"
+url = "https://github.com/mikefarah/yq/releases/download/v4.54.3/yq_windows_amd64.exe"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219881"
 provenance = "cosign"
 
 [[tools."aqua:siderolabs/talos"]]
@@ -714,80 +794,86 @@ url = "https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform
 url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612665"
 
 [[tools.pipx]]
-version = "1.17.6"
+version = "1.18.19"
 backend = "aqua:pypa/pipx"
 
 [tools.pipx."platforms.linux-arm64"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-arm64-musl"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-x64"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-x64-musl"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.macos-arm64"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.macos-x64"]
-checksum = "sha256:63b10dd9a15a57ec4066e29388d1e83565be4b127bd1cf6e3f150fcc39ded8b2"
-url = "https://github.com/pypa/pipx/releases/download/1.17.6/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/582499741"
+checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
+checksum_source = "mise-versions"
+url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [[tools."pipx:makejinja"]]
-version = "2.9.1"
+version = "2.9.2"
 backend = "pipx:makejinja"
 
 [[tools.python]]
-version = "3.14.7"
+version = "3.15.2"
 backend = "core:python"
 
 [tools.python."platforms.linux-arm64"]
-checksum = "sha256:8a0798baa8a2c27b5751d590aced543eaa85e20b3f73d93c1af049688acdc9c5"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:d1367a6c3cd86a9e35712072841f1376859f3b47a2a54e224421a0f9fd169047"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-arm64-musl"]
-checksum = "sha256:701c31d72187242302922a29f3bc6023ceb68b6b68fb8d4ed7568d1e6ef34548"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:27bb686eaf315c231a94e3056b1b0d51ba0f436e83e54605fdda63fa12bd4798"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:3959f92825141e04adf44982d3a83ee57af0877e893b0796e04c1468749d9b04"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:ad23d1b73fac26440b0306ae06911031344c49a90ec19716c8362e7fa40cae43"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:c773f8a7357c0d1a29e208a14bc16386731ca9c0d2e51f1b6741967fb0632cdc"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:8facdccdfd299cd691f6dc86ebb9836672fb273277d677eb255aa2f35109b421"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:4632cb1a6edad9e73d3c81b6d2e69131637d995173e3e85005df14102b0592ba"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:7e58607647b5b4832092a339ff1c55eeeccee128221232509b8fc8d27957065e"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-aarch64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-x64"]
-checksum = "sha256:7e151a7c9028855b61a7d6e78381f2020a1ef185281399f3b1aafc5e1c9a1a64"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-x86_64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:11143c2a2556b14619e8241d3f74bb43ad97181c0eb4909bab87d7aad1154e49"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-x86_64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.windows-x64"]
-checksum = "sha256:ca3c33ca924dfcab3b74205a7a58a88b0255135c53f95497b26b5e60700fd66d"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260901/cpython-3.14.7+20260901-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
+checksum = "sha256:ecd90d78accb906e3d47f6cdb409a610da10475f94d15ebdd8cb2e0561b71df6"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261110/cpython-3.15.2+20261110-x86_64-pc-windows-msvc-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.uv]]
