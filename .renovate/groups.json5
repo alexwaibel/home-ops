@@ -89,16 +89,11 @@
         "docker"
       ],
       matchPackageNames: [
-        "/kube-apiserver/",
-        "/kube-controller-manager/",
-        "/kube-proxy/",
-        "/kube-scheduler/",
         "/kubelet/",
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 5,
     },
     {
       description: "Rook-Ceph Group",
