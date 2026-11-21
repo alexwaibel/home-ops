@@ -1,16 +1,16 @@
-cluster:
-  apiServer:
-    certSANs:
-      - "127.0.0.1"
-      - "192.168.20.90"
-  network:
-    cni:
-      name: none
-    podSubnets:
-      - 10.69.0.0/16
-    serviceSubnets:
-      - 10.96.0.0/16
 machine:
   certSANs:
     - "127.0.0.1"
     - "192.168.20.90"
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+podSubnets:
+  - 10.69.0.0/16
+serviceSubnets:
+  - 10.96.0.0/16
+---
+# Cilium is the CNI; the generated Flannel document must be deleted explicitly.
+apiVersion: v1alpha1
+kind: KubeFlannelCNIConfig
+$patch: delete
