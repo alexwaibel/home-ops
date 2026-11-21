@@ -12,7 +12,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: garage
-          image: docker.io/restic/restic:latest@sha256:9940e6c7421ab3a21ee9fdc4e91596d04c792b600d31b102696c75cbf3ac4481
+          image: docker.io/restic/restic:latest@sha256:c907f4b76cf63e41517573a37b0319ff78b83db524aac3401a1cf54521d8f2a4
           args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:
@@ -22,7 +22,7 @@ spec:
               mountPath: /repository
           resources: {}
         - name: b2
-          image: docker.io/restic/restic:latest@sha256:9940e6c7421ab3a21ee9fdc4e91596d04c792b600d31b102696c75cbf3ac4481
+          image: docker.io/restic/restic:latest@sha256:c907f4b76cf63e41517573a37b0319ff78b83db524aac3401a1cf54521d8f2a4
           args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:

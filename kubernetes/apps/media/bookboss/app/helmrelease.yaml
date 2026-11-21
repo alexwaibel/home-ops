@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/szinn/bookboss
-              tag: v0.8.38@sha256:e2c42e38f097e13f18fa6a857d6ec87aef581c39fb6d2c5992291e1601013c12
+              tag: v0.8.40@sha256:0d900b26739ad4e6385ad0e949ef69bbd8d2ca887939020c9098d6bed974b37b
             env:
               TZ: America/Los_Angeles
               BOOKBOSS__FRONTEND__LISTEN_IP: 0.0.0.0
