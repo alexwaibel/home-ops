@@ -213,13 +213,10 @@ url_api = "https://api.github.com/repos/cue-lang/cue/releases/assets/479014351"
 version = "2.10.1"
 backend = "aqua:fluxcd/flux2"
 
-[tools."aqua:fluxcd/flux2".options]
-"vars.slsa_signer_identity" = "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.1.0"
-"vars.slsa_signer_issuer" = "https://token.actions.githubusercontent.com"
-
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64"]
 checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -227,6 +224,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl"]
 checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -234,6 +232,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64"]
 checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -241,6 +240,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl"]
 checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -248,6 +248,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.macos-arm64"]
 checksum = "sha256:c0a8dc285c568905ae38e25074985f3181c82a3c8d66316959561f27a626909d"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871028"
 
 [tools."aqua:fluxcd/flux2"."platforms.macos-arm64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -255,6 +256,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.macos-x64"]
 checksum = "sha256:0e083b1a53887ffee1624c67de74eea3ed9d7fd0215efb4b4090c8cc97abb824"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871014"
 
 [tools."aqua:fluxcd/flux2"."platforms.macos-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -262,6 +264,7 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.windows-x64"]
 checksum = "sha256:acb91b95222166bf0f2f62f81ea0bbbe7f271732700f5db164de306dd4efbdf3"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_windows_amd64.zip"
+url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871019"
 
 [tools."aqua:fluxcd/flux2"."platforms.windows-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
