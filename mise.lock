@@ -52,43 +52,36 @@ backend = "aqua:cilium/cilium-cli"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-arm64"]
 checksum = "sha256:fa1bd66b407ec205e88746fc0b17590a247f255bf71bb9dfb0008b14d158f68d"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-arm64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456165"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-arm64-musl"]
 checksum = "sha256:fa1bd66b407ec205e88746fc0b17590a247f255bf71bb9dfb0008b14d158f68d"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-arm64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456165"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-x64"]
 checksum = "sha256:b987ad0d195310d3fc96553aa7bcd41d1e97b64713ecdfee3eb48dd27e1ec7d7"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-amd64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456158"
 
 [tools."aqua:cilium/cilium-cli"."platforms.linux-x64-musl"]
 checksum = "sha256:b987ad0d195310d3fc96553aa7bcd41d1e97b64713ecdfee3eb48dd27e1ec7d7"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-linux-amd64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456158"
 
 [tools."aqua:cilium/cilium-cli"."platforms.macos-arm64"]
 checksum = "sha256:5a53acbe09f1515f52b7e625517872dd0d0e02e2f6082c919527cc507b110a15"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-darwin-arm64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456160"
 
 [tools."aqua:cilium/cilium-cli"."platforms.macos-x64"]
 checksum = "sha256:6141f85d8ddb9c2b26fb0ab7eb2ed7a5d0e9efe1fe59006419f30d8c2434b60c"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-darwin-amd64.tar.gz"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456157"
 
 [tools."aqua:cilium/cilium-cli"."platforms.windows-x64"]
 checksum = "sha256:3fe0df6fbf6471b958863106e23e46cc6339c86b74bf28b805e8a4113f7a2cde"
-checksum_source = "mise-versions"
 url = "https://github.com/cilium/cilium-cli/releases/download/v0.20.3/cilium-windows-amd64.zip"
 url_api = "https://api.github.com/repos/cilium/cilium-cli/releases/assets/739456161"
 
@@ -144,43 +137,36 @@ backend = "aqua:cloudflare/cloudflared"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64"]
 checksum = "sha256:b155cec3e48e489cfb8e5c602769fb8c771083018d8881d68b4d18a791567c5a"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-arm64"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759527003"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-arm64-musl"]
 checksum = "sha256:b155cec3e48e489cfb8e5c602769fb8c771083018d8881d68b4d18a791567c5a"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-arm64"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759527003"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64"]
 checksum = "sha256:97bb3b02d23a5980fc9c15a1a270e692da1923f103f920d5b16d4931d5ab55e7"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-amd64"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759526142"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.linux-x64-musl"]
 checksum = "sha256:97bb3b02d23a5980fc9c15a1a270e692da1923f103f920d5b16d4931d5ab55e7"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-linux-amd64"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759526142"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-arm64"]
 checksum = "sha256:02fe4bcf08f2c09699cff30658228a739a0c47fb75f3653d1b8772a27ade4462"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-darwin-arm64.tgz"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759523594"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.macos-x64"]
 checksum = "sha256:5e0403b188dfee71fbd9b995e7dc9910d61b661c52371935ab6475d41185632f"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-darwin-amd64.tgz"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759524027"
 
 [tools."aqua:cloudflare/cloudflared"."platforms.windows-x64"]
 checksum = "sha256:341deda3db5ec498a0482254d6c38c0b7cf01a30c37bb5dd95d2216d08955e35"
-checksum_source = "mise-versions"
 url = "https://github.com/cloudflare/cloudflared/releases/download/2026.11.1/cloudflared-windows-amd64.exe"
 url_api = "https://api.github.com/repos/cloudflare/cloudflared/releases/assets/759528258"
 
@@ -227,10 +213,13 @@ url_api = "https://api.github.com/repos/cue-lang/cue/releases/assets/479014351"
 version = "2.10.1"
 backend = "aqua:fluxcd/flux2"
 
+[tools."aqua:fluxcd/flux2".options]
+"vars.slsa_signer_identity" = "https://github.com/slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@refs/tags/v2.1.0"
+"vars.slsa_signer_issuer" = "https://token.actions.githubusercontent.com"
+
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64"]
 checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -238,7 +227,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl"]
 checksum = "sha256:da18ddb25c9614405d9e2f13ad014fd660bfcbe7218674cabf9325db73f811e2"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871016"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-arm64-musl".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -246,7 +234,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64"]
 checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -254,7 +241,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl"]
 checksum = "sha256:967365ff84aabc97871827ff33713ef0c09f62dd83c18759e3a5e39adcea9285"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871002"
 
 [tools."aqua:fluxcd/flux2"."platforms.linux-x64-musl".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -262,7 +248,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.macos-arm64"]
 checksum = "sha256:c0a8dc285c568905ae38e25074985f3181c82a3c8d66316959561f27a626909d"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871028"
 
 [tools."aqua:fluxcd/flux2"."platforms.macos-arm64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -270,7 +255,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.macos-x64"]
 checksum = "sha256:0e083b1a53887ffee1624c67de74eea3ed9d7fd0215efb4b4090c8cc97abb824"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871014"
 
 [tools."aqua:fluxcd/flux2"."platforms.macos-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -278,7 +262,6 @@ url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.into
 [tools."aqua:fluxcd/flux2"."platforms.windows-x64"]
 checksum = "sha256:acb91b95222166bf0f2f62f81ea0bbbe7f271732700f5db164de306dd4efbdf3"
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/flux_2.10.1_windows_amd64.zip"
-url_api = "https://api.github.com/repos/fluxcd/flux2/releases/assets/771871019"
 
 [tools."aqua:fluxcd/flux2"."platforms.windows-x64".provenance.slsa]
 url = "https://github.com/fluxcd/flux2/releases/download/v2.10.1/provenance.intoto.jsonl"
@@ -388,43 +371,36 @@ backend = "aqua:go-task/task"
 
 [tools."aqua:go-task/task"."platforms.linux-arm64"]
 checksum = "sha256:d7189d439d4a6058e39e1b2acd7c8b27acd4856691b408f23b242e4294e1df5b"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090041"
 
 [tools."aqua:go-task/task"."platforms.linux-arm64-musl"]
 checksum = "sha256:d7189d439d4a6058e39e1b2acd7c8b27acd4856691b408f23b242e4294e1df5b"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090041"
 
 [tools."aqua:go-task/task"."platforms.linux-x64"]
 checksum = "sha256:680859dbb4d881a9c72d4d9a8f510825450849af8567deacd7302c01124416fb"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090073"
 
 [tools."aqua:go-task/task"."platforms.linux-x64-musl"]
 checksum = "sha256:680859dbb4d881a9c72d4d9a8f510825450849af8567deacd7302c01124416fb"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090073"
 
 [tools."aqua:go-task/task"."platforms.macos-arm64"]
 checksum = "sha256:12a69fcf37bb8d5bc9150c44f9a936775b73e59ff044c2c245232f198c135637"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090068"
 
 [tools."aqua:go-task/task"."platforms.macos-x64"]
 checksum = "sha256:0543b0844a725814c0412d3f4bed12873ce9ed0da207b15775f63a97d734aac0"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_darwin_amd64.tar.gz"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090006"
 
 [tools."aqua:go-task/task"."platforms.windows-x64"]
 checksum = "sha256:837f42f71899ea41d07a47acc81d4d6ea80cb41c68292345f915c656473efcb7"
-checksum_source = "mise-versions"
 url = "https://github.com/go-task/task/releases/download/v3.54.0/task_windows_amd64.zip"
 url_api = "https://api.github.com/repos/go-task/task/releases/assets/604090005"
 
@@ -670,49 +646,49 @@ url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/726219881"
 provenance = "cosign"
 
 [[tools."aqua:siderolabs/talos"]]
-version = "1.13.12"
+version = "1.14.4"
 backend = "aqua:siderolabs/talos"
 
 [tools."aqua:siderolabs/talos"."platforms.linux-arm64"]
-checksum = "sha256:35c304c378d70f241ec5d63612defde25305f8108e550256aa63f37da510b6be"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-linux-arm64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504457"
+checksum = "sha256:a4430fad81b8dc54d99e0dc7b7ea5d0741b93645bc612cbeadf12855c4ec60bb"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-linux-arm64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547743"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.linux-arm64-musl"]
-checksum = "sha256:35c304c378d70f241ec5d63612defde25305f8108e550256aa63f37da510b6be"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-linux-arm64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504457"
+checksum = "sha256:a4430fad81b8dc54d99e0dc7b7ea5d0741b93645bc612cbeadf12855c4ec60bb"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-linux-arm64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547743"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.linux-x64"]
-checksum = "sha256:4ce4218764c24d6a6bd561097199b60ed8619db073792fce5b7cfce7fa8d12fc"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-linux-amd64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504462"
+checksum = "sha256:0a69e3f9b682c5cd844b78dae305f6056ceb86c5fcc6913dcea78c527ed97cee"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-linux-amd64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547727"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.linux-x64-musl"]
-checksum = "sha256:4ce4218764c24d6a6bd561097199b60ed8619db073792fce5b7cfce7fa8d12fc"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-linux-amd64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504462"
+checksum = "sha256:0a69e3f9b682c5cd844b78dae305f6056ceb86c5fcc6913dcea78c527ed97cee"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-linux-amd64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547727"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.macos-arm64"]
-checksum = "sha256:90e392866168081897325ff1eeceec10a85476a9bc9eb4399fe741a8d7f7893d"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-darwin-arm64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504505"
+checksum = "sha256:044740c035de3453ff6d09287e9682da3d681ec19bf3d17be7ed9b17f93f8b23"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-darwin-arm64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547739"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.macos-x64"]
-checksum = "sha256:54247a7f93e29e8ef81c31711645d573319e49586534aef695cf4fcfcd182353"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-darwin-amd64"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504483"
+checksum = "sha256:a034e7a9da7f0db26276efa20a8a904bac3caa898f695670b85c117837fad49d"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-darwin-amd64"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547750"
 provenance = "cosign"
 
 [tools."aqua:siderolabs/talos"."platforms.windows-x64"]
-checksum = "sha256:836f744049110d69eec86937853429c205c6d6c317fed693c11db73add536097"
-url = "https://github.com/siderolabs/talos/releases/download/v1.13.12/talosctl-windows-amd64.exe"
-url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/663504461"
+checksum = "sha256:c62eea25aab8d27ec9c392ff0b736fd503051974abfc8aae724711e04ab79f8a"
+url = "https://github.com/siderolabs/talos/releases/download/v1.14.4/talosctl-windows-amd64.exe"
+url_api = "https://api.github.com/repos/siderolabs/talos/releases/assets/647547741"
 provenance = "cosign"
 
 [[tools."aqua:yannh/kubeconform"]]
@@ -760,37 +736,31 @@ backend = "github:postfinance/topf"
 
 [tools."github:postfinance/topf"."platforms.linux-arm64"]
 checksum = "sha256:8f528bd90fc3d173a0a10609dbc1a5001ae002f44fd75c214b5e760aff3f0514"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624296"
 
 [tools."github:postfinance/topf"."platforms.linux-arm64-musl"]
 checksum = "sha256:8f528bd90fc3d173a0a10609dbc1a5001ae002f44fd75c214b5e760aff3f0514"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624296"
 
 [tools."github:postfinance/topf"."platforms.linux-x64"]
 checksum = "sha256:793dc87c97a6545fd73db82c3558306644d9e6914010f2636d1470cf55272405"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624308"
 
 [tools."github:postfinance/topf"."platforms.linux-x64-musl"]
 checksum = "sha256:793dc87c97a6545fd73db82c3558306644d9e6914010f2636d1470cf55272405"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624308"
 
 [tools."github:postfinance/topf"."platforms.macos-arm64"]
 checksum = "sha256:c263c13976eb88b37a2ae3a95b7b76493abf1630b819509b20d6b481acd9f8b7"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624305"
 
 [tools."github:postfinance/topf"."platforms.macos-x64"]
 checksum = "sha256:19370b0e94518d54d42d988be7831fd6f5d10067e3484042a742abe4402a88a9"
-checksum_source = "mise-versions"
 url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_darwin_amd64.tar.gz"
 url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624311"
 
@@ -800,37 +770,31 @@ backend = "aqua:pypa/pipx"
 
 [tools.pipx."platforms.linux-arm64"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-arm64-musl"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-x64"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.linux-x64-musl"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.macos-arm64"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 
 [tools.pipx."platforms.macos-x64"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
-checksum_source = "mise-versions"
 url = "https://github.com/pypa/pipx/releases/download/1.18.19/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/759546248"
 

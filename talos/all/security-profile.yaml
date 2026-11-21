@@ -1,0 +1,5 @@
+# Generated v1.14 configs enable workload isolation; keep it off until inline NFS
+# volumes and OpenEBS hostpath mounts are verified under isolation.
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+workloadIsolation: false

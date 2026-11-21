@@ -39,6 +39,21 @@ jobs:
         with:
           install_args: github:postfinance/topf aqua:siderolabs/talos aqua:mikefarah/yq aqua:getsops/sops
 
+      - name: Check topf supports the Talos version
+        run: |
+          set -euo pipefail
+          supported="$(topf --version | sed -nE 's/.*\(Talos v([0-9]+\.[0-9]+)\..*/\1/p')"
+          wanted="$(yq '.talosVersion' talos/topf.yaml | sed -E 's/^v?([0-9]+\.[0-9]+).*/\1/')"
+          if [[ -z "$supported" ]]; then
+            echo "::error::Could not read the bundled Talos version from: $(topf --version)"
+            exit 1
+          fi
+          if [[ "$(printf '%s\n%s\n' "$wanted" "$supported" | sort -V | tail -n1)" != "$supported" ]]; then
+            echo "::error::talosVersion $wanted is newer than topf's bundled Talos $supported; wait for a topf release"
+            exit 1
+          fi
+          echo "talosVersion $wanted is supported by topf (Talos $supported)"
+
       - name: Render and validate Talos configs
         run: |
           set -euo pipefail

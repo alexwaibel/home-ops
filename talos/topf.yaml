@@ -1,7 +1,9 @@
 ---
 clusterName: kubernetes
 clusterEndpoint: https://192.168.20.90:6443
-talosVersion: v1.13.12
+talosVersion: v1.14.4
+schematicId: 4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0
+secureboot: true
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.36.2
 secretsPath: talsecret.sops.yaml
@@ -10,18 +12,9 @@ nodes:
   - host: nuc1
     ip: 192.168.20.21
     role: control-plane
-    talosVersion: v1.13.12
-    schematicId: 4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0
-    secureboot: true
   - host: nuc2
     ip: 192.168.20.22
     role: control-plane
-    talosVersion: v1.13.12
-    schematicId: 4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0
-    secureboot: true
   - host: nuc3
     ip: 192.168.20.23
     role: control-plane
-    talosVersion: v1.13.12
-    schematicId: 4b3cd373a192c8469e859b7a0cfbed3ecc3577c4a2d346a37b0aeff9cd17cdb0
-    secureboot: true
