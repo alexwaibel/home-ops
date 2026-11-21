@@ -1,4 +1,2 @@
-kubernetes-nuc1.yaml
-kubernetes-nuc2.yaml
-kubernetes-nuc3.yaml
-talosconfig
+*
+!.gitignore

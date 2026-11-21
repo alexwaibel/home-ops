@@ -46,45 +46,6 @@ url = "https://github.com/FiloSottile/age/releases/download/v1.3.2/age-v1.3.2-wi
 url_api = "https://api.github.com/repos/FiloSottile/age/releases/assets/535541937"
 provenance = "github-attestations"
 
-[[tools."aqua:budimanjojo/talhelper"]]
-version = "3.1.17"
-backend = "aqua:budimanjojo/talhelper"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.linux-arm64"]
-checksum = "sha256:1841915ec6f533ef653baedc5f1cbf68683e0ca9a72f240ac2f257d94f68798b"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086688"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.linux-arm64-musl"]
-checksum = "sha256:1841915ec6f533ef653baedc5f1cbf68683e0ca9a72f240ac2f257d94f68798b"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086688"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.linux-x64"]
-checksum = "sha256:dff9162569004637b6a842c4020d909b0ffbc7fbbe2fca23a754708db95be204"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086690"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.linux-x64-musl"]
-checksum = "sha256:dff9162569004637b6a842c4020d909b0ffbc7fbbe2fca23a754708db95be204"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086690"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.macos-arm64"]
-checksum = "sha256:cf86526d730010193d3e858f13242e5f0c94fdcefe5e001716c552211b1e95b0"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086691"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.macos-x64"]
-checksum = "sha256:29dec70a5b2049058e4adf5ff6f236ca74fb51500ebb8e41e381ad1d49d60a09"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086689"
-
-[tools."aqua:budimanjojo/talhelper"."platforms.windows-x64"]
-checksum = "sha256:415f079abd09fa686b29a4d02de03cd6c5d8339cc6d497f2f4a54da6765c0a79"
-url = "https://github.com/budimanjojo/talhelper/releases/download/v3.1.17/talhelper_windows_amd64.tar.gz"
-url_api = "https://api.github.com/repos/budimanjojo/talhelper/releases/assets/530086712"
-
 [[tools."aqua:cilium/cilium-cli"]]
 version = "0.20.3"
 backend = "aqua:cilium/cilium-cli"
@@ -792,6 +753,46 @@ url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612
 checksum = "sha256:e3f56102bcf4f50b034a567e2482a1c5330799983ddd655952310211aef73d93"
 url = "https://github.com/yannh/kubeconform/releases/download/v0.8.0/kubeconform-windows-amd64.zip"
 url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612665"
+
+[[tools."github:postfinance/topf"]]
+version = "0.6.2"
+backend = "github:postfinance/topf"
+
+[tools."github:postfinance/topf"."platforms.linux-arm64"]
+checksum = "sha256:8f528bd90fc3d173a0a10609dbc1a5001ae002f44fd75c214b5e760aff3f0514"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624296"
+
+[tools."github:postfinance/topf"."platforms.linux-arm64-musl"]
+checksum = "sha256:8f528bd90fc3d173a0a10609dbc1a5001ae002f44fd75c214b5e760aff3f0514"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624296"
+
+[tools."github:postfinance/topf"."platforms.linux-x64"]
+checksum = "sha256:793dc87c97a6545fd73db82c3558306644d9e6914010f2636d1470cf55272405"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624308"
+
+[tools."github:postfinance/topf"."platforms.linux-x64-musl"]
+checksum = "sha256:793dc87c97a6545fd73db82c3558306644d9e6914010f2636d1470cf55272405"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624308"
+
+[tools."github:postfinance/topf"."platforms.macos-arm64"]
+checksum = "sha256:c263c13976eb88b37a2ae3a95b7b76493abf1630b819509b20d6b481acd9f8b7"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624305"
+
+[tools."github:postfinance/topf"."platforms.macos-x64"]
+checksum = "sha256:19370b0e94518d54d42d988be7831fd6f5d10067e3484042a742abe4402a88a9"
+checksum_source = "mise-versions"
+url = "https://github.com/postfinance/topf/releases/download/v0.6.2/topf_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/668624311"
 
 [[tools.pipx]]
 version = "1.18.19"

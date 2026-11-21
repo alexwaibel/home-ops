@@ -37,22 +37,21 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
-          install_args: aqua:budimanjojo/talhelper aqua:siderolabs/talos
+          install_args: github:postfinance/topf aqua:siderolabs/talos aqua:mikefarah/yq aqua:getsops/sops
 
-      - name: Generate Talos configs
+      - name: Render and validate Talos configs
         run: |
-          talhelper gensecret > /tmp/talsecret.yaml
-          talhelper genconfig \
-            --config-file talos/talconfig.yaml \
-            --env-file talos/talenv.yaml \
-            --secret-file /tmp/talsecret.yaml \
-            --out-dir /tmp/talos-config \
-            --no-gitignore
-
-      - name: Validate Talos configs
-        run: |
-          for f in /tmp/talos-config/*.yaml; do
-            [ -f "$f" ] || continue
+          set -euo pipefail
+          umask 077
+          mkdir -p talos/clusterconfig/ci
+          trap 'rm -f talos/clusterconfig/ci/topf.yaml talos/clusterconfig/ci/secrets.yaml talos/clusterconfig/ci/output/nuc{1,2,3}.yaml; rmdir talos/clusterconfig/ci/output talos/clusterconfig/ci' EXIT
+          # Use disposable secrets, never the cluster's encrypted bundle.
+          yq '.secretsPath = "secrets.yaml" | .patchesDir = "../../"' \
+            talos/topf.yaml > talos/clusterconfig/ci/topf.yaml
+          topf secrets --topfconfig talos/clusterconfig/ci/topf.yaml --confirm=false > /dev/null
+          topf render --topfconfig talos/clusterconfig/ci/topf.yaml \
+            --output talos/clusterconfig/ci/output
+          for f in talos/clusterconfig/ci/output/nuc{1,2,3}.yaml; do
             echo "Validating $f"
             talosctl validate --mode metal --config "$f"
           done

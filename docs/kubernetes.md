@@ -233,7 +233,7 @@ You should be able to accept renovate PRs to update Talos and Kubernetes via Tup
 
 #### Manually
 > [!TIP]
-> Ensure the `talosVersion` and `kubernetesVersion` in `talenv.yaml` are up-to-date with the version you wish to upgrade to.
+> Ensure the cluster and per-node `talosVersion` pins and `kubernetesVersion` in `talos/topf.yaml` are up-to-date with the version you wish to upgrade to. See [Talos configuration](../talos/README.md) for dry-run usage.
 
 ```sh
 # Upgrade node to a newer Talos version
