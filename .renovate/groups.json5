@@ -123,9 +123,9 @@
       matchPackageNames: [
         "/siderolabs/talosctl/",
         "/siderolabs/talos/",
-        "/siderolabs/installer/"
       ],
       matchDatasources: [
+        "custom.talos-factory",
         "docker",
         "github-releases",
         "github-tags",
