@@ -9,10 +9,6 @@ Talos and Kubernetes upgrades are done by Tuppr
 `talosVersion`/`kubernetesVersion` in `topf.yaml`, which only control rendering.
 Apply machine config changes only once nodes run the matching Talos version.
 
-Kubelet stays on legacy `machine.kubelet` because `KubeletConfig` cannot express
-the OpenEBS `extraMounts`. Workload isolation is off because NFS and OpenEBS
-mounts are unverified under it.
-
 Run `task talos:generate-config` to render into the ignored `clusterconfig/`
 directory. To preview all nodes from the repository root:
 
