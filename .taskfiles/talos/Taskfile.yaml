@@ -6,8 +6,8 @@ tasks:
     desc: Generate Talos configuration
     dir: "{{.TALOS_DIR}}"
     cmds:
-      - umask 077 && topf render --output clusterconfig
-      - umask 077 && topf talosconfig > clusterconfig/talosconfig
+      - topf render --output clusterconfig
+      - topf talosconfig > clusterconfig/talosconfig && chmod 600 clusterconfig/talosconfig
     preconditions:
       - test -f {{.TALOS_DIR}}/topf.yaml
       - test -f {{.TALOS_DIR}}/talsecret.sops.yaml

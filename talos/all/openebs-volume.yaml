@@ -1,0 +1,5 @@
+# OpenEBS hostpath base directory on EPHEMERAL, mounted at /var/mnt/openebs-local.
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: openebs-local
+volumeType: directory
