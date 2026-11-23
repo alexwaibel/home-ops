@@ -736,6 +736,7 @@ url_api = "https://api.github.com/repos/yannh/kubeconform/releases/assets/438612
 [[tools."github:postfinance/topf"]]
 version = "0.6.2"
 backend = "github:postfinance/topf"
+unsupported_platforms = ["windows-x64"]
 
 [tools."github:postfinance/topf"."platforms.linux-arm64"]
 checksum = "sha256:8f528bd90fc3d173a0a10609dbc1a5001ae002f44fd75c214b5e760aff3f0514"
@@ -770,6 +771,7 @@ url_api = "https://api.github.com/repos/postfinance/topf/releases/assets/6686243
 [[tools.pipx]]
 version = "1.18.19"
 backend = "aqua:pypa/pipx"
+unsupported_platforms = ["windows-x64"]
 
 [tools.pipx."platforms.linux-arm64"]
 checksum = "sha256:a3186d9ed60b86f060b9e6747e1722db33160240eac83db805b4945a0d2173b0"
