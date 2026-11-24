@@ -46,7 +46,7 @@ spec:
             configBlock: |-
               apex k8s-gateway.network
               ttl 1
-              resources HTTPRoute Service
+              resources HTTPRoute TLSRoute Service
           - name: prometheus
             parameters: 0.0.0.0:9153
           - name: forward
