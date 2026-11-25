@@ -2,18 +2,28 @@
 version: "3"
 
 tasks:
-  generate-config:
-    desc: Generate Talos configuration
-    dir: "{{.TALOS_DIR}}"
-    cmds:
-      - topf render --output clusterconfig
-      - topf talosconfig > clusterconfig/talosconfig && chmod 600 clusterconfig/talosconfig
-    preconditions:
+  config:
+    desc: Mint a read-only talosconfig for daily use [TTL=24h]
+    cmd: bash {{.SCRIPTS_DIR}}/talosconfig.sh mint os:reader {{.TTL}} {{.TALOSCONFIG}}
+    vars:
+      TTL: '{{.TTL | default "24h"}}'
+    preconditions: &mint-preconditions
       - test -f {{.TALOS_DIR}}/topf.yaml
       - test -f {{.TALOS_DIR}}/talsecret.sops.yaml
       - test -f {{.ROOT_DIR}}/.sops.yaml
       - test -f {{.SOPS_AGE_KEY_FILE}}
-      - which topf sops
+      - which topf sops talosctl yq
+
+  admin-config:
+    desc: Mint a short-lived admin talosconfig in $XDG_RUNTIME_DIR [TTL=1h]
+    cmds:
+      - bash {{.SCRIPTS_DIR}}/talosconfig.sh mint os:admin {{.TTL}} {{.OUTPUT}}
+      - 'echo "Use with: export TALOSCONFIG={{.OUTPUT}}"'
+    vars:
+      TTL: '{{.TTL | default "1h"}}'
+      OUTPUT:
+        sh: echo "${XDG_RUNTIME_DIR:?XDG_RUNTIME_DIR must be set}/home-ops/talosconfig-admin"
+    preconditions: *mint-preconditions
 
   diff:
     desc: Preview Talos config changes on all nodes
@@ -36,11 +46,7 @@ tasks:
         sh: yq -e '.nodes[] | select(.ip == "{{.IP}}") | .host' {{.TALOS_DIR}}/topf.yaml
     requires:
       vars: [IP]
-    preconditions:
-      - talosctl --nodes {{.IP}} get machineconfig
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which topf sops talosctl yq
+    preconditions: *mint-preconditions
 
   upgrade-node:
     desc: Upgrade Talos on a single node [IP=required]
@@ -51,25 +57,7 @@ tasks:
         sh: yq -e '.nodes[] | select(.ip == "{{.IP}}") | .host' {{.TALOS_DIR}}/topf.yaml
     requires:
       vars: [IP]
-    preconditions:
-      - talosctl --nodes {{.IP}} get machineconfig
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which topf sops talosctl yq
-
-  upgrade-k8s:
-    desc: Upgrade Kubernetes
-    dir: "{{.TALOS_DIR}}"
-    cmd: talosctl --nodes {{.CONTROL_PLANE_IP}} upgrade-k8s --to '{{.KUBERNETES_VERSION}}'
-    vars:
-      KUBERNETES_VERSION:
-        sh: yq '.kubernetesVersion' {{.TALOS_DIR}}/topf.yaml
-      CONTROL_PLANE_IP:
-        sh: yq -e '[.nodes[] | select(.role == "control-plane")][0].ip' {{.TALOS_DIR}}/topf.yaml
-    preconditions:
-      - talosctl config info
-      - test -f {{.TALOSCONFIG}}
-      - which talosctl yq
+    preconditions: *mint-preconditions
 
   reset:
     desc: Resets nodes back to maintenance mode

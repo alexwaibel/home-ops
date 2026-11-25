@@ -108,7 +108,7 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 
 > [!NOTE]
 > If you already have a running cluster and are only setting up a new development machine you can grab the config files from your password database, place them in the appropriate locations, and Continue on to 🎤 [**Verification Steps**](#-verification-steps)
-> Place `kubeconfig` and `age.key` in the workspace root. Place `talosconfig` in `<workspace-root>/talos/clusterconfig/talosconfig`
+> Place `kubeconfig` and `age.key` in the workspace root, then run `task talos:config` to mint a short-lived talosconfig
 
 #### Cluster validation
 
@@ -239,12 +239,6 @@ You should be able to accept renovate PRs to update Talos and Kubernetes via Tup
 # Upgrade node to a newer Talos version
 task talos:upgrade-node IP=?
 # e.g. task talos:upgrade-node IP=10.10.10.10
-```
-
-```sh
-# Upgrade cluster to a newer Kubernetes version
-task talos:upgrade-k8s
-# e.g. task talos:upgrade-k8s
 ```
 
 ## 🤝 Thanks

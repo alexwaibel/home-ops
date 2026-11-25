@@ -6,9 +6,9 @@ tasks:
     desc: Bootstrap the Talos cluster
     dir: "{{.TALOS_DIR}}"
     cmds:
-      - task: :talos:generate-config
       - topf apply --auto-bootstrap --allow-not-ready --skip-post-apply-checks
-      - talosctl --nodes {{.CONTROL_PLANE_IP}} kubeconfig {{.ROOT_DIR}} --force
+      - bash {{.SCRIPTS_DIR}}/talosconfig.sh run os:admin 15m -- talosctl --nodes {{.CONTROL_PLANE_IP}} kubeconfig {{.ROOT_DIR}} --force
+      - task: :talos:config
     vars:
       CONTROL_PLANE_IP:
         sh: yq -e '[.nodes[] | select(.role == "control-plane")][0].ip' {{.TALOS_DIR}}/topf.yaml
