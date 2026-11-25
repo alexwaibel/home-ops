@@ -69,14 +69,20 @@ function apply_sops_secrets() {
             continue
         fi
 
+        # Decrypt once, in memory; stderr stays visible for YubiKey PIN/touch prompts
+        local manifest
+        if ! manifest=$(sops decrypt "${secret}"); then
+            log error "Failed to decrypt secret" "file=${secret}"
+        fi
+
         # Check if the secret resources are up-to-date
-        if sops exec-file "${secret}" "kubectl --namespace flux-system diff --filename {}" &>/dev/null; then
+        if printf "%s" "${manifest}" | kubectl --namespace flux-system diff --filename - &>/dev/null; then
             log info "Secret resource is up-to-date" "resource=$(basename "${secret}" ".sops.yaml")"
             continue
         fi
 
         # Apply secret resources
-        if sops exec-file "${secret}" "kubectl --namespace flux-system apply --server-side --filename {}" &>/dev/null; then
+        if printf "%s" "${manifest}" | kubectl --namespace flux-system apply --server-side --filename - &>/dev/null; then
             log info "Secret resource applied successfully" "resource=$(basename "${secret}" ".sops.yaml")"
         else
             log error "Failed to apply secret resource" "resource=$(basename "${secret}" ".sops.yaml")"

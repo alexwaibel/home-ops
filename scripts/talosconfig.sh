@@ -27,9 +27,14 @@ done
 [[ "${ttl}" =~ ^([0-9]+(\.[0-9]+)?(h|m|s))+$ ]] || { echo "Invalid TTL: ${ttl} (e.g. 1h, 30m)" >&2; exit 1; }
 
 # Only use a per-user tmpfs so key material never touches a persistent disk
-runtime_dir="${XDG_RUNTIME_DIR:-}"
-[[ -n "${runtime_dir}" && -d "${runtime_dir}" && -O "${runtime_dir}" ]] || {
+[[ -n "${XDG_RUNTIME_DIR:-}" && -d "${XDG_RUNTIME_DIR}" && -O "${XDG_RUNTIME_DIR}" ]] || {
     echo "XDG_RUNTIME_DIR is not set to a directory you own; refusing to continue" >&2
+    exit 1
+}
+runtime_dir="${XDG_RUNTIME_DIR}/home-ops"
+mkdir -p -m 700 "${runtime_dir}"
+[[ -d "${runtime_dir}" && ! -L "${runtime_dir}" && -O "${runtime_dir}" ]] || {
+    echo "${runtime_dir} is not a directory you own; refusing to continue" >&2
     exit 1
 }
 

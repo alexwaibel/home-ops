@@ -9,9 +9,14 @@ root_dir="$(git rev-parse --show-toplevel)"
 sops_config="${root_dir}/.sops.yaml"
 secret_file="${root_dir}/bootstrap/sops-age.sops.yaml"
 
-runtime_dir="${XDG_RUNTIME_DIR:-}"
-[[ -n "${runtime_dir}" && -d "${runtime_dir}" && -O "${runtime_dir}" ]] || {
+[[ -n "${XDG_RUNTIME_DIR:-}" && -d "${XDG_RUNTIME_DIR}" && -O "${XDG_RUNTIME_DIR}" ]] || {
     echo "XDG_RUNTIME_DIR is not set to a directory you own; refusing to continue" >&2
+    exit 1
+}
+runtime_dir="${XDG_RUNTIME_DIR}/home-ops"
+mkdir -p -m 700 "${runtime_dir}"
+[[ -d "${runtime_dir}" && ! -L "${runtime_dir}" && -O "${runtime_dir}" ]] || {
+    echo "${runtime_dir} is not a directory you own; refusing to continue" >&2
     exit 1
 }
 grep -qE '^\s*- &flux age1[0-9a-z]+' "${sops_config}" || {

@@ -88,6 +88,9 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 > [!WARNING]
 > It might take a while for the cluster to be setup (10+ minutes is normal). During which time you will see a variety of error messages like: "couldn't get current server API group list," "error: no matching resources found", etc. 'Ready' will remain "False" as no CNI is deployed yet. **This is a normal.** If this step gets interrupted, e.g. by pressing <kbd>Ctrl</kbd> + <kbd>C</kbd>, you likely will need to [reset the cluster](#-reset) before trying again
 
+> [!NOTE]
+> Both bootstrap tasks decrypt SOPS files, so keep an enrolled YubiKey plugged in and be ready for PIN/touch prompts (see [SOPS keys](./sops.md))
+
 1. Install talos
 
     ```sh

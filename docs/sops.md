@@ -74,7 +74,7 @@ task sops:rotate-flux-key
 git commit -am "Rotate Flux SOPS key" && git push
 ```
 
-This generates a new key in `$XDG_RUNTIME_DIR`, updates the `&flux` recipient
+This generates a new key in `$XDG_RUNTIME_DIR/home-ops`, updates the `&flux` recipient
 and `bootstrap/sops-age.sops.yaml`, re-encrypts everything and applies the
 secret to the cluster (needs a working `kubeconfig`). Push straight away: Flux
 can't decrypt `kubernetes/` until the re-encrypted files land. Check with
@@ -86,8 +86,8 @@ can't decrypt `kubernetes/` until the re-encrypted files land. Check with
 1. Generate a new key straight to tmpfs and upload the file to Bitwarden:
 
    ```sh
-   f="$XDG_RUNTIME_DIR/home-ops-backup.agekey"
-   (umask 077 && age-keygen -o "$f")
+   f="$XDG_RUNTIME_DIR/home-ops/backup.agekey"
+   (umask 077 && mkdir -p "${f%/*}" && age-keygen -o "$f")
    ```
 
 2. Replace the `&offline_backup` recipient with the printed public key and run
@@ -99,14 +99,15 @@ can't decrypt `kubernetes/` until the re-encrypted files land. Check with
 You need the Bitwarden item, so keep your Bitwarden recovery code offline in
 case your YubiKeys were also your Bitwarden 2FA.
 
-1. Download the backup key from Bitwarden to `$XDG_RUNTIME_DIR` (tmpfs).
+1. Download the backup key from Bitwarden to `$XDG_RUNTIME_DIR/home-ops/`
+   (tmpfs).
 2. Enroll replacement YubiKeys as in [Adding a YubiKey](#adding-a-yubikey),
    and remove the lost ones as in
    [Revoking a YubiKey](#revoking-a-yubikey-lost-broken-or-retired).
 3. Re-encrypt using the backup key for decryption:
 
    ```sh
-   SOPS_AGE_KEY_CMD="cat $XDG_RUNTIME_DIR/<file>" task sops:reencrypt
+   SOPS_AGE_KEY_CMD="cat $XDG_RUNTIME_DIR/home-ops/<file>" task sops:reencrypt
    ```
 
 4. Delete the downloaded key, then
