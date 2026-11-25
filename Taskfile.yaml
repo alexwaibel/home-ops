@@ -14,7 +14,7 @@ vars:
 
 env:
   KUBECONFIG: "{{.ROOT_DIR}}/kubeconfig"
-  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
+  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age-yubikey-identities.txt"
   TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 includes:

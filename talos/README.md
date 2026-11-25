@@ -2,7 +2,8 @@
 
 [topf](https://postfinance.github.io/topf/main/migration-from-talhelper/) uses
 `topf.yaml` and the existing SOPS-encrypted `talsecret.sops.yaml`. `secretsPath`
-is relative to `topf.yaml`; set `SOPS_AGE_KEY_FILE` to the repository's `age.key`.
+is relative to `topf.yaml`. Decrypting it needs an enrolled YubiKey (see
+[SOPS keys](../docs/sops.md)).
 
 Talos and Kubernetes upgrades are done by Tuppr
 (`kubernetes/apps/system-upgrade/tuppr`). Renovate bumps those alongside

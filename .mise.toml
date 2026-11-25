@@ -15,7 +15,7 @@ _.path = ["{{env.HOME}}/.krew/bin"] # kubectl plugins (cnpg, ...)
 FLATE_PATH = '{{config_root}}/kubernetes/flux/cluster'
 KUBECONFIG = "{{config_root}}/kubeconfig"
 SOPS_CONFIG = "{{config_root}}/.sops.yaml"
-SOPS_AGE_KEY_FILE = "{{config_root}}/age.key"
+SOPS_AGE_KEY_FILE = "{{config_root}}/age-yubikey-identities.txt"
 TALOSCONFIG = "{{config_root}}/talos/clusterconfig/talosconfig"
 
 [tools]

@@ -8,6 +8,5 @@
     "irongeek.vscode-env",
     "PKief.material-icon-theme",
     "redhat.vscode-yaml",
-    "signageos.signageos-vscode-sops",
   ]
 }

@@ -1,13 +1,31 @@
 ---
+# Recipients. See docs/sops.md for adding, revoking and recovering keys.
+keys:
+  # YubiKeys: age-plugin-yubikey, PIV slot 2 ("home-ops"), PIN once, touch cached
+  - &yubikey_laptop age1yubikey1q2dqqw68sq2d2tktsw3q6yqkawnfxy5p4ua8zgel7tupg553ly9njlcmad6 # serial 15037147
+  - &yubikey_keychain age1yubikey1q253a463k0v068y5ytu7a0gg83yaq78gyukc3vj9a9qkml6g9ehaqgha2gd # serial 24781147
+  - &yubikey_backup age1yubikey1q2krpckytcvt5rn6lrynm4mm4zmu0qh4flk5h6cnsw689yahphe6wq50sqr # serial 24781393
+  # Last-resort recovery key; private half only in Bitwarden ("home-ops SOPS backup age key")
+  - &offline_backup age1sn905tt0lellk5gvcenvdmrzqrhnhllwl9fs4fjnk2kq30x7kveq0hunu4
+  # In-cluster Flux key (flux-system/sops-age); managed by `task sops:rotate-flux-key`
+  - &flux age1kud2apwjl2nw24q9cqdm9jar7e0ahclyvm8vraz4y74gmpax8fzqctjcmz
 creation_rules:
-  - # IMPORTANT: This rule MUST be above the others
+  - # IMPORTANT: This rule MUST be above the others. Flux never needs the Talos secrets.
     path_regex: talos/.*\.sops\.ya?ml
     mac_only_encrypted: true
-    age: "age1nzr5yww67m24y5ecsrz5wte3whjtjqfj0dgfzjtq996k3kvdav3qrlruy3"
-  - path_regex: (bootstrap|kubernetes)/.*\.sops\.ya?ml
+    key_groups:
+      - age: [*yubikey_laptop, *yubikey_keychain, *yubikey_backup, *offline_backup]
+  - # Applied by humans during bootstrap only; includes the Flux key itself
+    path_regex: bootstrap/.*\.sops\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     mac_only_encrypted: true
-    age: "age1nzr5yww67m24y5ecsrz5wte3whjtjqfj0dgfzjtq996k3kvdav3qrlruy3"
+    key_groups:
+      - age: [*yubikey_laptop, *yubikey_keychain, *yubikey_backup, *offline_backup]
+  - path_regex: kubernetes/.*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    mac_only_encrypted: true
+    key_groups:
+      - age: [*yubikey_laptop, *yubikey_keychain, *yubikey_backup, *offline_backup, *flux]
 stores:
   yaml:
     indent: 2

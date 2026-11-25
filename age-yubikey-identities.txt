@@ -1,0 +1,21 @@
+#       Serial: 15037147, Slot: 2
+#         Name: home-ops
+#      Created: Wed, 25 Nov 2026 04:17:17 +0000
+#   PIN policy: Once   (A PIN is required once per session, if set)
+# Touch policy: Cached (A physical touch is required for decryption, and is cached for 15 seconds)
+#    Recipient: age1yubikey1q2dqqw68sq2d2tktsw3q6yqkawnfxy5p4ua8zgel7tupg553ly9njlcmad6
+AGE-PLUGIN-YUBIKEY-1MDEW2QYRHYNLTNQVPMW6D
+#       Serial: 24781147, Slot: 2
+#         Name: home-ops
+#      Created: Wed, 25 Nov 2026 04:19:43 +0000
+#   PIN policy: Once   (A PIN is required once per session, if set)
+# Touch policy: Cached (A physical touch is required for decryption, and is cached for 15 seconds)
+#    Recipient: age1yubikey1q253a463k0v068y5ytu7a0gg83yaq78gyukc3vj9a9qkml6g9ehaqgha2gd
+AGE-PLUGIN-YUBIKEY-1TVSH5QVRX45AU2SVM0TG4
+#       Serial: 24781393, Slot: 2
+#         Name: home-ops
+#      Created: Wed, 25 Nov 2026 04:20:27 +0000
+#   PIN policy: Once   (A PIN is required once per session, if set)
+# Touch policy: Cached (A physical touch is required for decryption, and is cached for 15 seconds)
+#    Recipient: age1yubikey1q2krpckytcvt5rn6lrynm4mm4zmu0qh4flk5h6cnsw689yahphe6wq50sqr
+AGE-PLUGIN-YUBIKEY-12Y385QVRGTTLEHSYAHEFC

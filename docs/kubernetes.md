@@ -108,7 +108,7 @@ Once you have installed Talos on your nodes, there are a few stages to getting a
 
 > [!NOTE]
 > If you already have a running cluster and are only setting up a new development machine you can grab the config files from your password database, place them in the appropriate locations, and Continue on to 🎤 [**Verification Steps**](#-verification-steps)
-> Place `kubeconfig` and `age.key` in the workspace root, then run `task talos:config` to mint a short-lived talosconfig
+> Place `kubeconfig` in the workspace root, plug in an enrolled YubiKey (see [SOPS keys](./sops.md)), then run `task talos:config` to mint a short-lived talosconfig
 
 #### Cluster validation
 

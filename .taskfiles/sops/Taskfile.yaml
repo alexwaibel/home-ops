@@ -3,34 +3,46 @@
 version: "3"
 
 tasks:
-  age-keygen:
-    desc: Initialize Age Key for Sops
-    cmd: age-keygen --output {{.AGE_FILE}}
-    status:
-      - test -f "{{.AGE_FILE}}"
-
   encrypt:
-    desc: Encrypt all Kubernetes SOPS secrets
+    desc: Encrypt all unencrypted Kubernetes SOPS secrets
+    dir: "{{.ROOT_DIR}}"
     cmds:
-      - for: { var: file }
-        task: .encrypt-file
-        vars:
-          file: "{{.ITEM}}"
+      - for: { var: FILES }
+        cmd: sops encrypt --in-place {{.ITEM}}
     vars:
-      file:
+      FILES:
         sh: find "{{.KUBERNETES_DIR}}" -type f -name "*.sops.*" -exec grep -L "ENC\[AES256_GCM" {} \;
+    preconditions: &preconditions
+      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - which sops age-plugin-yubikey
 
-  .encrypt-file:
-    internal: true
-    cmd: sops --encrypt --in-place {{.file}}
-    requires:
-      vars: ["file"]
+  reencrypt:
+    desc: Re-encrypt all SOPS files to the recipients in .sops.yaml with fresh data keys
+    dir: "{{.ROOT_DIR}}"
+    cmds:
+      - for: { var: FILES }
+        cmd: sops rotate --in-place {{.ITEM}} && sops updatekeys --yes {{.ITEM}}
+    vars:
+      FILES:
+        sh: git ls-files '*.sops.*' ':!:.sops.yaml'
+    preconditions: *preconditions
+
+  rotate-flux-key:
+    desc: Generate a new in-cluster Flux age key, re-encrypt everything and apply it
+    dir: "{{.ROOT_DIR}}"
+    prompt: This replaces Flux's decryption key; commit and push right after it finishes... continue?
+    cmds:
+      - bash {{.SCRIPTS_DIR}}/sops-new-flux-key.sh
+      - task: reencrypt
+      - task: apply-flux-key
     preconditions:
-      - msg: Missing Sops config file
-        sh: test -f {{.SOPS_CONFIG_FILE}}
-      - msg: Missing Sops Age key file
-        sh: test -f {{.AGE_FILE}}
+      - test -f {{.ROOT_DIR}}/.sops.yaml
+      - which sops age-plugin-yubikey age-keygen jq
 
-  .reset:
-    internal: true
-    cmd: rm -rf {{.SOPS_CONFIG_FILE}}
+  apply-flux-key:
+    desc: Apply bootstrap/sops-age.sops.yaml to the cluster
+    dir: "{{.ROOT_DIR}}"
+    cmd: sops exec-file bootstrap/sops-age.sops.yaml 'kubectl apply --server-side --filename {}'
+    preconditions:
+      - test -f {{.KUBECONFIG}}
+      - which sops kubectl
