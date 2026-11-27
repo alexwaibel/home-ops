@@ -10,5 +10,5 @@ spec:
     operation: copy
   url: oci://ghcr.io/intel/helm-charts/intel-device-plugins-gpu
   ref:
-    tag: 0.37.1
-    digest: sha256:35195c40cbae8991d82ed16c0df85414f387a777240e220d61b3f294b6b1eed6
+    tag: 0.37.2
+    digest: sha256:f960d9b15c8d1b98505a5d41fe6b0f1bb70adeb2779eebe59392486132dc3ae7
